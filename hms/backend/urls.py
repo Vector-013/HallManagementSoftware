@@ -1,8 +1,13 @@
 from django.urls import path
 from . import views
+from django.contrib.auth.decorators import login_required, permission_required
 
 urlpatterns = [
-    path("student-register", views.StudentRegister.as_view(), name="student-register"),
+    path(
+        "student-register",
+        permission_required("backend.add_student")(views.StudentRegister.as_view()),
+        name="student-register",
+    ),
     path(
         "hall-clerk-register",
         views.HallClerkRegister.as_view(),

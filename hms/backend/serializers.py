@@ -12,7 +12,7 @@ class StudentRegisterSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def create(self, clean_data):
-        appuser = UserModel.objects.create(
+        appuser = UserModel.objects.create_user(
             email=clean_data["email"],
             username=clean_data["username"],
             password=clean_data["password"],
@@ -20,6 +20,7 @@ class StudentRegisterSerializer(serializers.ModelSerializer):
             first_name=clean_data["first_name"],
             last_name=clean_data["last_name"],
             address=clean_data["address"],
+            role="student",
         )
         student = Student.objects.create(
             appuser=appuser,

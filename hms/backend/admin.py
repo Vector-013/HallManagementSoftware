@@ -70,6 +70,8 @@ class AppUserAdmin(UserAdmin):
                     "role",
                     "is_superuser",
                     "groups",
+                    "is_active",
+                    "date_joined",
                 ),
             },
         ),

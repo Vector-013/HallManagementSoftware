@@ -9,12 +9,16 @@ from .validations import *
 from .decorators import *
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
 # @method_decorator(login_required(login_url="login"), name="post")
 # @method_decorator(hall_clerk_access_only(), name="post")
-class StudentRegister(APIView):
-    permission_classes = (permissions.AllowAny,)
+class StudentRegister(APIView, PermissionRequiredMixin):
+
+    raise_exception = True
+    permission_required = "backend.add_student"
+    # permission_classes = (permissions.AllowAny,)
 
     def post(self, request):
         clean_data = custom_validation(request.data)
@@ -40,7 +44,9 @@ class HallClerkRegister(APIView):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-class UserLogin(APIView):
+class UserLogin(APIView, PermissionRequiredMixin):
+    model = Student
+    permission_required = "student.add_student"
     permission_classes = (permissions.AllowAny,)
     authentication_classes = (SessionAuthentication,)
 

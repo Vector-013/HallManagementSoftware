@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from phonenumber_field.modelfields import PhoneNumberField
+from datetime import datetime
 
 
 # class UserManager(BaseUserManager):
@@ -50,13 +51,18 @@ class AppUserManager(BaseUserManager):
         user.save()
         return user
 
-    def create_superuser(self, email, password=None):
+    def create_superuser(
+        self, username, email, password, mobile, first_name, last_name
+    ):
         if not email:
             raise ValueError("An email is required.")
         if not password:
             raise ValueError("A password is required.")
-        user = self.create_user(email, password)
+        user = self.create_user(
+            username, email, password, mobile, first_name, last_name, "Django", "admin"
+        )
         user.is_superuser = True
+        user.is_staff = True
         user.save()
         return user
 
@@ -65,7 +71,7 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(max_length=50, unique=True)
     username = models.CharField(max_length=50, default="", unique=True)
-    password = models.CharField(max_length=50, default="", unique=True)
+    password = models.CharField(max_length=400, default="", unique=True)
     mobile = PhoneNumberField("Mobile Number", blank=False)
     first_name = models.CharField("first name", default="", max_length=150, blank=False)
     last_name = models.CharField("last name", default="", max_length=150, blank=False)
@@ -88,6 +94,11 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
         ("admin", "Administrator"),
         ("admission", "Admission Unit"),
     ]
+
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    date_joined = models.DateField(default=datetime.now, blank=True)
 
     role = models.CharField(
         "Role", max_length=40, choices=ROLES, default="student", blank=False
