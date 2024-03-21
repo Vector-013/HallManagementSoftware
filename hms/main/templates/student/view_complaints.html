@@ -1,0 +1,10 @@
+{% extends 'student/base.html' %}
+{% block content %}
+  <ul>
+    {% for complaint in complaints %}
+      <li>{{ complaint.title }}</li>
+      <li>{{ complaint.content }}</li>
+      <li>{{ complaint.date_created }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
