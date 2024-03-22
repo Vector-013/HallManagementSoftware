@@ -1,7 +1,7 @@
 from django import forms
 from .models import *
 from phonenumber_field.formfields import PhoneNumberField
-
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class ClientRegistrationForm(forms.ModelForm):
     class Meta:
@@ -59,3 +59,12 @@ class ComplaintRegistrationForm(forms.ModelForm):
             "content",
             "role",
         )
+
+
+class PaymentForm(forms.Form):
+    amount = forms.DecimalField(label='Amount', max_digits=8, decimal_places=2, validators = [MinValueValidator(1)])
+    
+    def __init__(self, total_due, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["amount"].validators.append(MaxValueValidator(total_due))
+        self.fields["amount"].initial = total_due

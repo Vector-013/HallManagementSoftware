@@ -28,13 +28,10 @@ AUTH_USER_MODEL = "main.Client"
 LOGIN_REDIRECT_URL = "index"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-
 EMAIL_HOST_USER = "shreya.bose.in@gmail.com"
-
 EMAIL_HOST_PASSWORD = "ejkc ymtq ydzf dorw"
 
 
@@ -64,6 +61,7 @@ INSTALLED_APPS = [
     "phonenumbers",
     "crispy_forms",
     "crispy_bootstrap4",
+    
 ]
 
 MIDDLEWARE = [
@@ -150,3 +148,10 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+STRIPE_PUBLIC_KEY_TEST = os.getenv("pk_test_51OxCBJSEjXJu8AhBQTPKa76dIg7CmeQNbFbE4QThiKWQtEzhi83lGgQsCuVvM7yG7qKibnkMUyZx3iqqADoP4qWJ00Xcpy9b4E")
+STRIPE_SECRET_KEY_TEST = os.getenv('sk_test_51OxCBJSEjXJu8AhBpNnt3LqsQmGqc1QFpI0fXpSw7PPv2wahGt87HFcZTly0um7yEnW4bmLnQyZe2S904rkkF6hG00N1WO4O7a')
+STRIPE_WEBHOOK_SECRET_TEST = os.getenv('whsec_7997439622710eb7c06f1f7c888842ed061997294aef33eca96d0da05372d799')
+PRODUCT_PRICE = os.getenv('PRODUCT_PRICE')
+
+REDIRECT_DOMAIN = 'http://127.0.0.1:8000'
