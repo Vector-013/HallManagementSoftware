@@ -9,7 +9,7 @@ from .entity_models import Hall
 class ClientManager(BaseUserManager):
     def create_user(
         self,
-        username,
+        stakeholderID,
         email,
         password,
         mobile,
@@ -26,7 +26,7 @@ class ClientManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(
             email=email,
-            username=username,
+            stakeholderID=stakeholderID,
             mobile=mobile,
             first_name=first_name,
             last_name=last_name,
@@ -39,14 +39,14 @@ class ClientManager(BaseUserManager):
         return user
 
     def create_superuser(
-        self, username, email, password, mobile, first_name, last_name
+        self, stakeholderID, email, password, mobile, first_name, last_name
     ):
         if not email:
             raise ValueError("An email is required.")
         if not password:
             raise ValueError("A password is required.")
         user = self.create_user(
-            username,
+            stakeholderID,
             email,
             password,
             mobile,
@@ -66,13 +66,15 @@ class ClientManager(BaseUserManager):
 class Client(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(max_length=50, unique=False)
-    username = models.CharField(max_length=50, default="", unique=True)
+    stakeholderID = models.CharField(
+        max_length=50, default="", unique=True, blank=False
+    )
     password = models.CharField(max_length=400, default="", unique=False)
     mobile = PhoneNumberField("Mobile Number", blank=False)
     first_name = models.CharField("first name", default="", max_length=150, blank=False)
     last_name = models.CharField("last name", default="", max_length=150, blank=False)
     address = models.TextField("Address", blank=False, default="")
-    USERNAME_FIELD = "username"
+    USERNAME_FIELD = "stakeholderID"
     REQUIRED_FIELDS = [
         "password",
         "email",
@@ -108,7 +110,7 @@ class Client(AbstractBaseUser, PermissionsMixin):
     objects = ClientManager()
 
     def __str__(self):
-        return self.username
+        return self.stakeholderID
 
 
 class Student(models.Model):
@@ -121,10 +123,6 @@ class Student(models.Model):
         unique=True,
     )
 
-    roll_number = models.CharField(
-        "Roll Number", max_length=100, blank=False, unique=True
-    )
-
     hall = models.ForeignKey(
         Hall,
         related_name="student_hall",
@@ -132,20 +130,14 @@ class Student(models.Model):
     )
 
     def _str_(self):
-        return (
-            self.client.first_name
-            + " "
-            + self.client.last_name
-            + " - "
-            + self.roll_number
-        )
+        return self.client.first_name + " " + self.client.last_name
 
 
-class HallClerk(models.Model):
+class HallManager(models.Model):
     client = models.OneToOneField(
         Client,
         on_delete=models.CASCADE,
-        related_name="hall_clerk",
+        related_name="hall_manager",
         primary_key=True,
         blank=False,
         unique=True,
@@ -153,11 +145,11 @@ class HallClerk(models.Model):
 
     def save(self, *args, **kwargs):
         if self.pk is None:
-            super(HallClerk, self).save(*args, **kwargs)
-            self.client.role = "hall_clerk"
+            super(HallManager, self).save(*args, **kwargs)
+            self.client.role = "hall_manager"
         else:
-            self.client.role = "hall_clerk"
-            super(HallClerk, self).save(*args, **kwargs)
+            self.client.role = "hall_manager"
+            super(HallManager, self).save(*args, **kwargs)
 
     def _str_(self):
         return self.client.first_name + " " + self.client.last_name

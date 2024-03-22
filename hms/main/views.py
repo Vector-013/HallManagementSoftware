@@ -18,20 +18,20 @@ def index(request):
 
 def register(request):
     if request.method == "POST":
-        form = ClientRegistrationForm(request.POST)
+        form = StudentRegistrationForm(request.POST)
         if form.is_valid():
             print(request.POST)
-            username = form.cleaned_data.get("username")
+            stakeholderID = form.cleaned_data.get("stakeholderID")
             email = form.cleaned_data.get("email")
             address = form.cleaned_data.get("address")
-            role = form.cleaned_data.get("role")
             mobile = form.cleaned_data.get("mobile")
             first_name = form.cleaned_data.get("first_name")
             last_name = form.cleaned_data.get("last_name")
             password = form.cleaned_data.get("password")
+            hall = form.cleaned_data.get("hall")
             token = str(uuid.uuid4())
-            form.Meta.model.objects.create_user(
-                username,
+            client = Client.objects.create_user(
+                stakeholderID,
                 email,
                 password,
                 mobile,
@@ -39,8 +39,10 @@ def register(request):
                 last_name,
                 address,
                 token,
-                role,
+                "student",
             )
+            student = Student(client=client, hall=hall)
+            student.save()
             subject = "Your account needs to be verified"
             message = f"Hi, click on this link to verify your account http://127.0.0.1:8000/verify/{token}"
             email_from = "shreya.bose.in@gmail.com"
@@ -48,11 +50,12 @@ def register(request):
             send_mail(subject, message, email_from, recipient_list)
 
             messages.success(
-                request, f"Your account has been created ! You are now able to log in"
+                request,
+                f"Pls click on the link sent to {email} to complete registration",
             )
             return redirect("login")
     else:
-        form = ClientRegistrationForm()
+        form = StudentRegistrationForm()
     return render(request, "register.html", context={"form": form, "title": "register"})
 
 
@@ -61,15 +64,15 @@ def Login(request):
 
         # AuthenticationForm_can_also_be_used__
 
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
+        stakeholderID = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(request, username=stakeholderID, password=password)
         if user is not None:
             form = login(request, user)
-            messages.success(request, f" welcome {username} !!")
+            messages.success(request, f" welcome {stakeholderID} !!")
             return redirect("/")
         else:
-            messages.info(request, f"account done not exit plz sign in")
+            messages.info(request, f"account does not exist pls sign in")
     form = AuthenticationForm()
     return render(request, "login.html", context={"form": form, "title": "log in"})
 

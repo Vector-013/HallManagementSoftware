@@ -1,11 +1,12 @@
 {% extends 'student/base.html' %}
 {% block content %}
-  <ul>
-    {% for notice in notices %}
-      <li>{{ notice.title }}</li>
-      <li>{{ notice.content }}</li>
-      <li>{{ notice.date_created }}</li>
-      <img src="{{ MEDIA_URL }}{{ notice.image.url }}" height="200" width="200" />
-    {% endfor %}
-  </ul>
+  {% for notice in notices %}
+    <div class="card" style="width: 25rem;">
+      <img class="card-img-top img-responsive" src="{{ MEDIA_URL }}{{ notice.image.url }}" alt="Card image cap" />
+      <div class="card-body">
+        <h5 class="card-title">{{ notice.title }}</h5>
+        <p class="card-text">{{ notice.content }}</p>
+      </div>
+    </div>
+  {% endfor %}
 {% endblock %}

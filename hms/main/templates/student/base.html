@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
     <!-- main css -->
-    {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}" /> {% endcomment %}
+    <link rel="stylesheet" type="text/css" href="{% static 'student.css' %}" />
 
     <!-- message here -->
 
@@ -63,10 +63,11 @@
                 <a href="{% url 'dues' %}"><span class="glyphicon glyphicon-dues"></span> Dues</a>
               </li> {% endcomment %}
               <li>
-                <a href="{% url 'make_complaints' %}"><span class="glyphicon glyphicon-make-complaints"></span> Make Complaints</a>
-              </li>
-              <li>
-                <a href="{% url 'view_complaints' %}"><span class="glyphicon glyphicon-view-complaints"></span> View Complaints</a>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Complaints</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <button class="dropDown_Btn" href="{% url 'make_complaints' %}">Make Complaint</button><br />
+                  <button class="dropDown_Btn" href="{% url 'view_complaints' %}">View Complaint</button>
+                </div>
               </li>
               <li>
                 <a href="{% url 'logout' %}"><span class="glyphicon glyphicon-logout"></span> Logout</a>
