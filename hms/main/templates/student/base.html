@@ -65,8 +65,8 @@
               <li>
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Complaints</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <button class="dropDown_Btn" href="{% url 'make_complaints' %}">Make Complaint</button><br />
-                  <button class="dropDown_Btn" href="{% url 'view_complaints' %}">View Complaint</button>
+                  <button class="dropDown_Btn" onclick="location.href={% url 'make_complaints' %}">Make Complaint</button><br />
+                  <button class="dropDown_Btn" onclick="location.href={% url 'view_complaints' %}">View Complaint</button>
                 </div>
               </li>
               <li>
