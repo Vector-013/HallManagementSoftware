@@ -91,6 +91,7 @@ class Client(AbstractBaseUser, PermissionsMixin):
         ("mess_manager", "Mess Manager"),
         ("admin", "Administrator"),
         ("admission", "Admission Unit"),
+        ("hall_employee", "Hall Employee"),
     ]
 
     is_staff = models.BooleanField(default=False)
@@ -143,6 +144,10 @@ class HallManager(models.Model):
         unique=True,
     )
 
+    hall = models.ForeignKey(
+        Hall, related_name="managee_hall", on_delete=models.CASCADE, default=None
+    )
+
     def save(self, *args, **kwargs):
         if self.pk is None:
             super(HallManager, self).save(*args, **kwargs)
@@ -150,6 +155,69 @@ class HallManager(models.Model):
         else:
             self.client.role = "hall_manager"
             super(HallManager, self).save(*args, **kwargs)
+
+    def _str_(self):
+        return self.client.first_name + " " + self.client.last_name
+
+
+class HallEmployee(models.Model):
+    client = models.OneToOneField(
+        Client,
+        on_delete=models.CASCADE,
+        related_name="hall_employee",
+        primary_key=True,
+        blank=False,
+        unique=True,
+    )
+
+    hall = models.ForeignKey(
+        Hall,
+        default=None,
+        related_name="employer_hall",
+        on_delete=models.CASCADE,
+    )
+
+    role = models.CharField(
+        "Role",
+        max_length=20,
+        choices=[
+            ("gardener", "Garderner"),
+            ("plumber", "Plumber"),
+            ("electrician", "Electrician"),
+            ("hall_canteen", "Hall Canteen"),
+            ("sweeper", "Sweeper"),
+            ("mess worker", "Mess Worker"),
+            ("security", "Security"),
+            ("cook", "Cook"),
+        ],
+        default="Mess Worker",
+        blank=False,
+    )
+
+    salary = models.IntegerField(
+        "Salary",
+        choices=[
+            (1000, "1000"),
+            (2000, "2000"),
+            (5000, "5000"),
+            (10000, "10000"),
+            (15000, "15000"),
+            (20000, "20000"),
+        ],
+        default=2000,
+        blank=False,
+    )
+
+    monthly_leaves = models.IntegerField("monthly leaves taken", default=0)
+
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            super(HallEmployee, self).save(*args, **kwargs)
+            self.client.role = "hall_employee"
+        else:
+            self.client.role = "hall_employee"
+
+            super(HallEmployee, self).save(*args, **kwargs)
 
     def _str_(self):
         return self.client.first_name + " " + self.client.last_name

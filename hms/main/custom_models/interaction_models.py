@@ -1,6 +1,6 @@
 from django.db import models
 from .entity_models import Hall
-from .user_models import Student
+from .user_models import Student, HallEmployee
 from datetime import datetime
 
 
@@ -9,12 +9,13 @@ class Notice(models.Model):
     content = models.TextField(default="")
     date_created = models.DateTimeField(default=datetime.now)
     image = models.ImageField(
+        default="default.jpg",
         height_field=None,
         width_field=None,
         max_length=100,
     )
     hall = models.ForeignKey(
-        Hall, related_name="hall_notices", on_delete=models.CASCADE
+        Hall, related_name="hall_notices", on_delete=models.CASCADE, default=None
     )
 
     def __str__(self):
@@ -28,14 +29,23 @@ class Complaint(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField(default="")
     date_created = models.DateField(default=datetime.now)
+    image = models.ImageField(
+        default="default.jpg",
+        height_field=None,
+        width_field=None,
+        max_length=100,
+    )
     hall = models.ForeignKey(
-        Hall, related_name="hall_complaints", on_delete=models.CASCADE
+        Hall, default=None, related_name="hall_complaints", on_delete=models.CASCADE
     )
     student = models.ForeignKey(
-        Student, related_name="student_complaints", on_delete=models.CASCADE
+        Student,
+        related_name="student_complaints",
+        on_delete=models.CASCADE,
+        default=None,
     )
 
-    ROLES = [
+    CATEGORY = [
         ("maintenance", "Maintenance"),
         ("mess", "Mess"),
         ("room condition", "Room Condition"),
@@ -43,8 +53,8 @@ class Complaint(models.Model):
         ("health", "Health"),
     ]
 
-    role = models.CharField(
-        "Role", max_length=40, choices=ROLES, default="maintenance", blank=False
+    category = models.CharField(
+        "Category", max_length=40, choices=CATEGORY, default="maintenance", blank=False
     )
 
     def __str__(self):
@@ -54,5 +64,24 @@ class Complaint(models.Model):
         verbose_name_plural = "Complaint"
 
 
-class Dues(models.Model):
-    pass
+class ATR(models.Model):
+    complaint = models.OneToOneField(
+        Complaint,
+        on_delete=models.CASCADE,
+        related_name="complaint",
+        primary_key=True,
+        blank=False,
+        unique=True,
+    )
+
+    status = models.BooleanField(default=False)
+
+    employee = models.ForeignKey(
+        HallEmployee,
+        related_name="assigned_employee",
+        on_delete=models.CASCADE,
+        blank=False,
+        default=None,
+    )
+
+    report = models.TextField(default="No Action Taken")
