@@ -42,6 +42,10 @@ class StudentRegistrationForm(forms.ModelForm):
         )
 
 
+class StudentSearchForm(forms.Form):
+    stakeholderID = forms.CharField(label="Student ID", max_length=50)
+
+
 class HallManagerRegistrationForm(forms.ModelForm):
     stakeholderID = forms.CharField(max_length=50)
     email = forms.EmailField(empty_value=None)
