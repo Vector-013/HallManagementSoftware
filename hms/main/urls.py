@@ -40,4 +40,10 @@ urlpatterns = [
         user_view.verify_hall_manager,
         name="verify_hall_manager",
     ),
+    path("hall/search-student", user_view.search_student, name="search_student"),
+    path(
+        "hall/update-student-profile/<stakeholderID>",
+        user_view.update_student_profile,
+        name="update_student_profile",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

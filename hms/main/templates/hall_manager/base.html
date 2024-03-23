@@ -65,9 +65,16 @@
                 <a href="{% url 'add_employee' %}"><span class="glyphicon glyphicon-add-employee"></span> Add Employee</a>
               </li>
               <li>
+                <a href="{% url 'search_student' %}"><span class="glyphicon glyphicon-edit-profile"></span> Edit Student</a>
+              </li>
+              <li>
                 <a href="{% url 'logout' %}"><span class="glyphicon glyphicon-logout"></span> Logout</a>
               </li>
             </ul>
+            {% comment %} <form class="form-inline my-2 my-lg-0">
+              <input id="stakeholderID" class="form-control mr-sm-2" type="search" placeholder="Search Student Profile" aria-label="Search Student Profile" />
+              <button class="btn btn-outline-success my-2 my-sm-0" onclick="location.href={% url 'search_student/<document.getElementById(' stakeholderID ').value>' %}">Search</button>
+            </form> {% endcomment %}
           </div>
         </div>
       </nav>
