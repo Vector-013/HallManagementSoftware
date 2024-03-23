@@ -12,8 +12,10 @@ from django.template import Context
 from ..models import *
 import uuid
 
+
 def index(request):
     return render(request, "index.html", {"title": "index"})
+
 
 def register(request):
     if request.method == "POST":
@@ -83,9 +85,12 @@ def Logout(request):
 
 def verify(request, token):
     client = Client.objects.filter(token=token).first()
+    student = Student.objects.filter(client=client)[0]
     if client:
         client.is_active = True
         client.save()
+        passbook = StudentPassbook(student=student)
+        passbook.save()
         messages.info(request, "Your account has been verified")
         return redirect("/login")
     else:
