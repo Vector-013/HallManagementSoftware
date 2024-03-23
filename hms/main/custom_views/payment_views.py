@@ -23,7 +23,10 @@ def student_passbook(request):
     payments = passbook.student_payment.order_by("-timestamp")
     total_due = dues.aggregate(total=Sum("demand"))["total"]
     total_paid = payments.aggregate(total=Sum("fulfilled"))["total"]
-    total_outstanding = total_due - total_paid
+    try:
+        total_outstanding = total_due - total_paid
+    except:
+        total_outstanding = 0
 
     context = {
         "dues": dues,

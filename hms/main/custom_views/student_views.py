@@ -12,6 +12,7 @@ import uuid
 from ..models import *
 from ..forms import *
 
+
 def make_complaints(request):
     if request.method == "POST":
         form = ComplaintRegistrationForm(request.POST)
@@ -19,13 +20,15 @@ def make_complaints(request):
             student = Student.objects.filter(client=request.user)[0]
             title = form.cleaned_data.get("title")
             content = form.cleaned_data.get("content")
-            role = form.cleaned_data.get("role")
+            category = form.cleaned_data.get("category")
+            image = form.cleaned_data.get("image")
             obj = Complaint(
                 title=title,
                 content=content,
                 hall=student.hall,
                 student=student,
-                role=role,
+                category=category,
+                image=image,
             )
             print(obj)
             obj.save()

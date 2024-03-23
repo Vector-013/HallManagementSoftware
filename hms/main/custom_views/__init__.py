@@ -2,3 +2,5 @@ from .auth_views import *
 from .student_views import *
 from .entity_views import *
 from .payment_views import *
+from .hall_manager_views import *
+from .warden_views import *

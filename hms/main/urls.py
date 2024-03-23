@@ -23,6 +23,21 @@ urlpatterns = [
     path("student/pay/success", user_view.payment_successful, name="success"),
     path("student/pay/cancel", user_view.payment_cancelled, name="cancel"),
     path("pay/stripe_webhook/", user_view.stripe_webhook, name="stripe_webhook"),
-    path("student/passbook", user_view.student_passbook, name="passbook"),
+    path("student/passbook", user_view.student_passbook, name="student_passbook"),
     path("student/pay", user_view.pay, name="pay"),
+    path(
+        "hall/complaints", user_view.hall_view_complaints, name="hall_view_complaints"
+    ),
+    path("hall/create-atr", user_view.create_atr, name="create_atr"),
+    path("hall/add-employee", user_view.add_employee, name="add_employee"),
+    path(
+        "warden/register-hall-manager",
+        user_view.register_hall_manager,
+        name="register_hall_manager",
+    ),
+    path(
+        "verify-hall-manager/<token>",
+        user_view.verify_hall_manager,
+        name="verify_hall_manager",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

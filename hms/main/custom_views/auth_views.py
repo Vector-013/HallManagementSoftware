@@ -14,7 +14,7 @@ import uuid
 
 
 def index(request):
-    return render(request, "index.html", {"title": "index"})
+    return render(request, "auth/index.html", {"title": "index"})
 
 
 def register(request):
@@ -57,7 +57,9 @@ def register(request):
             return redirect("login")
     else:
         form = StudentRegistrationForm()
-    return render(request, "register.html", context={"form": form, "title": "register"})
+    return render(
+        request, "auth/register.html", context={"form": form, "title": "register"}
+    )
 
 
 def Login(request):
@@ -75,7 +77,7 @@ def Login(request):
         else:
             messages.info(request, f"account does not exist pls sign in")
     form = AuthenticationForm()
-    return render(request, "login.html", context={"form": form, "title": "log in"})
+    return render(request, "auth/login.html", context={"form": form, "title": "log in"})
 
 
 def Logout(request):
@@ -98,4 +100,4 @@ def verify(request, token):
 
 
 def error_page(request):
-    return render(request, "error.html", {})
+    return render(request, "auth/error.html", {})
