@@ -50,7 +50,7 @@ def register_hall_manager(request):
                 request,
                 f"Pls click on the link sent to {email} to complete registration",
             )
-            return redirect("login")
+            return redirect("warden/landing")
     else:
         form = HallManagerRegistrationForm()
     return render(
@@ -69,3 +69,7 @@ def verify_hall_manager(request, token):
         return redirect("/login")
     else:
         return redirect("/error")
+
+
+def warden_landing(request):
+    return render(request, "warden/landing.html")

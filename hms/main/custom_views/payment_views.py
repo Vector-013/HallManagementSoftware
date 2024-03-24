@@ -15,7 +15,7 @@ import time
 def student_passbook(request):
 
     if request.user.role != "student":
-        return redirect("index")
+        return redirect("login/")
 
     student = Student.objects.filter(client=request.user)[0]
     passbook = StudentPassbook.objects.filter(student=student)[0]
@@ -41,7 +41,7 @@ def student_passbook(request):
 
 def pay(request):
     if request.user.role != "student":
-        return redirect("index")
+        return redirect("/login")
 
     student = Student.objects.filter(client=request.user)[0]
     passbook = StudentPassbook.objects.filter(student=student)[0]
@@ -110,7 +110,7 @@ def pay(request):
         )
     else:
         messages.add_message(request, messages.INFO, "You have no dues left")
-        return redirect("passbook")
+        return redirect("student/passbook")
 
 
 def payment_successful(request):

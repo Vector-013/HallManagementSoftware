@@ -13,104 +13,6 @@ from ..models import *
 import uuid
 
 
-def index(request):
-    return render(request, "auth/index.html", {"title": "index"})
-
-def sign_up(request):
-    return render(request, "auth/sign_up_options.html")
-
-def default_page(request):
-    return redirect("/index")
-
-def hall_manager_register(request):
-    if request.method == "POST":
-        form = HallManagerRegistrationForm(request.POST)
-        if form.is_valid():
-            print(request.POST)
-            stakeholderID = form.cleaned_data.get("stakeholderID")
-            email = form.cleaned_data.get("email")
-            address = form.cleaned_data.get("address")
-            mobile = form.cleaned_data.get("mobile")
-            first_name = form.cleaned_data.get("first_name")
-            last_name = form.cleaned_data.get("last_name")
-            password = form.cleaned_data.get("password")
-            hall = form.cleaned_data.get("hall")
-            token = str(uuid.uuid4())
-            client = Client.objects.create_user(
-                stakeholderID,
-                email,
-                password,
-                mobile,
-                first_name,
-                last_name,
-                address,
-                token,
-                "hall_manager",
-            )
-            hall_manager = HallManager(client=client, hall=hall)
-            hall_manager.save()
-            subject = "Your account needs to be verified"
-            message = f"Hi, click on this link to verify your account http://127.0.0.1:8000/verify/{token}"
-            email_from = "shreya.bose.in@gmail.com"
-            recipient_list = [email]
-            send_mail(subject, message, email_from, recipient_list)
-
-            messages.success(
-                request,
-                f"Pls click on the link sent to {email} to complete registration",
-            )
-            return redirect("login")
-    else:
-        form = HallManagerRegistrationForm()
-    return render(
-        request, "auth/hall_manager_register.html", context={"form": form, "title": "hm_register"}
-    )
-
-def register(request):
-    if request.method == "POST":
-        form = StudentRegistrationForm(request.POST)
-        if form.is_valid():
-            print(request.POST)
-            stakeholderID = form.cleaned_data.get("stakeholderID")
-            email = form.cleaned_data.get("email")
-            address = form.cleaned_data.get("address")
-            mobile = form.cleaned_data.get("mobile")
-            first_name = form.cleaned_data.get("first_name")
-            last_name = form.cleaned_data.get("last_name")
-            password = form.cleaned_data.get("password")
-            hall = form.cleaned_data.get("hall")
-            token = str(uuid.uuid4())
-            client = Client.objects.create_user(
-                stakeholderID,
-                email,
-                password,
-                mobile,
-                first_name,
-                last_name,
-                address,
-                token,
-                "student",
-            )
-            student = Student(client=client, hall=hall)
-            student.save()
-            subject = "Your account needs to be verified"
-            message = f"Hi, click on this link to verify your account http://127.0.0.1:8000/verify/{token}"
-            email_from = "shreya.bose.in@gmail.com"
-            recipient_list = [email]
-            send_mail(subject, message, email_from, recipient_list)
-
-            messages.success(
-                request,
-                f"Pls click on the link sent to {email} to complete registration",
-            )
-            return redirect("login")
-    else:
-        form = StudentRegistrationForm()
-    return render(
-        request, "auth/register.html", context={"form": form, "title": "register"}
-    )
-
-
 def Login(request):
     if request.method == "POST":
 
@@ -122,7 +24,14 @@ def Login(request):
         if user is not None:
             form = login(request, user)
             messages.success(request, f" welcome {stakeholderID} !!")
-            return redirect("/student/notice")
+            if request.user.role == "student":
+                return redirect("student/notice")
+            elif request.user.role == "hall_manager":
+                return redirect("hall/landing")
+            elif request.user.role == "warden":
+                return redirect("warden/landing")
+            else:
+                redirect("/login")
         else:
             messages.info(request, f"account does not exist pls sign in")
     form = AuthenticationForm()
@@ -134,19 +43,9 @@ def Logout(request):
     return redirect("login")
 
 
-def verify(request, token):
-    client = Client.objects.filter(token=token).first()
-    student = Student.objects.filter(client=client)[0]
-    if client:
-        client.is_active = True
-        client.save()
-        passbook = StudentPassbook(student=student)
-        passbook.save()
-        messages.info(request, "Your account has been verified")
-        return redirect("/login")
-    else:
-        return redirect("/error")
-
-
 def error_page(request):
     return render(request, "auth/error.html", {})
+
+
+def entry(request):
+    return redirect("/login")

@@ -15,13 +15,13 @@ from ..forms import *
 @login_required
 def make_complaints(request):
     if request.method == "POST":
-        form = ComplaintRegistrationForm(request.POST)
+        form = ComplaintRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             student = Student.objects.filter(client=request.user)[0]
             title = form.cleaned_data.get("title")
             content = form.cleaned_data.get("content")
             category = form.cleaned_data.get("category")
-            image = form.cleaned_data.get("image")
+            image = request.FILES["image"]
             obj = Complaint(
                 title=title,
                 content=content,
@@ -33,7 +33,7 @@ def make_complaints(request):
             print(obj)
             obj.save()
             messages.success(request, f"Your complaint has been registered.")
-            return redirect("/view-complaints")
+            return redirect("student/view-complaints")
     else:
         form = ComplaintRegistrationForm()
 
