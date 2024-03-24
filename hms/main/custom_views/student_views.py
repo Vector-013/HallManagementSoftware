@@ -13,6 +13,15 @@ from ..models import *
 from ..forms import *
 
 
+def view_profile(request):
+    if request.method == "GET":
+        student = Student.objects.filter(client=request.user)[0]
+        return render(
+            request,
+            "student/student_profile.html",
+            context={"student": student, "title": "view_profile"},
+        )
+
 def make_complaints(request):
     if request.method == "POST":
         form = ComplaintRegistrationForm(request.POST, request.FILES)

@@ -1,267 +1,74 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Student Passbook</title>
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-        background-color: #f1f1f1;
-        text-align: center;
-        color: #333;
-      }
-      
-      h1 {
-        font-weight: bold;
-        color: #008000;
-        margin-top: 20px;
-        text-align: center;
-      }
-      
-      h2 {
-        font-weight: bold;
-        color: #008000;
-        margin-top: 20px;
-        text-align: center;
-      }
-      
-      p {
-        text-align: center;
-        margin-top: 20px;
-      }
-      
-      .button {
-        background-color: #008000;
-        border: none;
-        border-radius: 4px;
-        color: #fff;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: bold;
-        padding: 12px 24px;
-        text-align: center;
-        text-decoration: none;
-      }
-      
-      .button:hover {
-        background-color: #006400;
-      }
-      
-      .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      table {
-        margin: 20px auto;
-        border-collapse: collapse;
-        width: 80%;
-        max-width: 1200px;
-        text-align: center;
-        background-color: #fff;
-        border: 2px solid #008000;
-        border-radius: 5px;
-      }
-      
-      th,
-      td {
-        padding: 10px;
-        border: 1px solid #008000;
-      }
-      
-      .message {
-        color: #333;
-        font-size: 16px;
-        text-align: center;
-        margin-top: 20px;
-      }
-      
-      th {
-        background-color: #008000;
-        color: #fff;
-        font-size: 20px;
-        font-weight: bold;
-        text-align: center;
-      }
-      
-      input[type='submit'] {
-        display: block;
-        margin: 20px auto;
-        padding: 10px 20px;
-        font-size: 18px;
-        font-weight: bold;
-        text-align: center;
-        color: #fff;
-        background-color: #008000;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease-in-out;
-      }
-      
-      input[type='submit']:hover {
-        background-color: #005000;
-      }
-      
-      form p {
-        text-align: center;
-        margin: 0;
-      }
-      
-      .errorlist {
-        color: #f00;
-        font-weight: bold;
-        margin: 0;
-        padding: 0;
-        text-align: center;
-      }
-      
-      .browsehappy {
-        padding: 10px 0;
-        background-color: #008000;
-        color: #fff;
-        text-align: center;
-      }
-      
-      @media (max-width: 768px) {
-        a,
-        input[type='submit'] {
-          display: block;
-          margin: 10px auto;
-          padding: 10px 20px;
-          font-size: 16px;
-        }
-      
-        table {
-          width: 100%;
-          margin: 10px auto;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Passbook</h1>
-    <h2>Dues</h2>
-    <table>
+{% extends 'student/base.html' %}
+{% block content %}
+<center>
+  <h1 id="passbook_headers_h1">Passbook</h1>
+  <h3 id="passbook_headers_h2">Dues</h3>
+  {% if not dues %}
+    <h4>No Dues Found.</h4> 
+    <br />
+    <br />  
+  {% else %}
+    <table class="table" style="width:50% !important"> 
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Demand</th>
-          <th>Timestamp</th>
+          <th style="text-align: center">Type</th>
+          <th style="text-align: center">Demand</th>
+          <th style="text-align: center">Timestamp</th>
         </tr>
       </thead>
       <tbody>
-        {% for due in dues %}
-          <tr>
-            <td>{{ due.get_type_display }}</td>
-            <td>{{ due.demand }}</td>
-            <td>{{ due.timestamp }}</td>
-          </tr>
-        {% endfor %}
-        {% if not dues %}
-          <tr>
-            <td colspan="3">No dues found.</td>
-          </tr>
-        {% endif %}
+          {% for due in dues %}
+            <tr>
+              <td style="text-align: center">{{ due.get_type_display }}</td>
+              <td style="text-align: center">{{ due.demand }}</td>
+              <td style="text-align: center">{{ due.timestamp }}</td>
+            </tr>
+          {% endfor %}
       </tbody>
     </table>
+    {% endif %}
 
-    <h2>Payments</h2>
-    <table>
+  <h3 id="passbook_headers_h2">Payments</h3>
+  {% if not payments %}
+    <h4>No Payments Found.</h4>
+    <br />
+    <br />
+  {% else %}
+    <table class="table" style="width:50% !important">
       <thead>
         <tr>
-          <th>Fulfilled</th>
-          <th>Timestamp</th>
+          <th style="text-align: center">Fulfilled</th>
+          <th style="text-align: center">Timestamp</th>
         </tr>
       </thead>
       <tbody>
         {% for payment in payments %}
           <tr>
-            <td>{{ payment.fulfilled }}</td>
-            <td>{{ payment.timestamp }}</td>
+            <td style="text-align: center">{{ payment.fulfilled }}</td>
+            <td style="text-align: center">{{ payment.timestamp }}</td>
           </tr>
         {% endfor %}
-        {% if not payments %}
-          <tr>
-            <td colspan="2">No payments found.</td>
-          </tr>
-        {% endif %}
       </tbody>
     </table>
-    <div class="container">
-      <p>Total dues: {{ total_due }}</p>
-      <p>Total paid: {{ total_paid }}</p>
-      <p>TOTAL OUTSTANDING:{{ total_outstanding }}</p>
-      <div>
-        <a href="{% url 'pay' %}" class="button">Pay Fees</a>
-      </div>
-      <div class="message">
-        {% if messages %}
-          {% for message in messages %}
-            {{ message }}
-          {% endfor %}
-        {% endif %}
-      </div>
-    </div>
-  </body>
-</html>
-{% comment %} {% extends 'student/base.html' %}
-{% block content %}
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Type</th>
-        <th scope="col">Amount</th>
-        <th scope="col">Time</th>
-      </tr>
+  {% endif %}
+  <h3 id="passbook_headers_h2">Account Summary</h3>
+  <table class="table" style="width:50% !important">
+    <thead style="text-align:center">
+      <td style="text-align:center"><h4>Total Dues</h4></td>
+      <td style="text-align:center"><h4>Total Paid</h4></td>
+      <td style="text-align:center"><h4>Total OUTSTANDING</h4></td>
     </thead>
-    <tbody>
-      {% for due in dues %}
-        <tr>
-          <td>{{ due.get_type_dusplay }}</td>
-          <td>{{ due.demand }}</td>
-          <td>{{ due.timestamp }}</td>
-        </tr>
-      {% endfor %}
-      {% if not dues %}
-        <tr>
-          <td colspan="3">No dues found</td>
-        </tr>
-      {% endif %}
-    </tbody>
+    <tr>
+      <td style="text-align:center">{{ total_due }}</td>
+      <td style="text-align:center">{{ total_paid }}</td>
+      <td style="text-align:center">{{ total_outstanding }}</td>
+    </tr>
   </table>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Amount</th>
-        <th scope="col">Time</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for payment in payments %}
-        <tr>
-          <th scope="row">{{ payments.index(due) }}</th>
-          <td>{{ payment.fulfilled }}</td>
-          <td>{{ payment.timestamp }}</td>
-        </tr>
-      {% endfor %}
-      {% if not payments %}
-        <tr>
-          <td colspan="3">No payments found</td>
-        </tr>
-      {% endif %}
-    </tbody>
-  </table>
-  <div class="container">
-    <p>Total dues: {{ total_due }}</p>
-    <p>Total paid: {{ total_paid }}</p>
-    <p>TOTAL OUTSTANDING:{{ total_outstanding }}</p>
-    <div>
-      <a href="{% url 'pay' %}" class="button">Pay Fees</a>
-    </div>
+    <a href="{% url 'pay' %}" class="pay_button">Pay Fees</a>
+    <a href="{% url 'student_notice' %}" class="home_button">Home</a>
   </div>
-{% endblock %} {% endcomment %}
+  <div class="message">
+  </div>
+  </div>
+</center>
+{% endblock %}

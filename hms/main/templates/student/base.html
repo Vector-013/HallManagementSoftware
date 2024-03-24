@@ -51,13 +51,16 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
+            <a class="navbar-brand" class="styleheader" href="{% url 'student_notice' %}">Home</a>
           </div>
           <div class="collapse navbar-collapse" id="mainNavBar">
             <ul class="nav navbar-nav navbar-right">
               {% comment %} <li>
                 <a href="{% url 'profile' %}"><span class="glyphicon glyphicon-profile"></span>My Profile</a>
               </li> {% endcomment %}
-
+              <li>
+                <a href="{% url 'view_profile' %}"><span class="glyphicon glyphicon-dues"></span> View Profile</a>
+              </li>
               <li>
                 <a href="{% url 'student_passbook' %}"><span class="glyphicon glyphicon-dues"></span> View Passbook</a>
               </li>

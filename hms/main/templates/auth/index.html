@@ -51,6 +51,27 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
+            {% comment %} <a class="navbar-brand" class="styleheader" href="{% url 'index' %}">Project</a>
+          </div>
+          <div class="collapse navbar-collapse" id="mainNavBar">
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                <a href="{% url 'index' %}">Home</a>
+              </li>
+
+              {% if user.is_authenticated %}
+                <li>
+                  <a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+                </li>
+              {% else %}
+                <li>
+                  <a href="{% url 'sign_up_options' %}"><span class="glyphicon glyphicon-user"></span> Sign up</a>
+                </li>
+                <li>
+                  <a href="{% url 'login' %}"><span class="glyphicon glyphicon-user"></span> Login</a>
+                </li>
+              {% endif %}
+            </ul> {% endcomment %}
           </div>
           <div class="collapse navbar-collapse" id="mainNavBar"></div>
         </div>
@@ -63,7 +84,7 @@
       {% block start %}
         {% if user.is_authenticated %}
           <center>
-            <h1>Welcome Back {{ user.username }}!</h1>
+            <h1>Welcome Back {{ user.first_name }}!</h1>
           </center>
         {% else %}
           <center>
