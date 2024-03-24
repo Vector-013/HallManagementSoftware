@@ -15,6 +15,7 @@ urlpatterns = [
         name="logout",
     ),
     path("error", user_view.error_page, name="error"),
+    path("student/profile/", user_view.view_profile, name="view_profile"),
     path("student/view-complaints/", user_view.view_complaints, name="view_complaints"),
     path("student/make-complaints/", user_view.make_complaints, name="make_complaints"),
     path("student/notice", user_view.notice_student, name="student_notice"),

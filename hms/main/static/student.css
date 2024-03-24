@@ -16,3 +16,50 @@
   background-color: #04AA6D; /* Green */
   color: white;
 }
+
+.pay_button {
+  text-decoration: none !important;
+  background-color: #291973;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.pay_button:hover {
+  color: white;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+  font-size: 18px; /* Increase the font size to 18px */
+}
+
+.home_button {
+  text-decoration: none !important; 
+  background-color: #291973;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.home_button:hover {
+  color: white;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+  font-size: 18px; /* Increase the font size to 18px */
+}
+
+
+#view_profile_fields {
+  background-color: #c7c9c8;
+}

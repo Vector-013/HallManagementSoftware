@@ -13,20 +13,20 @@ import time
 
 
 def student_passbook(request):
-
-    if request.user.role != "student":
-        return redirect("login/")
-
+    print("-----------------------------------", request.user)
     student = Student.objects.filter(client=request.user).first()
     passbook = StudentPassbook.objects.filter(student=student).first()
     dues = passbook.dues.order_by("-timestamp")
     payments = passbook.student_payment.order_by("-timestamp")
     total_due = dues.aggregate(total=Sum("demand"))["total"]
     total_paid = payments.aggregate(total=Sum("fulfilled"))["total"]
-    try:
-        total_outstanding = total_due - total_paid
-    except:
-        total_outstanding = 0
+    if not total_paid:
+        total_outstanding = total_due
+    else:
+        try:
+            total_outstanding = total_due - total_paid
+        except:
+            total_outstanding = 0
 
     context = {
         "dues": dues,
@@ -40,9 +40,6 @@ def student_passbook(request):
 
 
 def hall_passbook(request):
-
-    if request.user.role != "hall_manager":
-        return redirect("login/")
 
     hall_manager = HallManager.objects.filter(client=request.user)[0]
     hall = hall_manager.hall
@@ -67,9 +64,6 @@ def hall_passbook(request):
 
 
 def mess_passbook(request):
-
-    if request.user.role != "mess_manager":
-        return redirect("login/")
 
     mess_manager = MessManager.objects.filter(client=request.user).first()
     hall = mess_manager.hall
@@ -139,7 +133,7 @@ def pay(request):
     if total_due is not None and total_due > 0:
         stripe.api_key = settings.STRIPE_SECRET_KEY
         customer = stripe.Customer.create(
-            name="user",
+            name=student.client.first_name,
             address={
                 "line1": "room hall",
                 "postal_code": "721302",
@@ -172,7 +166,7 @@ def pay(request):
                     # customer_creation="always",
                     success_url=settings.REDIRECT_URL
                     + "/student/pay/success?session_id={CHECKOUT_SESSION_ID}",
-                    cancel_url=settings.REDIRECT_URL + "/passbook/pay/cancel",
+                    cancel_url=settings.REDIRECT_URL + "/student/pay/cancel",
                 )
                 return redirect(checkout_session.url, code=303)
             else:
@@ -199,8 +193,8 @@ def payment_successful(request):
     checkout_session_id = request.GET.get("session_id", None)
     session = stripe.checkout.Session.retrieve(checkout_session_id)
     customer = stripe.Customer.retrieve(session.customer)
-    student = Student.objects.filter(client=request.user)[0]
-    passbook = StudentPassbook.objects.filter(student=student)[0]
+    student = Student.objects.filter(client=request.user).first()
+    passbook = StudentPassbook.objects.filter(student=student).first()
     if not Payments.objects.filter(
         student=student, stripe_checkout_id=checkout_session_id, payment_bool=True
     ):
@@ -211,8 +205,8 @@ def payment_successful(request):
         StudentPayment.objects.create(
             student_passbook=passbook, fulfilled=Decimal(session.amount_total) / 100
         )
-
-    return render(request, "student/payment_success.html", {"customer": customer})
+        messages.success(request, messages.SUCCESS, "Payment Successful")
+    return render(request, "student/payment_success.html", context={"customer": customer})
 
 
 def payment_cancelled(request):

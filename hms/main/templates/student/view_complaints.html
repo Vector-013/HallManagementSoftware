@@ -1,12 +1,21 @@
 {% extends 'student/base.html' %}
 {% block content %}
-  {% for complaint in complaints %}
-    <div class="card" style="width: 25rem;">
-      <img class="card-img-top img-responsive" src="{{ MEDIA_URL }}{{ complaint.image.url }}" alt="Card image cap" />
-      <div class="card-body">
-        <h5 class="card-title">{{ complaint.title }}</h5>
-        <p class="card-text">{{ complaint.content }}</p>
-      </div>
-    </div>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Content Title</th>
+      <th scope="col">Complaint Content</th>
+      <th scope="col">Image</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for complaint in complaints %}
+    <tr>
+      <th><h5 class="card-title">{{ complaint.title }}</h5></th>
+      <td><p class="card-text">{{ complaint.content }}</p></td>
+      <td><img class="card-img-top img-responsive" src="{{ MEDIA_URL }}{{ complaint.image.url }}" alt="Card image cap" /></td>
+    </tr>
   {% endfor %}
+  </tbody>
+</table>
 {% endblock %}
