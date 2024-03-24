@@ -151,3 +151,4 @@ class MessExpenditure(models.Model):
     mess_passbook = models.ForeignKey(
         MessPassbook, on_delete=models.CASCADE, related_name="mess_expenditure"
     )
+    type=models.CharField("Type", max_length=40, choices=TYPE, default="rations", blank=False)
