@@ -86,7 +86,7 @@ class Client(AbstractBaseUser, PermissionsMixin):
     ROLES = [
         ("student", "Student"),
         ("warden", "Warden"),
-        ("hall_clerk", "Hall Clerk"),
+        ("hall_manager", "Hall Manager"),
         ("hmc_chairman", "HMC Chairman"),
         ("mess_manager", "Mess Manager"),
         ("admin", "Administrator"),

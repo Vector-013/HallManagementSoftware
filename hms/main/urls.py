@@ -4,7 +4,8 @@ from main import views as user_view
 from django.contrib.auth import views as auth
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.contrib.auth.decorators import login_required
+# onclick="location.href={% url 'student_notice' %}"
 urlpatterns = [
     path("", user_view.entry, name="entry"),
     path("admin/", admin.site.urls),

@@ -12,7 +12,7 @@ import uuid
 from ..models import *
 from ..forms import *
 
-
+@login_required
 def make_complaints(request):
     if request.method == "POST":
         form = ComplaintRegistrationForm(request.POST, request.FILES)
@@ -44,7 +44,7 @@ def make_complaints(request):
         context={"form": form, "title": "Complaint"},
     )
 
-
+@login_required
 def view_complaints(request):
     if request.method == "GET":
         student = Student.objects.filter(client=request.user)[0]
@@ -56,14 +56,10 @@ def view_complaints(request):
             context={"complaints": complaints, "title": "GetComplaints"},
         )
 
-
+@login_required
 def notice_student(request):
-    if request.method == "GET":
-        student = Student.objects.filter(client=request.user)[0]
-        notices = Notice.objects.filter(hall=student.hall)
-        print(notices)
-        return render(
-            request,
-            "student/notice.html",
-            context={"notices": notices, "title": "GetComplaints"},
-        )
+    return render(
+        request,
+        "student/notice.html",
+    )
+    
