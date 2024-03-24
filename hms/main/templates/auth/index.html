@@ -65,7 +65,10 @@
                 </li>
               {% else %}
                 <li>
-                  <a href="{% url 'register' %}"><span class="glyphicon glyphicon-user"></span> Sign up</a>
+                  <a href="{% url 'sign_up_options' %}"><span class="glyphicon glyphicon-user"></span> Sign up</a>
+                </li>
+                <li>
+                  <a href="{% url 'login' %}"><span class="glyphicon glyphicon-user"></span> Login</a>
                 </li>
               {% endif %}
             </ul>
@@ -80,7 +83,7 @@
       {% block start %}
         {% if user.is_authenticated %}
           <center>
-            <h1>Welcome Back {{ user.username }}!</h1>
+            <h1>Welcome Back {{ user.first_name }}!</h1>
           </center>
         {% else %}
           <center>

@@ -1,0 +1,10 @@
+{% extends 'auth/index.html' %}
+{% load crispy_forms_tags %}
+{% block start %}
+  <div class="content-section col-md-8 col-md-offset-2">
+    <center>
+      <button onclick="location.href={% url 'register' %}">Sign Up as a new Student</button>
+      <button onclick="location.href={% url 'hall_manager_register' %}">Sign Up as a new Hall Manager (requires Warden Access)</button>
+    </center>
+  </div>
+{% endblock %}
