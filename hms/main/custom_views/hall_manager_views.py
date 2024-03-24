@@ -113,7 +113,7 @@ def create_atr(request):
                 request,
                 f"ATR created!",
             )
-            return redirect("hall_view_complaints")
+            return redirect("hall/complaints")
     else:
         form = ATRForm()
     return render(
@@ -123,7 +123,7 @@ def create_atr(request):
     )
 
 
-def hall_view_complaints(request):
+def hall_complaints(request):
     if request.method == "GET":
         hall_manager = HallManager.objects.filter(client=request.user)[0]
         complaints = Complaint.objects.filter(hall=hall_manager.hall)
@@ -176,9 +176,74 @@ def add_employee(request):
                 request,
                 f"Employee {first_name} {last_name} Registered with ID {stakeholderID}",
             )
-            return redirect("login")
+            return redirect("hall/landing")
     else:
         form = WorkerRegistrationForm()
     return render(
+        request,
+        "hall_manager/add_employee.html",
+        context={"form": form, "title": "register"},
+    )
+
+
+def hall_landing(request):
+    return render(request, "hall_manager/landing.html")
+
+
+def register_student(request):
+    if request.method == "POST":
+        form = StudentRegistrationForm(request.POST)
+        if form.is_valid():
+            print(request.POST)
+            stakeholderID = form.cleaned_data.get("stakeholderID")
+            email = form.cleaned_data.get("email")
+            address = form.cleaned_data.get("address")
+            mobile = form.cleaned_data.get("mobile")
+            first_name = form.cleaned_data.get("first_name")
+            last_name = form.cleaned_data.get("last_name")
+            password = form.cleaned_data.get("password")
+            hall = form.cleaned_data.get("hall")
+            token = str(uuid.uuid4())
+            client = Client.objects.create_user(
+                stakeholderID,
+                email,
+                password,
+                mobile,
+                first_name,
+                last_name,
+                address,
+                token,
+                "student",
+            )
+            student = Student(client=client, hall=hall)
+            student.save()
+            subject = "Your account needs to be verified"
+            message = f"Hi, click on this link to verify your account http://127.0.0.1:8000/verify/{token}"
+            email_from = "shreya.bose.in@gmail.com"
+            recipient_list = [email]
+            send_mail(subject, message, email_from, recipient_list)
+
+            messages.success(
+                request,
+                f"Pls click on the link sent to {email} to complete registration",
+            )
+            return redirect("login")
+    else:
+        form = StudentRegistrationForm()
+    return render(
         request, "auth/register.html", context={"form": form, "title": "register"}
     )
+
+
+def verify_student(request, token):
+    client = Client.objects.filter(token=token).first()
+    student = Student.objects.filter(client=client)[0]
+    if client:
+        client.is_active = True
+        client.save()
+        passbook = StudentPassbook(student=student)
+        passbook.save()
+        messages.info(request, "Your account has been verified")
+        return redirect("/login")
+    else:
+        return redirect("/error")

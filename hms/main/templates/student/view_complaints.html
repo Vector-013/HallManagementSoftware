@@ -1,6 +1,6 @@
 {% extends 'student/base.html' %}
 {% block content %}
-  {% for notice in notices %}
+  {% for complaint in complaints %}
     <div class="card" style="width: 25rem;">
       <img class="card-img-top img-responsive" src="{{ MEDIA_URL }}{{ complaint.image.url }}" alt="Card image cap" />
       <div class="card-body">

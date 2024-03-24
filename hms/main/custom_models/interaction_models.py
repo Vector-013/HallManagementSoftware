@@ -30,6 +30,7 @@ class Complaint(models.Model):
     content = models.TextField(default="")
     date_created = models.DateField(default=datetime.now)
     image = models.ImageField(
+        upload_to="uploads/",
         default="default.jpg",
         height_field=None,
         width_field=None,
