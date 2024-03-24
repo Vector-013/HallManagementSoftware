@@ -13,6 +13,9 @@ from ..models import *
 from ..forms import *
 
 
+def mess_landing(request):
+    return render(request, "mess_manager/landing.html")
+
 def make_menu(request):
     if request.method == "POST":
         form = MenuForm(request.POST)
@@ -36,62 +39,68 @@ def make_menu(request):
     )
 
 
-def mess_menu(request):
+def view_menu(request):
     if request.method == "GET":
         mess_manager = MessManager.objects.filter(client=request.user).first()
         menu = Menu.objects.filter(hall=mess_manager.hall)[0]
-        items = {
-            "Month": menu.month,
-            "Monday": [
+        month = menu.month
+        items = [
+            [
+                "Monday",
                 menu.monday_breakfast,
                 menu.monday_lunch,
                 menu.monday_snacks,
                 menu.monday_dinner,
             ],
-            "Tuesday": [
+            [
+                "Tuesday",
                 menu.tuesday_breakfast,
                 menu.tuesday_lunch,
                 menu.tuesday_snacks,
                 menu.tuesday_dinner,
             ],
-            "Wednesday": [
+            [
+                "Wednesday",
                 menu.wednesday_breakfast,
                 menu.wednesday_lunch,
                 menu.wednesday_snacks,
                 menu.wednesday_dinner,
             ],
-            "Thursday": [
+            [
+                "Thursday",
                 menu.thursday_breakfast,
                 menu.thursday_lunch,
                 menu.thursday_snacks,
                 menu.thursday_dinner,
             ],
-            "Friday": [
+            [
+                "Friday",
                 menu.friday_breakfast,
                 menu.friday_lunch,
                 menu.friday_snacks,
                 menu.friday_dinner,
             ],
-            "Saturday": [
+            [
+                "Saturday",
                 menu.saturday_breakfast,
                 menu.saturday_lunch,
                 menu.saturday_snacks,
                 menu.saturday_dinner,
             ],
-            "Sunday": [
+            [
+                "Sunday",
                 menu.sunday_breakfast,
                 menu.sunday_lunch,
                 menu.sunday_snacks,
                 menu.sunday_dinner,
             ],
-        }
+        ]
         return render(
             request,
             "mess_manager/menu.html",
-            context={"items": items, "title": "Menu"},
+            context={"items": items, "month": month,"title": "Menu"},
         )
-
-
+    
 def add_ration(request):
     if request.method == "POST":
         form = RationForm(request.POST)
