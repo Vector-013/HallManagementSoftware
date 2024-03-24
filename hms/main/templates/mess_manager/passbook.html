@@ -1,0 +1,76 @@
+{% extends 'mess_manager/base.html' %}
+{% block content %}
+<center>
+  <h1 id="passbook_headers_h1">Passbook</h1>
+  <h3 id="passbook_headers_h2">Budget Assigned</h3>
+    <h4>Assigned Budget for Semester: {{original_budget}}</h4> 
+    <br />
+    <br />  
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="text-align: center">Type</th>
+          <th style="text-align: center">Demand</th>
+          <th style="text-align: center">Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+          {% for expenditure in expenditure %}
+            <tr>
+              <td>{{ due.get_type_display }}</td>
+              <td>{{ due.demand }}</td>
+              <td>{{ due.timestamp }}</td>
+            </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+
+  <h3 id="passbook_headers_h2">Payments</h3>
+  {% if not payments %}
+    <h4>No Payments Found.</h4>
+    <br />
+    <br />
+  {% else %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="text-align: center">Fulfilled</th>
+          <th style="text-align: center">Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for payment in payments %}
+          <tr>
+            <td>{{ payment.fulfilled }}</td>
+            <td>{{ payment.timestamp }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+  <h3 id="passbook_headers_h2">Account Summary</h3>
+  <table class="table">
+    <thead style="text-align:center">
+      <td style="text-align:center"><h4>Total Dues</h4></td>
+      <td style="text-align:center"><h4>Total Paid</h4></td>
+      <td style="text-align:center"><h4>Total OUTSTANDING</h4></td>
+    </thead>
+    <tr>
+      <td style="text-align:center">{{ total_due }}</td>
+      <td style="text-align:center">{{ total_paid }}</td>
+      <td style="text-align:center">{{ total_outstanding }}</td>
+    </tr>
+    {% comment %} <p>Total Dues: {{ total_due }}</p>
+    <p>Total Paid: {{ total_paid }}</p>
+    <p>TOTAL OUTSTANDING:{{ total_outstanding }}</p>
+    <div> {% endcomment %}
+  </table>
+    <a href="{% url 'pay' %}" class="pay_button">Pay Fees</a>
+    <a href="{% url 'student_notice' %}" class="home_button">Home</a>
+  </div>
+  <div class="message">
+  </div>
+  </div>
+</center>
+{% endblock %}

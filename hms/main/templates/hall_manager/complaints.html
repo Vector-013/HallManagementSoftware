@@ -1,0 +1,15 @@
+{% extends 'hall_manager/base.html' %}
+{% block content %}
+  {% for complaint, atr in data %}
+    <div class="card" style="width: 25rem;">
+      <img class="card-img-top img-responsive" src="{{ MEDIA_URL }}{{ complaint.image.url }}" alt="Card image cap" />
+      <div class="card-body">
+        <table>
+          <h5 class="card-title">{{ complaint.title }}</h5>
+          <p class="card-text">{{ complaint.content }}</p>
+          <p class="card-text">{{ atr.report }}</p>
+        </table>
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}
