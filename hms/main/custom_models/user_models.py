@@ -229,7 +229,7 @@ class HallEmployee(models.Model):
     hall = models.ForeignKey(
         Hall,
         default=None,
-        related_name="employer_hall",
+        related_name="employee_hall",
         on_delete=models.CASCADE,
     )
 
@@ -242,9 +242,7 @@ class HallEmployee(models.Model):
             ("electrician", "Electrician"),
             ("hall_canteen", "Hall Canteen"),
             ("sweeper", "Sweeper"),
-            ("mess worker", "Mess Worker"),
             ("security", "Security"),
-            ("cook", "Cook"),
         ],
         default="Mess Worker",
         blank=False,
@@ -274,6 +272,65 @@ class HallEmployee(models.Model):
             self.client.role = "hall_employee"
 
             super(HallEmployee, self).save(*args, **kwargs)
+
+    def _str_(self):
+        return self.client.first_name + " " + self.client.last_name
+
+
+class MessEmployee(models.Model):
+    client = models.OneToOneField(
+        Client,
+        on_delete=models.CASCADE,
+        related_name="mess_employee",
+        primary_key=True,
+        blank=False,
+        unique=True,
+    )
+
+    hall = models.ForeignKey(
+        Hall,
+        default=None,
+        related_name="mess_employee_hall",
+        on_delete=models.CASCADE,
+    )
+
+    role = models.CharField(
+        "Role",
+        max_length=20,
+        choices=[
+            ("server", "Server"),
+            ("utensils", "Wash Utensils"),
+            ("cook", "Cook"),
+            ("sweeper", "Sweeper"),
+        ],
+        default="Mess Worker",
+        blank=False,
+    )
+
+    salary = models.IntegerField(
+        "Salary",
+        choices=[
+            (1000, "1000"),
+            (2000, "2000"),
+            (5000, "5000"),
+            (10000, "10000"),
+            (15000, "15000"),
+            (20000, "20000"),
+        ],
+        default=2000,
+        blank=False,
+    )
+
+    monthly_leaves = models.IntegerField("monthly leaves taken", default=0)
+
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            super(MessEmployee, self).save(*args, **kwargs)
+            self.client.role = "mess_employee"
+        else:
+            self.client.role = "mess_employee"
+
+            super(MessEmployee, self).save(*args, **kwargs)
 
     def _str_(self):
         return self.client.first_name + " " + self.client.last_name
