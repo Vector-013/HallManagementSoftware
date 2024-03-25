@@ -80,10 +80,6 @@ def verify_warden(request, token):
         return redirect("/error")
 
 
-def hmc_landing(request):
-    return render(request, "hmc/landing.html")
-
-
 def register_hall(request):
     if request.method == "POST":
         form = HallRegistrationForm(request.POST)
