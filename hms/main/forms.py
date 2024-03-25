@@ -168,3 +168,21 @@ class RationForm(forms.ModelForm):
     class Meta:
         model = Ration
         exclude = ("hall", "total")
+
+
+class VerifyForm(forms.Form):
+    amount = forms.DecimalField(
+        label="Amount",
+        max_digits=8,
+        decimal_places=2,
+        validators=[MinValueValidator(1)],
+    )
+    verify_password = forms.CharField(
+        label="Confirm Password", max_length=100, widget=forms.PasswordInput()
+    )
+
+
+class ConfirmForm(forms.Form):
+    verify_password = forms.CharField(
+        label="Confirm Password", max_length=100, widget=forms.PasswordInput()
+    )

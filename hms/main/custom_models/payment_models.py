@@ -112,6 +112,9 @@ class HallExpenditure(models.Model):
         ("salaries", "Salaries"),
         ("amenities", "Amenities"),
     ]
+    type = models.CharField(
+        "Type", max_length=100, choices=TYPE, blank=False, default="salaries"
+    )
     timestamp = models.DateTimeField("Timestamp", blank=False, auto_now_add=True)
     expenditure = models.DecimalField(
         "Hall Expenditure", blank=False, default=0, max_digits=8, decimal_places=2
@@ -144,6 +147,9 @@ class MessExpenditure(models.Model):
         ("salaries", "Salaries"),
         ("rations", "Rations"),
     ]
+    type = models.CharField(
+        "Type", max_length=100, choices=TYPE, blank=False, default="salaries"
+    )
     timestamp = models.DateTimeField("Timestamp", blank=False, auto_now_add=True)
     expenditure = models.DecimalField(
         "Mess Expenditure", blank=False, default=0, max_digits=8, decimal_places=2
