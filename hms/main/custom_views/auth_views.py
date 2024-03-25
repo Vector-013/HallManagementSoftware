@@ -30,6 +30,8 @@ def Login(request):
                 return redirect("/hall/landing")
             elif request.user.role == "warden":
                 return redirect("/warden/landing")
+            elif request.user.role == "mess_manager":
+                return redirect("/mess/landing")
             else:
                 redirect("/login")
         else:

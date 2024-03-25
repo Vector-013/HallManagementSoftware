@@ -38,7 +38,9 @@ urlpatterns = [
         user_view.update_student_profile,
         name="update_student_profile",
     ),
-    path("mess/menu", user_view.make_menu, name="make_menu"),
+    path("mess/landing", user_view.mess_landing, name="mess_landing"),
+    path("mess/make-menu", user_view.make_menu, name="make_menu"),
+    path("mess/menu", user_view.view_menu, name="view_menu"),
     path("mess/ration", user_view.add_ration, name="add_ration"),
     path("mess/passbook", user_view.mess_passbook, name="mess_passbook"),
     path(
