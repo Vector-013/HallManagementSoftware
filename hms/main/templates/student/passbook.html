@@ -1,0 +1,74 @@
+{% extends 'student/base.html' %}
+{% block content %}
+<center>
+  <h1 id="passbook_headers_h1">Passbook</h1>
+  <h3 id="passbook_headers_h2">Dues</h3>
+  {% if not dues %}
+    <h4>No Dues Found.</h4> 
+    <br />
+    <br />  
+  {% else %}
+    <table class="table" style="width:50% !important"> 
+      <thead>
+        <tr>
+          <th style="text-align: center">Type</th>
+          <th style="text-align: center">Demand</th>
+          <th style="text-align: center">Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+          {% for due in dues %}
+            <tr>
+              <td style="text-align: center">{{ due.get_type_display }}</td>
+              <td style="text-align: center">{{ due.demand }}</td>
+              <td style="text-align: center">{{ due.timestamp }}</td>
+            </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+
+  <h3 id="passbook_headers_h2">Payments</h3>
+  {% if not payments %}
+    <h4>No Payments Found.</h4>
+    <br />
+    <br />
+  {% else %}
+    <table class="table" style="width:50% !important">
+      <thead>
+        <tr>
+          <th style="text-align: center">Fulfilled</th>
+          <th style="text-align: center">Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for payment in payments %}
+          <tr>
+            <td style="text-align: center">{{ payment.fulfilled }}</td>
+            <td style="text-align: center">{{ payment.timestamp }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+  <h3 id="passbook_headers_h2">Account Summary</h3>
+  <table class="table" style="width:50% !important">
+    <thead style="text-align:center">
+      <td style="text-align:center"><h4>Total Dues</h4></td>
+      <td style="text-align:center"><h4>Total Paid</h4></td>
+      <td style="text-align:center"><h4>Total OUTSTANDING</h4></td>
+    </thead>
+    <tr>
+      <td style="text-align:center">{{ total_due }}</td>
+      <td style="text-align:center">{{ total_paid }}</td>
+      <td style="text-align:center">{{ total_outstanding }}</td>
+    </tr>
+  </table>
+    <a href="{% url 'pay' %}" class="pay_button">Pay Fees</a>
+    <a href="{% url 'student_notice' %}" class="home_button">Home</a>
+  </div>
+  <div class="message">
+  </div>
+  </div>
+</center>
+{% endblock %}
