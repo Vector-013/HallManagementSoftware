@@ -26,6 +26,7 @@ urlpatterns = [
     path("student/pay", user_view.pay, name="pay"),
     path("hall/complaints", user_view.hall_complaints, name="hall_complaints"),
     path("hall/landing", user_view.hall_landing, name="hall_landing"),
+    path("hall/passbook", user_view.hall_passbook, name="hall_passbook"),
     path("hall/create-atr", user_view.create_atr, name="create_atr"),
     path("hall/add-employee", user_view.add_employee, name="add_employee"),
     path("hall/register-student/", user_view.register_student, name="register_student"),
@@ -54,4 +55,24 @@ urlpatterns = [
         name="verify_hall_manager",
     ),
     path("warden/landing", user_view.warden_landing, name="warden_landing"),
+    path(
+        "warden/generate-mess-demand",
+        user_view.generate_mess_demand,
+        name="generate_mess_demand",
+    ),
+    path(
+        "warden/generate-mess-salary",
+        user_view.generate_mess_salary,
+        name="generate_mess_salary",
+    ),
+    path(
+        "warden/generate-hall-demand",
+        user_view.generate_hall_demand,
+        name="generate_hall_demand",
+    ),
+    path(
+        "warden/generate-hall-salary",
+        user_view.generate_hall_salary,
+        name="generate_hall_salary",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

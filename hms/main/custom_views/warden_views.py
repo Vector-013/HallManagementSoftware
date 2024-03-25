@@ -71,5 +71,181 @@ def verify_hall_manager(request, token):
         return redirect("/error")
 
 
+def generate_hall_demand(request):
+    if request.method == "POST":
+        form = VerifyForm(request.POST)
+        if form.is_valid():
+            password_to_confirm = form.cleaned_data.get("verify_password")
+            amount_per_student = form.cleaned_data.get("amount")
+            client = request.user
+            success = client.check_password(password_to_confirm)
+            if success:
+                try:
+                    warden = Warden.objects.filter(client=client).first()
+                    hall = warden.hall
+                    students = list(hall.student_hall.all())
+
+                    for student in students:
+                        student_passbook = StudentPassbook.objects.filter(
+                            student=student
+                        ).first()
+                        due = Due(
+                            type="hall",
+                            timestamp=datetime.now(),
+                            demand=amount_per_student,
+                            student_passbook=student_passbook,
+                        )
+                        due.save()
+
+                    messages.success(
+                        request, "Your password has been verified old codger"
+                    )
+                    redirect("/warden/landing")
+
+                except:
+                    messages.error(request, "Connection issues")
+            else:
+                messages.error(request, "you are unreal")
+                redirect("/login")
+    else:
+        form = VerifyForm()
+
+    return render(
+        request,
+        "warden/verify_password.html",
+        context={"form": form, "title": "verify"},
+    )
+
+
+def generate_hall_salary(request):
+    if request.method == "POST":
+        form = ConfirmForm(request.POST)
+        if form.is_valid():
+            password_to_confirm = form.cleaned_data.get("verify_password")
+            client = request.user
+            success = client.check_password(password_to_confirm)
+            if success:
+                # try:
+                warden = Warden.objects.filter(client=client).first()
+                hall = warden.hall
+                employees = list(hall.employee_hall.all())
+                total = 0
+                hall_passbook = HallPassbook.objects.filter(hall=hall).first()
+                for employee in employees:
+                    total = total + employee.salary
+
+                expenditure = HallExpenditure(
+                    type="salaries",
+                    timestamp=datetime.now(),
+                    expenditure=total,
+                    hall_passbook=hall_passbook,
+                )
+                expenditure.save()
+                messages.success(request, "Hall employees have been paid old codger")
+                redirect("/warden/landing")
+
+            # except:
+            #     messages.error(request, "Connection issues")
+            else:
+                messages.error(request, "you are unreal")
+                redirect("/login")
+    else:
+        form = ConfirmForm()
+
+    return render(
+        request,
+        "warden/verify_password.html",
+        context={"form": form, "title": "verify"},
+    )
+
+
+def generate_mess_salary(request):
+    if request.method == "POST":
+        form = ConfirmForm(request.POST)
+        if form.is_valid():
+            password_to_confirm = form.cleaned_data.get("verify_password")
+            client = request.user
+            success = client.check_password(password_to_confirm)
+            if success:
+                # try:
+                warden = Warden.objects.filter(client=client).first()
+                hall = warden.hall
+                employees = list(hall.mess_employee_hall.all())
+                total = 0
+                mess_passbook = MessPassbook.objects.filter(hall=hall).first()
+                for employee in employees:
+                    total = total + employee.salary
+
+                expenditure = MessExpenditure(
+                    type="salaries",
+                    timestamp=datetime.now(),
+                    expenditure=total,
+                    mess_passbook=mess_passbook,
+                )
+                expenditure.save()
+                messages.success(request, "Mess employees have been paid old codger")
+                redirect("/warden/landing")
+
+            # except:
+            #     messages.error(request, "Connection issues")
+            else:
+                messages.error(request, "you are unreal")
+                redirect("/login")
+    else:
+        form = ConfirmForm()
+
+    return render(
+        request,
+        "warden/verify_password.html",
+        context={"form": form, "title": "verify"},
+    )
+
+
+def generate_mess_demand(request):
+    if request.method == "POST":
+        form = VerifyForm(request.POST)
+        if form.is_valid():
+            password_to_confirm = form.cleaned_data.get("verify_password")
+            amount_per_student = form.cleaned_data.get("amount")
+            client = request.user
+            success = client.check_password(password_to_confirm)
+            if success:
+                try:
+                    warden = Warden.objects.filter(client=client).first()
+                    hall = warden.hall
+                    students = list(hall.student_hall.all())
+
+                    for student in students:
+                        student_passbook = StudentPassbook.objects.filter(
+                            student=student
+                        ).first()
+                        due = Due(
+                            type="mess",
+                            timestamp=datetime.now(),
+                            demand=amount_per_student,
+                            student_passbook=student_passbook,
+                        )
+                        due.save()
+                except:
+                    messages.success(
+                        request, "Your password has been verified old codger"
+                    )
+                    redirect("/warden/landing")
+
+            # except:
+            #     messages.error(request, "Connection issues")
+            else:
+                messages.error(request, "you are unreal")
+                redirect("/login")
+    else:
+        form = VerifyForm()
+
+    return render(
+        request,
+        "warden/verify_password.html",
+        context={"form": form, "title": "verify"},
+    )
+
+
 def warden_landing(request):
     return render(request, "warden/landing.html")
