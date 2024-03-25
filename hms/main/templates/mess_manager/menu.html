@@ -1,0 +1,24 @@
+{% extends 'mess_manager/base.html' %}
+{% block content %}
+    <center>
+        <h2>{{ month }}</h2>
+        <table class="menu_table" style="width: 75%; border: 1px solid; text-align: center">
+            <thead style="background-color: rgb(41, 25, 115); color: white">
+                <th style="text-align: center; border: 1px solid">Day</th>
+                <th style="text-align: center; border: 1px solid">Breakfast</th>
+                <th style="text-align: center; border: 1px solid">Lunch</th>
+                <th style="text-align: center; border: 1px solid">Snacks</th>
+                <th style="text-align: center; border: 1px solid">Dinner</th>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                    <tr style="border: 1px solid; height: 20px">
+                        {% for i in item %}
+                            <td style="border: 1px solid">{{ i }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </center>
+{% endblock %}
