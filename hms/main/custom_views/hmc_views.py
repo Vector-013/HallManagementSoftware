@@ -51,7 +51,7 @@ def register_warden(request):
             warden.save()
             subject = "Your account needs to be verified"
             message = f"Hi, click on this link to verify your account http://127.0.0.1:8000/verify-hall-manager/{token}"
-            email_from = "shreya.bose.in@gmail.com"
+            email_from = "se.mhc.2024@gmail.com"
             recipient_list = [email]
             send_mail(subject, message, email_from, recipient_list)
 

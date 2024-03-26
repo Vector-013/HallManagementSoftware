@@ -86,7 +86,6 @@ class HallManagerRegistrationForm(forms.ModelForm):
             "address",
             "first_name",
             "last_name",
-            "hall",
         )
 
 

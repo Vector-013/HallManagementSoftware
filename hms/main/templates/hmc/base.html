@@ -61,13 +61,15 @@
               <li>
                 <a href="{% url 'student_passbook' %}"><span class="glyphicon glyphicon-dues"></span> View Passbook</a>
               </li>
-              <!--  <li>
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Complaints</a>
+              <li>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Infrastructure <i class="fa fa-caret-down"></i>
+                </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <button class="dropDown_Btn" onclick="location.href={% url 'make_complaints' %}">Make Complaint</button><br />
-                  <button class="dropDown_Btn" onclick="location.href={% url 'view_complaints' %}">View Complaint</button>
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'register_hall' %}'">Add Hall</button><br />
+                  <button class="dropDown_Btn">View Halls</button>
                 </div>
-              </li>  -->
+              </li>
               <li>
                 <a href="{% url 'logout' %}"><span class="glyphicon glyphicon-logout"></span> Logout</a>
               </li>

@@ -189,6 +189,8 @@ def add_employee(request):
         context={"form": form, "title": "register"},
     )
 
+def approve_leaves(request):
+    pass
 
 def hall_landing(request):
     return render(request, "hall_manager/landing.html")
@@ -315,7 +317,7 @@ def generate_passbook_pdf(request):
 
     hall = hall_manager.hall
     hall_passbook = HallPassbook.objects.filter(hall=hall).first()
-    expenditures_qset = HallExpenditure.objects.filter(hall_passbook=hall_passbook)
+    expenditures_qset = HallTransaction.objects.filter(hall_passbook=hall_passbook)
     expenditures = list(expenditures_qset.all())
 
     response = HttpResponse(content_type="application/pdf")
@@ -334,7 +336,7 @@ def generate_passbook_pdf(request):
     pdf.drawString(300, 750, "Title: {}".format("Expenditure"))
     y = 730
     for expenditure in expenditures:
-        pdf.drawString(300, y, "Details: {}".format(expenditure.expenditure))
+        pdf.drawString(300, y, "Details: {}".format(expenditure.amount))
         y = y - 20
 
     pdf.drawString(500, 750, "Title: {}".format("Time"))

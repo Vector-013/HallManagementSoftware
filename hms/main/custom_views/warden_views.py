@@ -13,9 +13,19 @@ from ..models import *
 import uuid
 
 
+def hall_manager(request):
+    warden = Warden.objects.filter(client=request.user).first()
+    hall = warden.hall
+    hall_manager = HallManager.objects.filter(hall=hall).first()
+    if hall_manager:
+        return render(request, "warden/hall_manager.html", context={"hall_manager": hall_manager})
+    else:
+        return redirect("/warden/register-hall-manager")
+
 def register_hall_manager(request):
     if request.method == "POST":
         form = HallManagerRegistrationForm(request.POST)
+        warden = Warden.objects.filter(client=request.user).first()
         if form.is_valid():
             print(request.POST)
             stakeholderID = form.cleaned_data.get("stakeholderID")
@@ -25,7 +35,7 @@ def register_hall_manager(request):
             first_name = form.cleaned_data.get("first_name")
             last_name = form.cleaned_data.get("last_name")
             password = form.cleaned_data.get("password")
-            hall = form.cleaned_data.get("hall")
+            hall = warden.hall
             token = str(uuid.uuid4())
             client = Client.objects.create_user(
                 stakeholderID,
@@ -134,7 +144,7 @@ def generate_hall_salary(request):
                 for employee in employees:
                     total = total + employee.salary
 
-                expenditure = HallExpenditure(
+                expenditure = HallTransaction(
                     type="salaries",
                     timestamp=datetime.now(),
                     expenditure=total,
@@ -176,7 +186,7 @@ def generate_mess_salary(request):
                 for employee in employees:
                     total = total + employee.salary
 
-                expenditure = MessExpenditure(
+                expenditure = MessTransaction(
                     type="salaries",
                     timestamp=datetime.now(),
                     expenditure=total,

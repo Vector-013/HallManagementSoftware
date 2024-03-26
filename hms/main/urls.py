@@ -29,6 +29,7 @@ urlpatterns = [
     path("hall/passbook", user_view.hall_passbook, name="hall_passbook"),
     path("hall/create-atr", user_view.create_atr, name="create_atr"),
     path("hall/add-employee", user_view.add_employee, name="add_employee"),
+    path("hall/approve-leaves", user_view.approve_leaves, name="approve_leaves"),
     path("hall/register-student/", user_view.register_student, name="register_student"),
     path(
         "hall/verify-student/<token>", user_view.verify_student, name="verify_student"
@@ -45,6 +46,11 @@ urlpatterns = [
     path("mess/ration", user_view.add_ration, name="add_ration"),
     path("mess/passbook", user_view.mess_passbook, name="mess_passbook"),
     path(
+        "warden/hall-manager",
+        user_view.hall_manager,
+        name="hall_manager",
+    ),
+    path(
         "warden/register-hall-manager",
         user_view.register_hall_manager,
         name="register_hall_manager",
@@ -54,6 +60,10 @@ urlpatterns = [
         user_view.verify_hall_manager,
         name="verify_hall_manager",
     ),
+    path("warden/passbook", user_view.warden_passbook, name="warden_passbook"),
+    path("warden/my-passbook", user_view.warden_own_passbook, name="warden_own_passbook"),
+    path("warden/hall-passbook", user_view.hall_passbook, name="hall_passbook"),
+    path("warden/mess-passbook", user_view.mess_passbook, name="mess_passbook"),
     path("warden/landing", user_view.warden_landing, name="warden_landing"),
     path(
         "warden/generate-mess-demand",
@@ -84,6 +94,11 @@ urlpatterns = [
         "hmc/register-hall",
         user_view.register_hall,
         name="register_hall",
+    ),
+    path(
+        "hmc/register-warden",
+        user_view.register_warden,
+        name="register_warden",
     ),
     path("hmc/landing", user_view.hmc_landing, name="hmc_admin"),
     path(

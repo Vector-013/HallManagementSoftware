@@ -125,7 +125,7 @@ def add_ration(request):
             ration.save()
             mess_passbook = hall.mess_passbook
 
-            MessExpenditure.objects.create(
+            MessTransaction.objects.create(
                 type="rations",
                 timestamp=datetime.now(),
                 expenditure=total,
@@ -151,7 +151,7 @@ def generate_mess_passbook_pdf(request):
 
     hall = mess_manager.hall
     mess_passbook = MessPassbook.objects.filter(hall=hall).first()
-    expenditures_qset = MessExpenditure.objects.filter(mess_passbook=mess_passbook)
+    expenditures_qset = MessTransaction.objects.filter(mess_passbook=mess_passbook)
     expenditures = list(expenditures_qset.all())
 
     response = HttpResponse(content_type="application/pdf")
@@ -170,7 +170,7 @@ def generate_mess_passbook_pdf(request):
     pdf.drawString(300, 750, "Title: {}".format("Expenditure"))
     y = 730
     for expenditure in expenditures:
-        pdf.drawString(300, y, "Details: {}".format(expenditure.expenditure))
+        pdf.drawString(300, y, "Details: {}".format(expenditure.amount))
         y = y - 20
 
     pdf.drawString(500, 750, "Title: {}".format("Time"))

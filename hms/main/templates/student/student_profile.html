@@ -1,11 +1,43 @@
 {% extends 'student/base.html' %}
 {% block content %}
 <center>
-    <input id="view_profile_fields" placeholder="{{ student.client.stakeholderID }}" readonly><br /><br />
-    <input id="view_profile_fields" placeholder="{{ student.client.first_name }}" readonly><br /><br />
-    <input id="view_profile_fields" placeholder="{{ student.client.last_name }}" readonly><br /><br />
-    <input id="view_profile_fields" placeholder="{{ student.client.email }}" readonly><br /><br />
-    <input id="view_profile_fields" placeholder="{{ student.client.mobile }}" readonly><br /><br />
-    <input id="view_profile_fields" placeholder="{{ student.client.address }}" readonly><br /><br />
+    <h3>
+    <table class="table" style="width:50%">
+        <thead>
+            <th style="text-align: center">Profile Field</th>
+            <th style="text-align: center">Data</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="text-align: center">Stakeholder ID</td>
+                <td style="text-align: center">{{ student.client.stakeholderID }}</td>
+            </tr>  
+            <tr>
+                <td style="text-align: center">First Name</td>
+                <td style="text-align: center">{{ student.client.first_name }}</td>
+            </tr>
+            <tr>
+                <td style="text-align: center">Last Name</td>
+                <td style="text-align: center">{{ student.client.last_name }}</td>
+            </tr>
+            <tr>
+                <td style="text-align: center">Email</td>
+                <td style="text-align: center">{{ student.client.email }}</td>
+            </tr>
+            <tr>
+                <td style="text-align: center">Mobile</td>
+                <td style="text-align: center">{{ student.client.mobile }}</td>
+            </tr>
+            <tr>
+                <td style="text-align: center">Address</td>
+                <td style="text-align: center">{{ student.client.address }}</td>
+            </tr>
+            <tr>
+                <td style="text-align: center">Room</td>
+                <td style="text-align: center">{{ student.room.code }}</td>
+            </tr>
+        </tbody>
+    </table>
+</h3>
 </center>
 {% endblock %}
