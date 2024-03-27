@@ -11,10 +11,22 @@ from django.template import Context
 import uuid
 from ..models import *
 from ..forms import *
+from django.http import HttpResponse
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
 
 def mess_landing(request):
-    return render(request, "mess_manager/landing.html")
+    if request.method == "GET":
+        mess_manager = MessManager.objects.filter(client=request.user).first()
+        notices = Notice.objects.filter(hall=mess_manager.hall)
+        print(notices)
+        return render(
+            request,
+            "mess_manager/landing.html",
+            context={"notices": notices, "title": "Notices"},
+        )
+
 
 def make_menu(request):
     if request.method == "POST":
@@ -98,9 +110,10 @@ def view_menu(request):
         return render(
             request,
             "mess_manager/menu.html",
-            context={"items": items, "month": month,"title": "Menu"},
+            context={"items": items, "month": month, "title": "Menu"},
         )
-    
+
+
 def add_ration(request):
     if request.method == "POST":
         form = RationForm(request.POST)
@@ -120,7 +133,7 @@ def add_ration(request):
             ration.save()
             mess_passbook = hall.mess_passbook
 
-            MessExpenditure.objects.create(
+            MessTransaction.objects.create(
                 type="rations",
                 timestamp=datetime.now(),
                 expenditure=total,
@@ -138,3 +151,40 @@ def add_ration(request):
         "mess_manager/add_ration.html",
         context={"form": form, "title": "Add Ration"},
     )
+
+
+def generate_mess_passbook_pdf(request):
+
+    mess_manager = MessManager.objects.filter(client=request.user).first()
+
+    hall = mess_manager.hall
+    mess_passbook = MessPassbook.objects.filter(hall=hall).first()
+    transactions_qset = MessTransaction.objects.filter(mess_passbook=mess_passbook)
+    transactions = list(transactions_qset.all())
+
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = 'attachment; filename="Hall-Passbook.pdf"'
+
+    pdf = canvas.Canvas(response, pagesize=letter)
+
+    pdf.setFont("Helvetica", 12)
+
+    pdf.drawString(100, 750, "Type")
+    pdf.drawString(300, 750, "Amount")
+    pdf.drawString(500, 750, "Time")
+
+    y = 730
+    for transaction in transactions:
+        pdf.drawString(100, y, "{}".format(transaction.type))
+        pdf.drawString(300, y, "{}".format(transaction.amount))
+        pdf.drawString(500, y, "{}".format(transaction.timestamp))
+        y = y - 20
+
+    pdf.line(50, 700, 550, 700)
+
+    pdf.drawString(100, 400, "Signature: ___________________")
+
+    pdf.showPage()
+    pdf.save()
+
+    return response

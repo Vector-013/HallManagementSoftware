@@ -67,7 +67,7 @@ class StudentSearchForm(forms.Form):
     stakeholderID = forms.CharField(label="Student ID", max_length=50)
 
 
-class HallManagerRegistrationForm(forms.ModelForm):
+class ManagerRegistrationForm(forms.ModelForm):
     stakeholderID = forms.CharField(max_length=50)
     email = forms.EmailField(empty_value=None)
     password = forms.CharField(empty_value=None, max_length=400)
@@ -86,7 +86,6 @@ class HallManagerRegistrationForm(forms.ModelForm):
             "address",
             "first_name",
             "last_name",
-            "hall",
         )
 
 
@@ -149,14 +148,61 @@ class ATRForm(forms.ModelForm):
         )
 
 
-# class NoticeRegistrationForm(forms.ModelForm):
-#     class Meta:
-#         model = Notice
-#         fields = (
-#             "title",
-#             "content",
-#             "role",
-#         )
+class AllotmentForm(forms.Form):
+    hall_allotment = forms.DecimalField(
+        label="Hall Allotment",
+        max_digits=8,
+        decimal_places=2,
+        validators=[MinValueValidator(1)],
+    )
+    mess_allotment = forms.DecimalField(
+        label="Mess Allotment",
+        max_digits=8,
+        decimal_places=2,
+        validators=[MinValueValidator(1)],
+    )
+    verify_password = forms.CharField(
+        label="Confirm Password", max_length=100, widget=forms.PasswordInput()
+    )
+
+
+class GrantForm(forms.Form):
+    hall = forms.ModelChoiceField(
+        queryset=Hall.objects.all(),
+        to_field_name="name",
+        required=True,
+        widget=forms.Select(attrs={"class": "form-control"}),
+    )
+    amount = forms.DecimalField(
+        label="Amount",
+        max_digits=8,
+        decimal_places=2,
+        validators=[MinValueValidator(1)],
+    )
+    verify_password = forms.CharField(
+        label="Confirm Password", max_length=100, widget=forms.PasswordInput()
+    )
+
+
+class LeaveForm(forms.Form):
+    stakeholderID = forms.CharField(
+        label="EmployeeID",
+        max_length=20,
+    )
+    leave_from = forms.DateField(label="Leave from")
+    leave_upto = forms.DateField(label="Leave upto")
+    reason = forms.CharField(label="Reason")
+    uploads = forms.FileField()
+
+
+class NoticeRegistrationForm(forms.ModelForm):
+    class Meta:
+        model = Notice
+        fields = (
+            "title",
+            "content",
+            "image",
+        )
 
 
 class ComplaintRegistrationForm(forms.ModelForm):
@@ -239,6 +285,15 @@ class VerifyForm(forms.Form):
 
 
 class ConfirmForm(forms.Form):
+    verify_password = forms.CharField(
+        label="Confirm Password", max_length=100, widget=forms.PasswordInput()
+    )
+
+class DeleteUserForm(forms.Form):
+    stakeholderID = forms.CharField(
+        label="StakeholderID",
+        max_length=50,
+    )
     verify_password = forms.CharField(
         label="Confirm Password", max_length=100, widget=forms.PasswordInput()
     )

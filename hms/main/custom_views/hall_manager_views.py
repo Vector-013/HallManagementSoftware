@@ -9,8 +9,13 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
 import uuid
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
 from ..models import *
 from ..forms import *
+from django.http import HttpResponse
+from reportlab.lib.pagesizes import letter
+from datetime import date
 
 
 def update_student_hall_dues():
@@ -186,8 +191,77 @@ def add_employee(request):
     )
 
 
+def approve_leaves(request):
+    if request.method == "POST":
+        form = LeaveForm(request.POST, request.FILES)
+        if form.is_valid():
+            hall_manager = HallManager.objects.filter(client=request.user).first()
+            stakeholderID = form.cleaned_data.get("stakeholderID")
+            reason = form.cleaned_data.get("reason")
+            start_date = form.cleaned_data.get("start_date")
+            end_date = form.cleaned_data.get("end_date")
+            uploads = request.FILES["uploads"]
+            if uploads is None:
+                monthly_leaves = abs((end_date - start_date).days)
+            else:
+                monthly_leaves = 0
+
+            employee_client = Client.objects.filter(stakeholderID=stakeholderID)
+            employee = HallEmployee.objects.filter(client=employee_client)
+            employee.monthly_leaves = monthly_leaves
+            employee.save()
+            messages.success(request, f"Leave approved")
+            return redirect("/hall/landing")
+
+    else:
+        form = LeaveForm()
+
+    return render(
+        request,
+        "hall_manager/approve_leaves.html",
+        context={"form": form, "title": "Leave Approval"},
+    )
+
+
+def make_notice(request):
+    if request.method == "POST":
+        form = NoticeRegistrationForm(request.POST, request.FILES)
+        if form.is_valid():
+            hall_manager = HallManager.objects.filter(client=request.user).first()
+            title = form.cleaned_data.get("title")
+            content = form.cleaned_data.get("content")
+            image = request.FILES["image"]
+            obj = Notice(
+                title=title,
+                content=content,
+                hall=hall_manager.hall,
+                image=image,
+            )
+            print(obj)
+            obj.save()
+            messages.success(request, f"Your notice has been issued.")
+            return redirect("/hall/landing")
+    else:
+        form = NoticeRegistrationForm()
+
+    print(request)
+    return render(
+        request,
+        "hall/make_notice.html",
+        context={"form": form, "title": "Notice"},
+    )
+
+
 def hall_landing(request):
-    return render(request, "hall_manager/landing.html")
+    if request.method == "GET":
+        hall_manager = HallManager.objects.filter(client=request.user).first()
+        notices = Notice.objects.filter(hall=hall_manager.hall)
+        print(notices)
+        return render(
+            request,
+            "hall_manager/landing.html",
+            context={"notices": notices, "title": "Notices"},
+        )
 
 
 def register_student(request):
@@ -283,6 +357,33 @@ def register_student(request):
     )
 
 
+def delete_student(request):
+    if request.method == "POST":
+        form = DeleteUserForm(request.POST)
+        if form.is_valid():
+            stakeholderID = form.cleaned_data.get("stakeholderID")
+            password_to_confirm = form.cleaned_data.get("verify_password")
+            client = Client.objects.filter(stakeholderID=stakeholderID).first()
+            print(client.role)
+            if client.role == "student":
+                student = Student.objects.filter(client=client).first()
+                if (student and client.is_active):
+                    success = request.user.check_password(password_to_confirm)
+                    if success:
+                        student.client.delete()
+                        messages.success(request, f"Student with stakeholder ID {stakeholderID} has been deleted")
+                    else:
+                        messages.error(request, "Invalid password")
+                else:
+                    messages.error(request, "Student not found or not verified")
+    else: 
+        form = DeleteUserForm()
+    return render(
+        request,
+        "hall_manager/delete_student.html",
+        context={"form": form, "title": "verify"},
+    )
+
 def verify_student(request, token):
     client = Client.objects.filter(token=token).first()
     student = Student.objects.filter(client=client)[0]
@@ -298,3 +399,46 @@ def verify_student(request, token):
         return redirect("/login")
     else:
         return redirect("/error")
+
+
+def generate_hall_passbook_pdf(request):
+
+    print(request.user)
+
+    try:
+        hall_manager = HallManager.objects.filter(client=request.user).first()
+        hall = hall_manager.hall
+    except:
+        warden = Warden.objects.filter(client=request.user).first()
+        hall = warden.hall
+
+    hall_passbook = HallPassbook.objects.filter(hall=hall).first()
+    transactions_qset = HallTransaction.objects.filter(hall_passbook=hall_passbook)
+    transactions = list(transactions_qset.all())
+
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = 'attachment; filename="Hall-Passbook.pdf"'
+
+    pdf = canvas.Canvas(response, pagesize=letter)
+
+    pdf.setFont("Helvetica", 12)
+
+    pdf.drawString(100, 750, "Type")
+    pdf.drawString(300, 750, "Amount")
+    pdf.drawString(500, 750, "Time")
+
+    y = 730
+    for transaction in transactions:
+        pdf.drawString(100, y, "{}".format(transaction.type))
+        pdf.drawString(300, y, "{}".format(transaction.amount))
+        pdf.drawString(500, y, "{}".format(transaction.timestamp))
+        y = y - 20
+
+    pdf.line(50, 700, 550, 700)
+
+    pdf.drawString(100, 400, "Signature: ___________________")
+
+    pdf.showPage()
+    pdf.save()
+
+    return response

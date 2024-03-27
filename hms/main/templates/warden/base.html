@@ -57,17 +57,26 @@
               {% comment %} <li>
                 <a href="{% url 'profile' %}"><span class="glyphicon glyphicon-profile"></span>My Profile</a>
               </li> {% endcomment %}
-
               <li>
-                <a href="{% url 'student_passbook' %}"><span class="glyphicon glyphicon-dues"></span> View Passbook</a>
+                <a href="{% url 'mess_manager' %}"><span class="glyphicon glyphicon-dues"></span> Mess Manager</a>
               </li>
-              <!--  <li>
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Complaints</a>
+              <li>
+                <a href="{% url 'hall_manager' %}"><span class="glyphicon glyphicon-dues"></span> Hall Manager</a>
+              </li>
+              <li>
+                <a href="{% url 'delete_manager' %}"><span class="glyphicon glyphicon-dues"></span> Delete Manager</a>
+              </li>
+              <li>
+                <a href="{% url 'allot_budget' %}"><span class="glyphicon glyphicon-dues"></span>Allot Budget</a>
+              </li>
+              <li>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Passbooks <i class="fa fa-caret-down"></i></a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <button class="dropDown_Btn" onclick="location.href={% url 'make_complaints' %}">Make Complaint</button><br />
-                  <button class="dropDown_Btn" onclick="location.href={% url 'view_complaints' %}">View Complaint</button>
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'warden_passbook' %}'">Your Passbook</button><br />
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'hall_passbook' %}'">Hall Passbook</button><br />
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'mess_passbook' %}'">Mess Passbook</button>
                 </div>
-              </li>  -->
+              </li>
               <li>
                 <a href="{% url 'logout' %}"><span class="glyphicon glyphicon-logout"></span> Logout</a>
               </li>

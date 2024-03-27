@@ -54,17 +54,34 @@
           </div>
           <div class="collapse navbar-collapse" id="mainNavBar">
             <ul class="nav navbar-nav navbar-right">
-              <li>
-                <a href="{% url 'create_atr' %}"><span class="glyphicon glyphicon-add-employee"></span> Create ATR</a>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Complaints <i class="fa fa-caret-down"></i>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'hall_complaints' %}'">View Complaints</button><br />
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'create_atr' %}'">Create ATR</button>
+                </div>
               </li>
-              <li>
-                <a href="{% url 'hall_complaints' %}"><span class="glyphicon glyphicon-add-employee"></span> View Complaints</a>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Employees <i class="fa fa-caret-down"></i>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'add_employee' %}'">Add Employee</button><br />
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'approve_leaves' %}'">Approve Leaves</button>
+                </div>
               </li>
-              <li>
-                <a href="{% url 'add_employee' %}"><span class="glyphicon glyphicon-add-employee"></span> Add Employee</a>
-              </li>
-              <li>
-                <a href="{% url 'search_student' %}"><span class="glyphicon glyphicon-edit-profile"></span> Edit Student</a>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Students <i class="fa fa-caret-down"></i>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <button class="dropDown_Btn">View Student List</button><br />
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'register_student' %}'">Add New Student</button><br />
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'search_student' %}'">Edit Student Details</button><br />
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'delete_student' %}'">Delete Student</button>
+                </div>
               </li>
               <li>
                 <a href="{% url 'logout' %}"><span class="glyphicon glyphicon-logout"></span> Logout</a>

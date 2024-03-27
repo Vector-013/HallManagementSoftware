@@ -28,10 +28,12 @@ def Login(request):
                 return redirect("/student/notice")
             elif request.user.role == "hall_manager":
                 return redirect("/hall/landing")
-            elif request.user.role == "warden":
-                return redirect("/warden/landing")
             elif request.user.role == "mess_manager":
                 return redirect("/mess/landing")
+            elif request.user.role == "warden":
+                return redirect("/warden/landing")
+            elif request.user.role == "hmc_chairman":
+                return redirect("/hmc/landing")
             else:
                 redirect("/login")
         else:

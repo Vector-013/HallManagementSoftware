@@ -87,12 +87,25 @@ class WardenPassbook(models.Model):
         return "Warden Passbook " + self.hall.name
 
 
-class HallPassbook(models.Model):
-
-    budget = models.DecimalField(
-        "Budget", blank=False, default=2000000, max_digits=10, decimal_places=2
+class WardenTransaction(models.Model):
+    TYPE = [
+        ("hall_allotment", "Hall Allotment"),
+        ("mess_allotment", "Mess Allotment"),
+        ("grant", "Grant"),
+    ]
+    type = models.CharField(
+        "Type", max_length=100, choices=TYPE, blank=False, default="salaries"
+    )
+    timestamp = models.DateTimeField("Timestamp", blank=False, auto_now_add=True)
+    amount = models.DecimalField(
+        "Amount", blank=False, default=0, max_digits=8, decimal_places=2
+    )
+    warden_passbook = models.ForeignKey(
+        WardenPassbook, on_delete=models.CASCADE, related_name="warden_transaction"
     )
 
+
+class HallPassbook(models.Model):
     hall = models.OneToOneField(
         Hall,
         on_delete=models.CASCADE,
@@ -107,27 +120,25 @@ class HallPassbook(models.Model):
         return "Hall Passbook " + self.hall.name
 
 
-class HallExpenditure(models.Model):
+class HallTransaction(models.Model):
     TYPE = [
         ("salaries", "Salaries"),
         ("amenities", "Amenities"),
+        ("allotment", "Allotment"),
     ]
     type = models.CharField(
         "Type", max_length=100, choices=TYPE, blank=False, default="salaries"
     )
     timestamp = models.DateTimeField("Timestamp", blank=False, auto_now_add=True)
-    expenditure = models.DecimalField(
-        "Hall Expenditure", blank=False, default=0, max_digits=8, decimal_places=2
+    amount = models.DecimalField(
+        "Amount", blank=False, default=0, max_digits=8, decimal_places=2
     )
     hall_passbook = models.ForeignKey(
-        HallPassbook, on_delete=models.CASCADE, related_name="hall_expenditure"
+        HallPassbook, on_delete=models.CASCADE, related_name="hall_transaction"
     )
 
 
 class MessPassbook(models.Model):
-    budget = models.DecimalField(
-        "Budget", blank=False, default=500000, max_digits=8, decimal_places=2
-    )
     hall = models.OneToOneField(
         Hall,
         on_delete=models.CASCADE,
@@ -142,21 +153,18 @@ class MessPassbook(models.Model):
         return "Mess Passbook " + self.hall.name
 
 
-class MessExpenditure(models.Model):
+class MessTransaction(models.Model):
     TYPE = [
-        ("salaries", "Salaries"),
         ("rations", "Rations"),
+        ("allotment", "Allotment"),
     ]
     type = models.CharField(
         "Type", max_length=100, choices=TYPE, blank=False, default="salaries"
     )
     timestamp = models.DateTimeField("Timestamp", blank=False, auto_now_add=True)
-    expenditure = models.DecimalField(
-        "Mess Expenditure", blank=False, default=0, max_digits=8, decimal_places=2
+    amount = models.DecimalField(
+        "Amount", blank=False, default=0, max_digits=8, decimal_places=2
     )
     mess_passbook = models.ForeignKey(
-        MessPassbook, on_delete=models.CASCADE, related_name="mess_expenditure"
-    )
-    type = models.CharField(
-        "Type", max_length=40, choices=TYPE, default="rations", blank=False
+        MessPassbook, on_delete=models.CASCADE, related_name="mess_transaction"
     )

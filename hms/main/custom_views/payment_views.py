@@ -14,9 +14,6 @@ import time
 
 def student_passbook(request):
 
-    if request.user.role != "student":
-        return redirect("login/")
-
     student = Student.objects.filter(client=request.user).first()
     passbook = StudentPassbook.objects.filter(student=student).first()
     dues = passbook.dues.order_by("-timestamp")
@@ -40,83 +37,103 @@ def student_passbook(request):
 
 
 def hall_passbook(request):
-
-    if request.user.role != "hall_manager":
-        return redirect("login/")
-
-    hall_manager = HallManager.objects.filter(client=request.user)[0]
-    hall = hall_manager.hall
-    passbook = HallPassbook.objects.filter(hall=hall)[0]
-    expenditures = passbook.hall_expenditure.order_by("-timestamp")
-    total_expenditures = expenditures.aggregate(total=Sum("expenditure"))["total"]
-    original_budget = passbook.budget
     try:
-        current_budget = original_budget - total_expenditures
+        hall_manager = HallManager.objects.filter(client=request.user).first()
+        hall = hall_manager.hall
+        template = "hall_manager/base.html"
     except:
-        current_budget = original_budget
+        warden = Warden.objects.filter(client=request.user).first()
+        hall = warden.hall
+        template = "warden/base.html"
+    passbook = HallPassbook.objects.filter(hall=hall).first()
+    try:
+        transactions = passbook.hall_transaction.order_by("-timestamp")
+    except:
+        transactions = []
+    total_expenditure = 0
+    total_allotment = 0
+    for transaction in transactions:
+        if transaction.type == "allotment":
+            total_allotment += transaction.amount
+        else:
+            total_expenditure += transaction.amount
+
+    balance = total_allotment - total_expenditure
 
     context = {
-        "original_budget": original_budget,
-        "expenditures": expenditures,
-        "total_expenditures": total_expenditures,
-        "current_budget": current_budget,
-        "original_budget": original_budget,
+        "template": template,
+        "transactions": transactions,
+        "total_expenditures": total_expenditure,
+        "total_allotment": total_allotment,
+        "balance": balance,
     }
 
     return render(request, "hall_manager/passbook.html", context)
 
 
 def mess_passbook(request):
-
-    if request.user.role != "mess_manager":
-        return redirect("login/")
-
-    mess_manager = MessManager.objects.filter(client=request.user).first()
-    hall = mess_manager.hall
-    passbook = MessPassbook.objects.filter(hall=hall).first()
-    expenditures = passbook.mess_expenditure.order_by("-timestamp")
-    total_expenditures = expenditures.aggregate(total=Sum("expenditure"))["total"]
-    original_budget = passbook.budget
     try:
-        current_budget = original_budget - total_expenditures
+        mess_manager = MessManager.objects.filter(client=request.user).first()
+        hall = mess_manager.hall
+        template = "mess_manager/base.html"
     except:
-        current_budget = original_budget
+        warden = Warden.objects.filter(client=request.user).first()
+        hall = warden.hall
+        template = "warden/base.html"
+
+    passbook = MessPassbook.objects.filter(hall=hall).first()
+    try:
+        transactions = passbook.mess_transaction.order_by("-timestamp")
+    except:
+        transactions = []
+    total_expenditure = 0
+    total_allotment = 0
+    for transaction in transactions:
+        if transaction.type == "allotment":
+            total_allotment += transaction.amount
+        else:
+            total_expenditure += transaction.amount
+
+    balance = total_allotment - total_expenditure
 
     context = {
-        "original_budget": original_budget,
-        "expenditures": expenditures,
-        "total_expenditures": total_expenditures,
-        "current_budget": current_budget,
+        "template": template,
+        "transactions": transactions,
+        "total_expenditures": total_expenditure,
+        "total_allotment": total_allotment,
+        "balance": balance,
     }
 
     return render(request, "mess_manager/passbook.html", context)
 
 
-# def warden_passbook(request):
+def warden_passbook(request):
 
-#     if request.user.role != "warden":
-#         return redirect("login/")
+    warden = Warden.objects.filter(client=request.user).first()
+    hall = warden.hall
+    passbook = WardenPassbook.objects.filter(hall=hall).first()
+    try:
+        transactions = passbook.warden_transaction.order_by("-timestamp")
+    except:
+        transactions = []
+    total_expenditure = 0
+    total_grants = 0
+    for transaction in transactions:
+        if transaction.type == "allotment":
+            total_grants += transaction.amount
+        else:
+            total_expenditure += transaction.amount
 
-#     warden = Warden.objects.filter(client=request.user)[0]
-#     hall = Warden.hall
-#     passbook = WardenPassbook.objects.filter(hall=hall)[0]
-#     payments = passbook.student_payment.order_by("-timestamp")
-#     total_spent = expenditure.aggregate(total=Sum("demand"))["total"]
-#     total_paid = payments.aggregate(total=Sum("fulfilled"))["total"]
-#     try:
-#         current_budget = total_due - total_paid
-#     except:
-#         total_outstanding = 0
+    balance = total_grants - total_expenditure
 
-#     context = {
-#         "expenditure": expenditure,
-#         "payments": payments,
-#         "total_spent": total_spent,
-#         "total_paid": total_paid,
-#         "current_budget": current_budget,
-#     }
+    context = {
+        "transactions": transactions,
+        "total_expenditures": total_expenditure,
+        "total_grants": total_grants,
+        "balance": balance,
+    }
 
-#     return render(request, "student/passbook.html", context)
+    return render(request, "warden/passbook.html", context)
 
 
 def pay(request):

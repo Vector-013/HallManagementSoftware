@@ -50,8 +50,8 @@ def register_warden(request):
             )
             warden.save()
             subject = "Your account needs to be verified"
-            message = f"Hi, click on this link to verify your account http://127.0.0.1:8000/verify-hall-manager/{token}"
-            email_from = "shreya.bose.in@gmail.com"
+            message = f"Hi, click on this link to verify your account http://127.0.0.1:8000/hmc/verify-warden/{token}"
+            email_from = "se.mhc.2024@gmail.com"
             recipient_list = [email]
             send_mail(subject, message, email_from, recipient_list)
 
@@ -59,7 +59,7 @@ def register_warden(request):
                 request,
                 f"Pls click on the link sent to {email} to complete registration",
             )
-            return redirect("warden/landing")
+            return redirect("/login")
     else:
         form = WardenRegistrationForm()
     return render(
@@ -68,6 +68,30 @@ def register_warden(request):
         context={"form": form, "title": "register"},
     )
 
+def delete_warden(request):
+    if request.method == "POST":
+        form = DeleteUserForm(request.POST)
+        if form.is_valid():
+            stakeholderID = form.cleaned_data.get("stakeholderID")
+            password_to_confirm = form.cleaned_data.get("verify_password")
+            warden = Warden.objects.filter(stakeholderID=stakeholderID).first()
+            if warden:
+                client = request.user
+                success = client.check_password(password_to_confirm)
+                if success:
+                    warden.client.delete()
+                    messages.success(request, f"Warden with stakeholder ID {stakeholderID} has been deleted")
+                else:
+                    messages.error(request, "Invalid password")
+            else:
+                messages.error(request, f"No active warden found with stakeholder ID {stakeholderID}")
+    else: 
+        form = DeleteUserForm()
+    return render(
+        request,
+        "hmc/verify_password.html",
+        context={"form": form, "title": "verify"},
+    )
 
 def verify_warden(request, token):
     client = Client.objects.filter(token=token).first()
@@ -78,6 +102,10 @@ def verify_warden(request, token):
         return redirect("/login")
     else:
         return redirect("/error")
+
+
+def hmc_landing(request):
+    return render(request, "hmc/landing.html")
 
 
 def register_hall(request):
@@ -161,7 +189,8 @@ def register_hall(request):
 
             hall.max_occupancy = hall.calculate_max_occupancy()
             hall.save()
-
+            hall_passbook = HallPassbook.objects.create(hall=hall)
+            mess_passbook = MessPassbook.objects.create(hall=hall)
             messages.info(request, f"Hall {name} has been created")
             return redirect("/hmc/landing")
 
@@ -173,3 +202,42 @@ def register_hall(request):
 
 def hmc_landing(request):
     return render(request, "hmc/landing.html")
+
+
+def grant_allotment(request):
+    if request.method == "POST":
+        form = GrantForm(request.POST)
+        if form.is_valid():
+            password_to_confirm = form.cleaned_data.get("verify_password")
+            hall = form.cleaned_data.get("hall")
+            amount = form.cleaned_data.get("amount")
+            client = request.user
+            success = client.check_password(password_to_confirm)
+            if success:
+                # try:
+                warden_passbook = WardenPassbook.objects.filter(hall=hall)
+
+                warden_transaction = WardenTransaction(
+                    type="grant",
+                    timestamp=datetime.now(),
+                    amount=amount,
+                    warden_passbook=warden_passbook,
+                )
+                warden_transaction.save()
+                # except:
+                messages.success(request, "Your grant has been alloted old codger")
+                redirect("/hmc/landing")
+
+            # except:
+            #     messages.error(request, "Connection issues")
+            else:
+                messages.error(request, "you are unreal")
+                redirect("/login")
+    else:
+        form = GrantForm()
+
+    return render(
+        request,
+        "hmc/verify_password.html",
+        context={"form": form, "title": "verify"},
+    )

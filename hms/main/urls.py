@@ -29,7 +29,9 @@ urlpatterns = [
     path("hall/passbook", user_view.hall_passbook, name="hall_passbook"),
     path("hall/create-atr", user_view.create_atr, name="create_atr"),
     path("hall/add-employee", user_view.add_employee, name="add_employee"),
+    path("hall/approve-leaves", user_view.approve_leaves, name="approve_leaves"),
     path("hall/register-student/", user_view.register_student, name="register_student"),
+    path("hall/delete-student/", user_view.delete_student, name="delete_student"), 
     path(
         "hall/verify-student/<token>", user_view.verify_student, name="verify_student"
     ),
@@ -45,40 +47,108 @@ urlpatterns = [
     path("mess/ration", user_view.add_ration, name="add_ration"),
     path("mess/passbook", user_view.mess_passbook, name="mess_passbook"),
     path(
+        "warden/hall-manager",
+        user_view.hall_manager,
+        name="hall_manager",
+    ),
+    path(
+        "warden/mess-manager",
+        user_view.mess_manager,
+        name="mess_manager",
+    ),
+    path(
+        "warden/delete-mess-manager",
+        user_view.delete_manager,
+        name="delete_manager",
+    ),
+    path(
         "warden/register-hall-manager",
         user_view.register_hall_manager,
         name="register_hall_manager",
     ),
     path(
-        "warden/verify-hall-manager/<token>",
-        user_view.verify_hall_manager,
-        name="verify_hall_manager",
+        "warden/register-mess-manager",
+        user_view.register_mess_manager,
+        name="register_mess_manager",
     ),
+    path(
+        "warden/delete-hall-manager",
+        user_view.delete_manager,
+        name="delete_manager",
+    ),
+    path(
+        "warden/verify-manager/<token>",
+        user_view.verify_manager,
+        name="verify_manager",
+    ),
+    path("warden/passbook", user_view.warden_passbook, name="warden_passbook"),
+    path("warden/hall-passbook", user_view.hall_passbook, name="hall_passbook"),
+    path("warden/mess-passbook", user_view.mess_passbook, name="mess_passbook"),
     path("warden/landing", user_view.warden_landing, name="warden_landing"),
     path(
         "warden/generate-mess-demand",
         user_view.generate_mess_demand,
         name="generate_mess_demand",
     ),
-    # path(
-    #     "warden/generate-mess-salary",
-    #     user_view.generate_mess_salary,
-    #     name="generate_mess_salary",
-    # ),
-    # path(
-    #     "warden/generate-hall-demand",
-    #     user_view.generate_hall_demand,
-    #     name="generate_hall_demand",
-    # ),
-    # path(
-    #     "warden/generate-hall-salary",
-    #     user_view.generate_hall_salary,
-    #     name="",
-    # ),
+    path(
+        "warden/generate-hall-demand",
+        user_view.generate_hall_demand,
+        name="generate_hall_demand",
+    ),
+    path(
+        "warden/generate-hall-salary",
+        user_view.generate_salary,
+        name="genrate_hall_salary",
+    ),
+    path(
+        "hall/generate-passbook-pdf",
+        user_view.generate_hall_passbook_pdf,
+        name="hall_passbook_pdf",
+    ),
     path(
         "hmc/register-hall",
         user_view.register_hall,
         name="register_hall",
     ),
+    path(
+        "hmc/register-warden",
+        user_view.register_warden,
+        name="register_warden",
+    ),
+    path(
+        "hmc/delete-warden",
+        user_view.delete_warden,
+        name="delete_warden",
+    ),
+    path(
+        "hmc/verify-warden/<token>",
+        user_view.verify_warden,
+        name="verify_warden",
+    ),
+    
+    path(
+        "hmc/grant-allotment",
+        user_view.grant_allotment,
+        name="grant_allotment",
+    ),
     path("hmc/landing", user_view.hmc_landing, name="hmc_admin"),
+    path(
+        "mess/generate-passbook-pdf",
+        user_view.generate_mess_passbook_pdf,
+        name="mess_passbook_pdf",
+    ),
+    path(
+        "warden/generate-passbook-pdf",
+        user_view.generate_warden_passbook_pdf,
+        name="warden_passbook_pdf",
+    ),
+    path(
+        "warden/allot_budget",
+        user_view.allot_budget,
+        name="allot_budget",
+    ),
+    path(
+        "student/generate-atr-pdf/<int:pk>", user_view.generate_atr_pdf, name="atr_pdf"
+    ),
+    path("hall/approve_leaves", user_view.approve_leaves, name="approve_leaves"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

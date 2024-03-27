@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "phonenumbers",
     "crispy_forms",
     "crispy_bootstrap4",
+    "reportlab",
 ]
 
 MIDDLEWARE = [
