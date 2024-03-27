@@ -1,0 +1,10 @@
+{% extends "student/base.html" %}
+{% block content %}
+<center>
+  <div class="container">
+    <h1>Oops, your payment didn't go through.</h1>
+    <h3>Please check your payment information and try again.</h3>
+    <button class="pay_button" onclick="location.href={% url 'student_passbook' %}">Return to Passbook</button>
+  </div>
+</center>
+{% endblock %}
