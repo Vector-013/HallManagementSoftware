@@ -1,9 +1,0 @@
-{% extends 'student/base.html' %}
-{% block content %}
-  <center>
-    <div class="container home_msg">
-      <h1>Fee payment successful, {{ customer.name }}!</h1>
-      <button class="pay_button" onclick="location.href={% url 'student_passbook' %}">Return to Passbook</button>
-    </div>
-  </center>
-{% endblock %}
