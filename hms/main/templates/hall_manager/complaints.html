@@ -1,0 +1,31 @@
+{% extends 'hall_manager/base.html' %}
+{% block content %}
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Content Title</th>
+        <th scope="col">Complaint Content</th>
+        <th scope="col">Image</th>
+        <th scope="col">ATR</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for complaint, atr in data %}
+        <tr>
+          <th scope="row">{{ complaint.title }}</th>
+          <td>{{ complaint.content }}</td>
+          <td>
+            <img class="card-img-top img-responsive" src="{{ MEDIA_URL }}{{ complaint.image.url }}" alt="Card image cap" />
+          </td>
+          {% if complaint.status == False %}
+            <td>Pending</td>
+          {% else %}
+            <td>
+              <a href="{% url 'atr_pdf' complaint.pk %}">ATR</a>
+            </td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

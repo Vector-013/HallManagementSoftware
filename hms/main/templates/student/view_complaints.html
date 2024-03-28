@@ -1,0 +1,35 @@
+{% extends 'student/base.html' %}
+{% block content %}
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Content Title</th>
+        <th scope="col">Complaint Content</th>
+        <th scope="col">Image</th>
+        <th scope="col">Download ATR</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for complaint in complaints %}
+        <tr>
+          <th>
+            <h5 class="card-title">{{ complaint.title }}</h5>
+          </th>
+          <td>
+            <p class="card-text">{{ complaint.content }}</p>
+          </td>
+          <td>
+            <img class="card-img-top img-responsive" src="{{ MEDIA_URL }}{{ complaint.image.url }}" alt="Card image cap" />
+          </td>
+          {% if complaint.status == False %}
+            <td>Pending</td>
+          {% else %}
+            <td>
+              <a href="{% url 'atr_pdf' complaint.pk %}">ATR</a>
+            </td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
