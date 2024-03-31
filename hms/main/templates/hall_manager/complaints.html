@@ -1,31 +1,20 @@
-{% extends 'hall_manager/base.html' %}
+{% extends template %}
 {% block content %}
-  <table class="table">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">Content Title</th>
-        <th scope="col">Complaint Content</th>
-        <th scope="col">Image</th>
-        <th scope="col">ATR</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for complaint, atr in data %}
-        <tr>
-          <th scope="row">{{ complaint.title }}</th>
-          <td>{{ complaint.content }}</td>
-          <td>
-            <img class="card-img-top img-responsive" src="{{ MEDIA_URL }}{{ complaint.image.url }}" alt="Card image cap" />
-          </td>
+  <center>
+    <div class="notice-container">
+      {% for complaint in complaints %}
+        <div class="notice-card">
+          <h4 class="card-title"><b>{{ complaint.title }}</b></h4>
+          <p class="card-text">{{ complaint.content }}</p>
+          <img class="responsive" src="{{ MEDIA_URL }}{{ complaint.image.url }}" alt="Card image cap" />
+          <br />
           {% if complaint.status == False %}
-            <td>Pending</td>
+            <h4>Pending</h4>
           {% else %}
-            <td>
-              <a href="{% url 'atr_pdf' complaint.pk %}">ATR</a>
-            </td>
+            <button class="pay_button" onclick="location.href='{% url 'atr_pdf' complaint.pk %}'">Action Report</button>
           {% endif %}
-        </tr>
+        </div>
       {% endfor %}
-    </tbody>
-  </table>
+    </div>
+  </center>
 {% endblock %}

@@ -59,7 +59,7 @@ def register_warden(request):
                 request,
                 f"Pls click on the link sent to {email} to complete registration",
             )
-            return redirect("/login")
+            return redirect("/hmc/landing")
     else:
         form = WardenRegistrationForm()
     return render(
@@ -69,13 +69,88 @@ def register_warden(request):
     )
 
 
+def search_warden(request):
+    if request.method == "POST":
+        form = UserSearchForm(request.POST)
+        if form.is_valid():
+            stakeholderID = form.cleaned_data.get("stakeholderID")
+            try:
+                client = Client.objects.filter(stakeholderID=stakeholderID).first()
+                print(client.role)
+                if client.role == "warden":
+                    return redirect(f"/hmc/update-warden-profile/{stakeholderID}")
+                else:
+                    messages.MessageFailure(
+                        request,
+                        f"User not found",
+                    )
+                    return redirect("/hmc/search-warden")
+
+            except:
+                messages.MessageFailure(
+                    request,
+                    f"User not found",
+                )
+                return redirect("/hmc/search-warden")
+    else:
+        form = UserSearchForm()
+    return render(
+        request,
+        "hmc/search_warden.html",
+        context={"form": form, "title": "register"},
+    )
+
+
+def update_warden_profile(request, stakeholderID):
+    client = Client.objects.filter(stakeholderID=stakeholderID).first()
+    warden = Warden.objects.filter(client=client).first()
+    if request.method == "POST":
+        form = UpdateWardenForm(request.POST, instance=warden)
+        if form.is_valid():
+            client.stakeholderID = form.cleaned_data.get("stakeholderID")
+            client.email = form.cleaned_data.get("email")
+            client.address = form.cleaned_data.get("address")
+            client.mobile = form.cleaned_data.get("mobile")
+            client.first_name = form.cleaned_data.get("first_name")
+            client.last_name = form.cleaned_data.get("last_name")
+            warden.hall = form.cleaned_data.get("hall")
+            warden.designation = form.cleaned_data.get("designation")
+            warden.posts_held = form.cleaned_data.get("posts_held")
+            client.save()
+            warden.client = client
+            warden.save()
+            messages.success(
+                request,
+                "Warden's Profile Edited!",
+            )
+            return redirect("/hmc/search-warden")  # Redirect to a success page
+    else:
+        form = UpdateWardenForm(
+            initial={
+                "stakeholderID": stakeholderID,
+                "email": client.email,
+                "mobile": client.mobile,
+                "address": client.address,
+                "first_name": client.first_name,
+                "last_name": client.last_name,
+                "hall": warden.hall,
+                "designation": warden.designation,
+                "posts_held": warden.posts_held,
+            }
+        )
+        # print(form.instance)
+        # form.instance = student
+
+    return render(request, "hmc/update_warden_profile.html", {"form": form})
+
+
 def verify_warden(request, token):
     client = Client.objects.filter(token=token).first()
     if client:
         client.is_active = True
         client.save()
         messages.info(request, "Your account has been verified")
-        return redirect("/login")
+        return redirect("/hmc/landing")
     else:
         return redirect("/error")
 
@@ -181,6 +256,15 @@ def hmc_landing(request):
     return render(request, "hmc/landing.html")
 
 
+def view_halls(request):
+    halls = list(Hall.objects.all())
+    # for hall in halls:
+    #     hall.max_occupancy = hall.calculate_max_occupancy()
+    #     hall.current_occupancy = hall.calculate_curr_occupancy()
+    #     hall.save()
+    return render(request, "hmc/view_halls.html", context={"halls": halls})
+
+
 def grant_allotment(request):
     if request.method == "POST":
         form = GrantForm(request.POST)
@@ -192,15 +276,14 @@ def grant_allotment(request):
             success = client.check_password(password_to_confirm)
             if success:
                 # try:
-                warden_passbook = WardenPassbook.objects.filter(hall=hall)
+                warden_passbook = WardenPassbook.objects.filter(hall=hall).first()
 
-                warden_transaction = WardenTransaction(
+                warden_transaction = WardenTransaction.objects.create(
                     type="grant",
                     timestamp=datetime.now(),
                     amount=amount,
                     warden_passbook=warden_passbook,
                 )
-                warden_transaction.save()
                 # except:
                 messages.success(request, "Your grant has been alloted old codger")
                 redirect("/hmc/landing")
@@ -226,7 +309,8 @@ def delete_warden(request):
         if form.is_valid():
             stakeholderID = form.cleaned_data.get("stakeholderID")
             password_to_confirm = form.cleaned_data.get("verify_password")
-            warden = Warden.objects.filter(stakeholderID=stakeholderID).first()
+            client = Client.objects.filter(stakeholderID=stakeholderID).first()
+            warden = Warden.objects.filter(client=client).first()
             if warden:
                 client = request.user
                 success = client.check_password(password_to_confirm)
@@ -247,6 +331,6 @@ def delete_warden(request):
         form = DeleteUserForm()
     return render(
         request,
-        "hmc/verify_password.html",
+        "hmc/delete_warden.html",
         context={"form": form, "title": "verify"},
     )

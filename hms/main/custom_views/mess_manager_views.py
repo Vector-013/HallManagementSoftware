@@ -16,6 +16,28 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 
 
+def mess_view_profile(request):
+    if request.method == "GET":
+        try:
+            mess_manager = MessManager.objects.filter(client=request.user).first()
+            hall = mess_manager.hall
+            template = "mess_manager/base.html"
+        except:
+            warden = Warden.objects.filter(client=request.user).first()
+            hall = warden.hall
+            mess_manager = MessManager.objects.filter(hall=hall).first()
+            template = "warden/base.html"
+        return render(
+            request,
+            "mess_manager/profile.html",
+            context={
+                "template": template,
+                "mess_manager": mess_manager,
+                "title": "view_profile",
+            },
+        )
+
+
 def mess_landing(request):
     if request.method == "GET":
         mess_manager = MessManager.objects.filter(client=request.user).first()
@@ -26,6 +48,47 @@ def mess_landing(request):
             "mess_manager/landing.html",
             context={"notices": notices, "title": "Notices"},
         )
+
+
+def mess_change_password(request):
+    if request.method == "POST":
+        form = ChangePasswordForm(request.POST)
+        if form.is_valid():
+            client = request.user
+            mess_manager = MessManager.objects.filter(client=client).first()
+            current_password = form.cleaned_data.get("current_password")
+            success = client.check_password(current_password)
+            if success:
+                new_password = form.cleaned_data.get("new_password")
+                confirm_password = form.cleaned_data.get("confirm_password")
+                if new_password == confirm_password:
+                    client.set_password(new_password)
+                    client.save()
+                    mess_manager.client = client
+                    mess_manager.save()
+                    logout(request)
+                    mess_manager = authenticate(
+                        request, username=client.stakeholderID, password=new_password
+                    )
+                    login(request, mess_manager)
+                    messages.success(request, f"password has been updated")
+                    return redirect("/mess/profile")
+                else:
+                    messages.error(
+                        request, f"New password did not match confirm password"
+                    )
+                    return redirect("/mess/change-password")
+            else:
+                messages.error(request, f"Current password entered is incorrect")
+                return redirect("/mess/change-password")
+
+    else:
+        form = ChangePasswordForm()
+    return render(
+        request,
+        "mess_manager/change_password.html",
+        context={"form": form, "title": "Password"},
+    )
 
 
 def make_menu(request):
@@ -53,8 +116,16 @@ def make_menu(request):
 
 def view_menu(request):
     if request.method == "GET":
-        mess_manager = MessManager.objects.filter(client=request.user).first()
-        menu = Menu.objects.filter(hall=mess_manager.hall)[0]
+        try:
+            mess_manager = MessManager.objects.filter(client=request.user).first()
+            hall = mess_manager.hall
+            template = "mess_manager/base.html"
+        except:
+            student = Student.objects.filter(client=request.user).first()
+            hall = student.hall
+            mess_manager = MessManager.objects.filter(hall=hall).first()
+            template = "student/base.html"
+        menu = Menu.objects.filter(hall=hall).first()
         month = menu.month
         items = [
             [
@@ -110,7 +181,12 @@ def view_menu(request):
         return render(
             request,
             "mess_manager/menu.html",
-            context={"items": items, "month": month, "title": "Menu"},
+            context={
+                "items": items,
+                "month": month,
+                "template": template,
+                "title": "Menu",
+            },
         )
 
 
@@ -155,34 +231,36 @@ def add_ration(request):
 
 def generate_mess_passbook_pdf(request):
 
-    mess_manager = MessManager.objects.filter(client=request.user).first()
+    try:
+        mess_manager = MessManager.objects.filter(client=request.user).first()
+        hall = mess_manager.hall
+    except:
+        warden = Warden.objects.filter(client=request.user).first()
+        hall = warden.hall
 
-    hall = mess_manager.hall
     mess_passbook = MessPassbook.objects.filter(hall=hall).first()
     transactions_qset = MessTransaction.objects.filter(mess_passbook=mess_passbook)
     transactions = list(transactions_qset.all())
 
     response = HttpResponse(content_type="application/pdf")
-    response["Content-Disposition"] = 'attachment; filename="Hall-Passbook.pdf"'
+    response["Content-Disposition"] = 'attachment; filename="Mess-Passbook.pdf"'
 
     pdf = canvas.Canvas(response, pagesize=letter)
 
     pdf.setFont("Helvetica", 12)
 
-    pdf.drawString(100, 750, "Type")
-    pdf.drawString(300, 750, "Amount")
-    pdf.drawString(500, 750, "Time")
+    pdf.drawString(50, 750, "Type")
+    pdf.drawString(200, 750, "Amount")
+    pdf.drawString(350, 750, "Time")
 
     y = 730
     for transaction in transactions:
-        pdf.drawString(100, y, "{}".format(transaction.type))
-        pdf.drawString(300, y, "{}".format(transaction.amount))
-        pdf.drawString(500, y, "{}".format(transaction.timestamp))
+        pdf.drawString(50, y, "{}".format(transaction.type))
+        pdf.drawString(200, y, "{}".format(transaction.amount))
+        pdf.drawString(350, y, "{}".format(transaction.timestamp))
         y = y - 20
 
-    pdf.line(50, 700, 550, 700)
-
-    pdf.drawString(100, 400, "Signature: ___________________")
+    pdf.drawString(300, 400, "Signature: ___________________")
 
     pdf.showPage()
     pdf.save()

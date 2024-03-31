@@ -70,6 +70,7 @@
         <td style="text-align:center">{{ total_outstanding }}</td>
       </tr>
     </table>
-    <a href="{% url 'pay' %}" class="pay_button">Pay Fees</a>
+    <btn class="pay_button" onclick="location.href='{% url 'pay' %}'">Pay Fees</btn>
+    <btn class="pay_button" onclick="location.href='{% url 'student_passbook_pdf' %}'">Print Passbook</btn>
   </center>
 {% endblock %}

@@ -45,9 +45,8 @@ class StudentPayment(models.Model):
 
 class Due(models.Model):
     TYPE = [
-        ("mess", "Mess Dues"),
-        ("hostel", "Hostel Dues"),
-        ("amenity", "Amenity Dues"),
+        ("Mess Dues", "Mess Dues"),
+        ("Hall Dues", "Hall Dues"),
     ]
 
     timestamp = models.DateTimeField("Timestamp", blank=False, auto_now_add=True)
@@ -89,9 +88,9 @@ class WardenPassbook(models.Model):
 
 class WardenTransaction(models.Model):
     TYPE = [
-        ("hall_allotment", "Hall Allotment"),
-        ("mess_allotment", "Mess Allotment"),
-        ("grant", "Grant"),
+        ("Hall Allotment", "Hall Allotment"),
+        ("mess Allotment", "Mess Allotment"),
+        ("Grant", "Grant"),
     ]
     type = models.CharField(
         "Type", max_length=100, choices=TYPE, blank=False, default="salaries"
@@ -122,9 +121,8 @@ class HallPassbook(models.Model):
 
 class HallTransaction(models.Model):
     TYPE = [
-        ("salaries", "Salaries"),
-        ("amenities", "Amenities"),
-        ("allotment", "Allotment"),
+        ("Salaries", "Salaries"),
+        ("Allotment", "Allotment"),
     ]
     type = models.CharField(
         "Type", max_length=100, choices=TYPE, blank=False, default="salaries"
@@ -155,8 +153,8 @@ class MessPassbook(models.Model):
 
 class MessTransaction(models.Model):
     TYPE = [
-        ("rations", "Rations"),
-        ("allotment", "Allotment"),
+        ("Rations", "Rations"),
+        ("Allotment", "Allotment"),
     ]
     type = models.CharField(
         "Type", max_length=100, choices=TYPE, blank=False, default="salaries"

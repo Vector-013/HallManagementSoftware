@@ -1,0 +1,23 @@
+{% extends 'hmc/base.html' %}
+{% block content %}
+  <center>
+    <table class="table" style="width:75%">
+      <thead>
+        <tr>
+          <th style="text-align: center">Name of Hall</th>
+          <th style="text-align: center">Maximum Capacity</th>
+          <th style="text-align: center">Current Occupancy</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for hall in halls %}
+          <tr>
+            <td style="text-align: center">{{ hall.name }}</td>
+            <td style="text-align: center">{{ hall.max_occupancy }}</td>
+            <td style="text-align: center">{{ hall.current_occupancy }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </center>
+{% endblock %}

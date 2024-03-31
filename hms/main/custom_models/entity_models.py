@@ -51,18 +51,18 @@ class Menu(models.Model):
         "Month",
         max_length=20,
         choices=[
-            ("jan", "January"),
-            ("feb", "February"),
-            ("mar", "March"),
-            ("apr", "April"),
-            ("may", "May"),
-            ("jun", "June"),
-            ("jul", "July"),
-            ("aug", "August"),
-            ("sep", "September"),
-            ("oct", "October"),
-            ("nov", "November"),
-            ("dec", "December"),
+            ("January", "January"),
+            ("Febraury", "February"),
+            ("March", "March"),
+            ("April", "April"),
+            ("May", "May"),
+            ("June", "June"),
+            ("July", "July"),
+            ("August", "August"),
+            ("September", "September"),
+            ("October", "October"),
+            ("November", "November"),
+            ("December", "December"),
         ],
     )
     monday_breakfast = models.CharField("Monday Breakfast", max_length=50, default="A")
@@ -113,24 +113,24 @@ class Ration(models.Model):
     )
 
     item1 = models.CharField("Item 1", max_length=20, blank=True)
-    qt1 = models.IntegerField("qt1", blank=True)
-    rate1 = models.IntegerField("rt1", blank=True)
+    qt1 = models.IntegerField("Quantity 1", blank=True)
+    rate1 = models.IntegerField("Rate 1", blank=True)
 
-    item2 = models.CharField("Item ", max_length=20, blank=True)
-    qt2 = models.IntegerField("qt2", blank=True)
-    rate2 = models.IntegerField("rt2", blank=True)
+    item2 = models.CharField("Item 2", max_length=20, blank=True)
+    qt2 = models.IntegerField("Quantity 2", blank=True)
+    rate2 = models.IntegerField("Rate 2", blank=True)
 
     item3 = models.CharField("Item 3", max_length=20, blank=True)
-    qt3 = models.IntegerField("qt3", blank=True)
-    rate3 = models.IntegerField("rt3", blank=True)
+    qt3 = models.IntegerField("Quantity 3", blank=True)
+    rate3 = models.IntegerField("Rate 3", blank=True)
 
     item4 = models.CharField("Item 4", max_length=20, blank=True)
-    qt4 = models.IntegerField("qt4", blank=True)
-    rate4 = models.IntegerField("rt4", blank=True)
+    qt4 = models.IntegerField("Quantity 4", blank=True)
+    rate4 = models.IntegerField("Rate 4", blank=True)
 
     item5 = models.CharField("Item 5", max_length=20, blank=True)
-    qt5 = models.IntegerField("qt5", blank=True)
-    rate5 = models.IntegerField("rt5", blank=True)
+    qt5 = models.IntegerField("Quantity 5", blank=True)
+    rate5 = models.IntegerField("Rate 5", blank=True)
 
     total = models.IntegerField("total", blank=True)
 

@@ -53,37 +53,40 @@
             </button>
             <a class="navbar-brand" class="styleheader" href="{% url 'mess_landing' %}">Home</a>
           </div>
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button class="navbar-toggle" data-toggle="collapse" data-target="#mainNavBar">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-          </div>
-          <div class="collapse navbar-collapse" id="mainNavBar">
-            <ul class="nav navbar-nav navbar-right">
-              <li>
-                <a href="{% url 'make_menu' %}"><span class="glyphicon glyphicon-add-employee"></span> Make Mess Menu</a>
-              </li>
-              <li>
-                <a href="{% url 'view_menu' %}"><span class="glyphicon glyphicon-add-employee"></span> View Menu</a>
-              </li>
-              <li>
-                <a href="{% url 'mess_passbook' %}"><span class="glyphicon glyphicon-edit-profile"></span> View Passbook</a>
-              </li>
-              <li>
-                <a href="{% url 'add_ration' %}"><span class="glyphicon glyphicon-edit-profile"></span> Add Ration</a>
-              </li>
-              <li>
-                <a href="{% url 'logout' %}"><span class="glyphicon glyphicon-logout"></span> Logout</a>
-              </li>
-            </ul>
-            {% comment %} <form class="form-inline my-2 my-lg-0">
-              <input id="stakeholderID" class="form-control mr-sm-2" type="search" placeholder="Search Student Profile" aria-label="Search Student Profile" />
-              <button class="btn btn-outline-success my-2 my-sm-0" onclick="location.href={% url 'search_student/<document.getElementById(' stakeholderID ').value>' %}">Search</button>
-            </form> {% endcomment %}
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button class="navbar-toggle" data-toggle="collapse" data-target="#mainNavBar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="collapse navbar-collapse" id="mainNavBar">
+              <ul class="nav navbar-nav navbar-right">
+                <li>
+                  <a href="{% url 'mess_view_profile' %}"><span class="glyphicon glyphicon-dues"></span> View Profile</a>
+                </li>
+                <li>
+                  <a href="{% url 'mess_change_password' %}"><span class="glyphicon glyphicon-dues"></span>Change Password</a>
+                </li>
+                <li>
+                  <a href="{% url 'make_menu' %}"><span class="glyphicon glyphicon-add-employee"></span> Make Mess Menu</a>
+                </li>
+                <li>
+                  <a href="{% url 'view_menu' %}"><span class="glyphicon glyphicon-add-employee"></span> View Menu</a>
+                </li>
+                <li>
+                  <a href="{% url 'mess_passbook' %}"><span class="glyphicon glyphicon-edit-profile"></span> View Passbook</a>
+                </li>
+                <li>
+                  <a href="{% url 'add_ration' %}"><span class="glyphicon glyphicon-edit-profile"></span> Add Ration</a>
+                </li>
+                <li>
+                  <a href="{% url 'logout' %}"><span class="glyphicon glyphicon-logout"></span> Logout</a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </nav>

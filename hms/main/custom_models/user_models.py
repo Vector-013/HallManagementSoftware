@@ -270,8 +270,8 @@ class HallEmployee(models.Model):
         blank=False,
     )
 
-    paid_monthly_leaves = models.IntegerField("monthly leaves taken", default=0)
-    unpaid_monthly_leaves = models.IntegerField("monthly leaves taken", default=0)
+    paid_monthly_leaves = models.IntegerField("Paid leaves", default=0)
+    unpaid_monthly_leaves = models.IntegerField("Unpaid leaves", default=0)
 
     def save(self, *args, **kwargs):
         if self.pk is None:

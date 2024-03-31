@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
     <!-- main css -->
-    <link rel="stylesheet" type="text/css" href="{% static 'student.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'warden.css' %}" />
 
     <!-- message here -->
 
@@ -51,27 +51,42 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
+            <a class="navbar-brand" class="styleheader" href="{% url 'warden_landing' %}">Home</a>
           </div>
           <div class="collapse navbar-collapse" id="mainNavBar">
             <ul class="nav navbar-nav navbar-right">
-              {% comment %} <li>
-                <a href="{% url 'profile' %}"><span class="glyphicon glyphicon-profile"></span>My Profile</a>
-              </li> {% endcomment %}
-
               <li>
-                <a href="{% url 'generate_hall_demand' %}"><span class="glyphicon glyphicon-dues"></span> Generate Hall Fees</a>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Hall<i class="fa fa-caret-down"></i></a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'warden_view_student_details' %}'">View Student Details</button><br />
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'warden_view_employee_details' %}'">View Employee Details</button><br />
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'warden_view_hall_occupancy' %}'">View Hall Occupancy</button>
+                </div>
               </li>
               <li>
-                <a href="{% url 'generate_mess_demand' %}"><span class="glyphicon glyphicon-dues"></span> Generate Mess Fees</a>
+                <a href="{% url 'hall_complaints' %}"><span class="glyphicon glyphicon-logout"></span>View Complaints</a>
               </li>
               <li>
-                <a href="{% url 'genrate_hall_salary' %}"><span class="glyphicon glyphicon-dues"></span> Pay Salaries</a>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hall Finance<i class="fa fa-caret-down"></i></a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'generate_hall_demand' %}'">Generate Hall Fees</button><br />
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'generate_mess_demand' %}'">Generate Mess Fees</button><br />
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'genrate_hall_salary' %}'">Pay Salaries</button>
+                </div>
               </li>
               <li>
-                <a href="{% url 'mess_manager' %}"><span class="glyphicon glyphicon-dues"></span> Mess Manager</a>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mess Manager<i class="fa fa-caret-down"></i></a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'mess_manager' %}'">View Profile</button><br />
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'update_messmanager_profile' %}'">Update Profile</button><br />
+                </div>
               </li>
               <li>
-                <a href="{% url 'hall_manager' %}"><span class="glyphicon glyphicon-dues"></span> Hall Manager</a>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hall Manager<i class="fa fa-caret-down"></i></a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'hall_manager' %}'">View Profile</button><br />
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'update_hallmanager_profile' %}'">Update Profile</button><br />
+                </div>
               </li>
               <li>
                 <a href="{% url 'allot_budget' %}"><span class="glyphicon glyphicon-dues"></span>Allot Budget</a>
@@ -85,6 +100,13 @@
                   <button class="dropDown_Btn" onclick="location.href='{% url 'warden_passbook' %}'">Your Passbook</button><br />
                   <button class="dropDown_Btn" onclick="location.href='{% url 'hall_passbook' %}'">Hall Passbook</button><br />
                   <button class="dropDown_Btn" onclick="location.href='{% url 'mess_passbook' %}'">Mess Passbook</button>
+                </div>
+              </li>
+              <li>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profile <i class="fa fa-caret-down"></i></a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'warden_view_profile' %}'">View Profile</button><br />
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'warden_change_password' %}'">Change Password</button><br />
                 </div>
               </li>
               <li>

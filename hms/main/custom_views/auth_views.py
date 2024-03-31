@@ -23,7 +23,7 @@ def Login(request):
         user = authenticate(request, username=stakeholderID, password=password)
         if user is not None:
             form = login(request, user)
-            messages.success(request, f" welcome {stakeholderID} !!")
+            messages.success(request, f" Welcome {stakeholderID}!")
             if request.user.role == "student":
                 return redirect("/student/notice")
             elif request.user.role == "hall_manager":
@@ -37,7 +37,7 @@ def Login(request):
             else:
                 redirect("/login")
         else:
-            messages.info(request, f"account does not exist pls sign in")
+            messages.info(request, "Either StakeholderID or Password is incorrect.")
     form = AuthenticationForm()
     return render(request, "auth/login.html", context={"form": form, "title": "log in"})
 
@@ -53,3 +53,57 @@ def error_page(request):
 
 def entry(request):
     return redirect("/login")
+
+
+def get_email(request):
+    if request.method == "POST":
+        form = SendMailForm(request.POST)
+        if form.is_valid():
+            stakeholderID = request.POST.get("stakeholderID")
+            client = Client.objects.filter(stakeholderID=stakeholderID).first()
+            if client is None:
+                messages.error(request, "Account does not exist")
+            else:
+                email = client.email
+                subject = "Change Account Password"
+                message = f"Hi, click on this link to change your password http://127.0.0.1:8000/forgot-password/{stakeholderID}"
+                email_from = "se.mhc.2024@gmail.com"
+                recipient_list = [email]
+                send_mail(subject, message, email_from, recipient_list)
+                messages.success(
+                    request, f"Link to change password has been sent to {email}"
+                )
+                return redirect("/login")
+    else:
+        form = SendMailForm()
+    return render(
+        request,
+        "auth/get_email.html",
+        context={"form": form, "title": "email"},
+    )
+
+
+def forgot_password(request, stakeholderID):
+    if request.method == "POST":
+        form = ForgotPasswordForm(request.POST)
+        if form.is_valid():
+            client = Client.objects.filter(stakeholderID=stakeholderID).first()
+            new_password = form.cleaned_data.get("new_password")
+            confirm_password = form.cleaned_data.get("confirm_password")
+            if new_password == confirm_password:
+                client.set_password(new_password)
+                client.save()
+                messages.success(
+                    request, f"Your password has been updated {client.first_name}"
+                )
+                return redirect("/login")
+            else:
+                messages.error(request, f"New password did not match confirm password")
+                return redirect(f"/forgot-password/{stakeholderID}")
+    else:
+        form = ForgotPasswordForm()
+    return render(
+        request,
+        "auth/forgot_password.html",
+        context={"form": form, "title": "Password"},
+    )

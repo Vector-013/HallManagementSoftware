@@ -55,19 +55,20 @@
           </div>
           <div class="collapse navbar-collapse" id="mainNavBar">
             <ul class="nav navbar-nav navbar-right">
-              {% comment %} <li>
-                <a href="{% url 'profile' %}"><span class="glyphicon glyphicon-profile"></span>My Profile</a>
-              </li> {% endcomment %}
               <li>
-                <a href="{% url 'view_profile' %}"><span class="glyphicon glyphicon-dues"></span> View Profile</a>
+                <a href="{% url 'student_view_profile' %}"><span class="glyphicon glyphicon-dues"></span> View Profile</a>
+              </li>
+              <li>
+                <a href="{% url 'student_change_password' %}"><span class="glyphicon glyphicon-dues"></span>Change Password</a>
               </li>
               <li>
                 <a href="{% url 'student_passbook' %}"><span class="glyphicon glyphicon-dues"></span> View Passbook</a>
               </li>
               <li>
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Complaints <i class="fa fa-caret-down"></i>
-                </a>
+                <a href="{% url 'view_menu' %}"><span class="glyphicon glyphicon-dues"></span> View Menu</a>
+              </li>
+              <li>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Complaints <i class="fa fa-caret-down"></i></a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <button class="dropDown_Btn" onclick="location.href='{% url 'make_complaints' %}'">Make Complaint</button><br />
                   <button class="dropDown_Btn" onclick="location.href='{% url 'view_complaints' %}'">View Complaint</button>

@@ -1,27 +1,14 @@
 {% extends 'student/base.html' %}
 {% block content %}
-  <table class="table">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">Notice Title</th>
-        <th scope="col">Notice Content</th>
-        <th scope="col">Image</th>
-      </tr>
-    </thead>
-    <tbody>
+  <center>
+    <div class="notice-container">
       {% for notice in notices %}
-        <tr>
-          <th>
-            <h5 class="card-title">{{ notice.title }}</h5>
-          </th>
-          <td>
-            <p class="card-text">{{ notice.report }}</p>
-          </td>
-          <td>
-            <img class="card-img-top img-responsive" src="{{ MEDIA_URL }}{{ notice.image.url }}" alt="Card image cap" />
-          </td>
-        </tr>
+        <div class="notice-card">
+          <h4 class="card-title"><b>{{ notice.title }}</b></h4>
+          <p class="card-text">{{ notice.content }}</p>
+          <img class="responsive" src="{{ MEDIA_URL }}{{ notice.image.url }}" alt="Card image cap" />
+        </div>
       {% endfor %}
-    </tbody>
-  </table>
+    </div>
+  </center>
 {% endblock %}
