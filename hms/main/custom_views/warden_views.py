@@ -171,6 +171,10 @@ def register_hall_manager(request):
                 token,
                 "hall_manager",
             )
+            perm = Permission.objects.get(name="is_hall_manager")
+            client.user_permissions.add(perm)
+            perm = Permission.objects.filter(name="is_hall").first()
+            client.user_permissions.add(perm)
             hall_manager = HallManager(client=client, hall=hall)
             hall_manager.save()
             subject = "Your account needs to be verified"
@@ -220,6 +224,12 @@ def register_mess_manager(request):
                 token,
                 "mess_manager",
             )
+            perm = Permission.objects.get(name="is_mess_manager")
+            client.user_permissions.add(perm)
+            perm = Permission.objects.get(name="is_mess")
+            client.user_permissions.add(perm)
+            perm = Permission.objects.get(name="is_menu")
+            client.user_permissions.add(perm)
             mess_manager = MessManager(client=client, hall=hall)
             mess_manager.save()
             subject = "Your account needs to be verified"

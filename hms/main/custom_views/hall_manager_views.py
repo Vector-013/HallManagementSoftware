@@ -19,8 +19,7 @@ from datetime import date
 from django.contrib.auth.decorators import permission_required
 
 
-@permission_required("main.is_warden", "/login")
-@permission_required("main.is_hall_manager", "/login")
+@permission_required("main.is_hall", "/login")
 def manager_hall_occupancy(request):
     if request.method == "GET":
         try:
@@ -51,8 +50,7 @@ def manager_hall_occupancy(request):
         )
 
 
-@permission_required("main.is_warden", "/login")
-@permission_required("main.is_hall_manager", "/login")
+@permission_required("main.is_hall", "/login")
 def manager_view_students(request):
     if request.method == "GET":
         try:
@@ -75,8 +73,7 @@ def manager_view_students(request):
         )
 
 
-@permission_required("main.is_warden", "/login")
-@permission_required("main.is_hall_manager", "/login")
+@permission_required("main.is_hall", "/login")
 def manager_view_employees(request):
     if request.method == "GET":
         try:
@@ -99,8 +96,7 @@ def manager_view_employees(request):
         )
 
 
-@permission_required("main.is_warden", "/login")
-@permission_required("main.is_hall_manager", "/login")
+@permission_required("main.is_hall", "/login")
 def hall_view_profile(request):
     if request.method == "GET":
         try:
@@ -276,8 +272,7 @@ def create_atr(request):
     )
 
 
-@permission_required("main.is_warden", "/login")
-@permission_required("main.is_hall_manager", "/login")
+@permission_required("main.is_hall", "/login")
 def hall_complaints(request):
     if request.method == "GET":
         try:
@@ -491,7 +486,10 @@ def register_student(request):
                 if room.current_occupancy == room.sharing:
                     room.is_free = False
                 room.save()
-
+            perm = Permission.objects.get(name="is_student")
+            client.user_permissions.add(perm)
+            perm = Permission.objects.get(name="is_menu")
+            client.user_permissions.add(perm)
             student = Student(client=client, hall=hall, room=room)
             student.save()
             subject = "Your account needs to be verified"
@@ -504,7 +502,7 @@ def register_student(request):
                 request,
                 f"Pls click on the link sent to {email} to complete registration",
             )
-            return redirect("login")
+            return redirect("/hall/landing")
 
     else:
         form = StudentRegistrationForm()

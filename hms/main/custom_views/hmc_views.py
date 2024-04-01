@@ -43,6 +43,12 @@ def register_warden(request):
                 token,
                 "warden",
             )
+            perm = Permission.objects.get(name="is_warden")
+            client.user_permissions.add(perm)
+            perm = Permission.objects.filter(name="is_hall").first()
+            client.user_permissions.add(perm)
+            perm = Permission.objects.get(name="is_mess")
+            client.user_permissions.add(perm)
             warden = Warden(
                 client=client,
                 hall=hall,
@@ -125,7 +131,7 @@ def update_warden_profile(request, stakeholderID):
             warden.save()
             messages.success(
                 request,
-                "Warden's Profile Edited!",
+                "Warden Profile Edited!",
             )
             return redirect("/hmc/search-warden")  # Redirect to a success page
     else:
@@ -267,10 +273,10 @@ def hmc_landing(request):
 @permission_required("main.is_HMC", "/login")
 def view_halls(request):
     halls = list(Hall.objects.all())
-    # for hall in halls:
-    #     hall.max_occupancy = hall.calculate_max_occupancy()
-    #     hall.current_occupancy = hall.calculate_curr_occupancy()
-    #     hall.save()
+    for hall in halls:
+        hall.max_occupancy = hall.calculate_max_occupancy()
+        hall.current_occupancy = hall.calculate_curr_occupancy()
+        hall.save()
     return render(request, "hmc/view_halls.html", context={"halls": halls})
 
 

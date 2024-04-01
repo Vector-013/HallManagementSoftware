@@ -10,8 +10,10 @@ from ..models import *
 from ..forms import PaymentForm
 import stripe
 import time
+from django.contrib.auth.decorators import permission_required
 
 
+@permission_required("main.is_student", "/login")
 def student_passbook(request):
 
     student = Student.objects.filter(client=request.user).first()
@@ -39,6 +41,7 @@ def student_passbook(request):
     return render(request, "student/passbook.html", context)
 
 
+@permission_required("main.is_hall", "/login")
 def hall_passbook(request):
     try:
         hall_manager = HallManager.objects.filter(client=request.user).first()
@@ -74,6 +77,7 @@ def hall_passbook(request):
     return render(request, "hall_manager/passbook.html", context)
 
 
+@permission_required("main.is_mess", "/login")
 def mess_passbook(request):
     try:
         mess_manager = MessManager.objects.filter(client=request.user).first()
@@ -110,6 +114,7 @@ def mess_passbook(request):
     return render(request, "mess_manager/passbook.html", context)
 
 
+@permission_required("main.is_warden", "/login")
 def warden_passbook(request):
 
     warden = Warden.objects.filter(client=request.user).first()

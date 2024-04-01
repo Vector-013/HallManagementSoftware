@@ -17,8 +17,7 @@ from reportlab.pdfgen import canvas
 from django.contrib.auth.decorators import permission_required
 
 
-@permission_required("main.is_warden", "/login")
-@permission_required("main.is_mess_manager", "/login")
+@permission_required("main.is_mess", "/login")
 def mess_view_profile(request):
     if request.method == "GET":
         try:
@@ -120,8 +119,7 @@ def make_menu(request):
     )
 
 
-@permission_required("main.is_student", "/login")
-@permission_required("main.is_mess_manager", "/login")
+@permission_required("main.is_menu", "/login")
 def view_menu(request):
     if request.method == "GET":
         try:

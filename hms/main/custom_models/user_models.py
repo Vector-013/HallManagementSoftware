@@ -170,7 +170,7 @@ class HallManager(models.Model):
         return self.client.first_name + " " + self.client.last_name
 
     class Meta:
-        permissions = [("is_hall_manager", "is_hall_manager")]
+        permissions = [("is_hall_manager", "is_hall_manager"), ("is_hall", "is_hall")]
 
 
 class Warden(models.Model):
@@ -232,7 +232,11 @@ class MessManager(models.Model):
         return self.client.first_name + " " + self.client.last_name
 
     class Meta:
-        permissions = [("is_mess_manager", "is_mess_manager")]
+        permissions = [
+            ("is_mess_manager", "is_mess_manager"),
+            ("is_mess", "is_mess"),
+            ("is_menu", "is_menu"),
+        ]
 
 
 class HallEmployee(models.Model):

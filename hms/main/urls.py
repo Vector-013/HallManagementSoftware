@@ -196,7 +196,7 @@ urlpatterns = [
         user_view.grant_allotment,
         name="grant_allotment",
     ),
-    path("hmc/landing", user_view.hmc_landing, name="hmc_admin"),
+    path("hmc/landing", user_view.hmc_landing, name="hmc_landing"),
     path(
         "mess/generate-passbook-pdf",
         user_view.generate_mess_passbook_pdf,
