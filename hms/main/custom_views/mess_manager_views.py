@@ -14,8 +14,11 @@ from ..forms import *
 from django.http import HttpResponse
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+from django.contrib.auth.decorators import permission_required
 
 
+@permission_required("main.is_warden", "/login")
+@permission_required("main.is_mess_manager", "/login")
 def mess_view_profile(request):
     if request.method == "GET":
         try:
@@ -38,6 +41,7 @@ def mess_view_profile(request):
         )
 
 
+@permission_required("main.is_mess_manager", "/login")
 def mess_landing(request):
     if request.method == "GET":
         mess_manager = MessManager.objects.filter(client=request.user).first()
@@ -50,6 +54,7 @@ def mess_landing(request):
         )
 
 
+@permission_required("main.is_mess_manager", "/login")
 def mess_change_password(request):
     if request.method == "POST":
         form = ChangePasswordForm(request.POST)
@@ -91,6 +96,7 @@ def mess_change_password(request):
     )
 
 
+@permission_required("main.is_mess_manager", "/login")
 def make_menu(request):
     if request.method == "POST":
         form = MenuForm(request.POST)
@@ -114,6 +120,8 @@ def make_menu(request):
     )
 
 
+@permission_required("main.is_student", "/login")
+@permission_required("main.is_mess_manager", "/login")
 def view_menu(request):
     if request.method == "GET":
         try:
@@ -190,6 +198,7 @@ def view_menu(request):
         )
 
 
+@permission_required("main.is_mess_manager", "/login")
 def add_ration(request):
     if request.method == "POST":
         form = RationForm(request.POST)
@@ -229,6 +238,8 @@ def add_ration(request):
     )
 
 
+@permission_required("main.is_warden", "/login")
+@permission_required("main.is_mess_manager", "/login")
 def generate_mess_passbook_pdf(request):
 
     try:

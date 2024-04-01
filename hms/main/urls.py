@@ -73,17 +73,17 @@ urlpatterns = [
     path(
         "hall/view-student-details",
         user_view.manager_view_students,
-        name="manager_view_student_details",
+        name="view_student_details",
     ),
     path(
         "hall/view-employee-details",
         user_view.manager_view_employees,
-        name="manager_view_employee_details",
+        name="view_employee_details",
     ),
     path(
         "hall/view-hall-occupancy",
         user_view.manager_hall_occupancy,
-        name="manager_view_hall_occupancy",
+        name="view_hall_occupancy",
     ),
     path("mess/landing", user_view.mess_landing, name="mess_landing"),
     path("mess/profile/", user_view.mess_view_profile, name="mess_view_profile"),
@@ -150,21 +150,6 @@ urlpatterns = [
         "warden/generate-hall-demand",
         user_view.generate_hall_demand,
         name="generate_hall_demand",
-    ),
-    path(
-        "warden/view-student-details",
-        user_view.warden_view_students,
-        name="warden_view_student_details",
-    ),
-    path(
-        "warden/view-employee-details",
-        user_view.warden_view_employees,
-        name="warden_view_employee_details",
-    ),
-    path(
-        "warden/view-hall-occupancy",
-        user_view.warden_hall_occupancy,
-        name="warden_view_hall_occupancy",
     ),
     path(
         "warden/generate-hall-salary",

@@ -14,8 +14,10 @@ from ..forms import *
 from django.http import HttpResponse
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+from django.contrib.auth.decorators import permission_required
 
 
+@permission_required("main.is_student", "/login")
 def student_view_profile(request):
     if request.method == "GET":
         student = Student.objects.filter(client=request.user).first()
@@ -26,6 +28,7 @@ def student_view_profile(request):
         )
 
 
+@permission_required("main.is_student", "/login")
 def student_change_password(request):
     if request.method == "POST":
         form = ChangePasswordForm(request.POST)
@@ -67,6 +70,7 @@ def student_change_password(request):
     )
 
 
+@permission_required("main.is_student", "/login")
 def make_complaints(request):
     if request.method == "POST":
         form = ComplaintRegistrationForm(request.POST, request.FILES)
@@ -99,6 +103,7 @@ def make_complaints(request):
     )
 
 
+@permission_required("main.is_student", "/login")
 def view_complaints(request):
     if request.method == "GET":
         student = Student.objects.filter(client=request.user)[0]
@@ -111,6 +116,7 @@ def view_complaints(request):
         )
 
 
+@permission_required("main.is_student", "/login")
 def notice_student(request):
     if request.method == "GET":
         student = Student.objects.filter(client=request.user).first()
@@ -146,6 +152,7 @@ def generate_atr_pdf(request, pk):
     return response
 
 
+@permission_required("main.is_student", "/login")
 def generate_student_passbook_pdf(request):
 
     student = Student.objects.filter(client=request.user).first()

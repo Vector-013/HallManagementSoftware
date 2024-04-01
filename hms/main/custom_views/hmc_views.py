@@ -11,8 +11,10 @@ from django.template.loader import get_template
 from django.template import Context
 from ..models import *
 import uuid
+from django.contrib.auth.decorators import permission_required
 
 
+@permission_required("main.is_HMC", "/login")
 def register_warden(request):
     if request.method == "POST":
         form = WardenRegistrationForm(request.POST)
@@ -69,6 +71,7 @@ def register_warden(request):
     )
 
 
+@permission_required("main.is_HMC", "/login")
 def search_warden(request):
     if request.method == "POST":
         form = UserSearchForm(request.POST)
@@ -101,6 +104,7 @@ def search_warden(request):
     )
 
 
+@permission_required("main.is_HMC", "/login")
 def update_warden_profile(request, stakeholderID):
     client = Client.objects.filter(stakeholderID=stakeholderID).first()
     warden = Warden.objects.filter(client=client).first()
@@ -144,6 +148,7 @@ def update_warden_profile(request, stakeholderID):
     return render(request, "hmc/update_warden_profile.html", {"form": form})
 
 
+@permission_required("main.is_HMC", "/login")
 def verify_warden(request, token):
     client = Client.objects.filter(token=token).first()
     if client:
@@ -155,10 +160,12 @@ def verify_warden(request, token):
         return redirect("/error")
 
 
+@permission_required("main.is_HMC", "/login")
 def hmc_landing(request):
     return render(request, "hmc/landing.html")
 
 
+@permission_required("main.is_HMC", "/login")
 def register_hall(request):
     if request.method == "POST":
         form = HallRegistrationForm(request.POST)
@@ -252,10 +259,12 @@ def register_hall(request):
     return render(request, "hmc/hall_registration.html", {"form": form})
 
 
+@permission_required("main.is_HMC", "/login")
 def hmc_landing(request):
     return render(request, "hmc/landing.html")
 
 
+@permission_required("main.is_HMC", "/login")
 def view_halls(request):
     halls = list(Hall.objects.all())
     # for hall in halls:
@@ -265,6 +274,7 @@ def view_halls(request):
     return render(request, "hmc/view_halls.html", context={"halls": halls})
 
 
+@permission_required("main.is_HMC", "/login")
 def grant_allotment(request):
     if request.method == "POST":
         form = GrantForm(request.POST)
@@ -303,6 +313,7 @@ def grant_allotment(request):
     )
 
 
+@permission_required("main.is_HMC", "/login")
 def delete_warden(request):
     if request.method == "POST":
         form = DeleteUserForm(request.POST)

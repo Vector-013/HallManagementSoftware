@@ -14,55 +14,10 @@ import uuid
 from django.http import HttpResponse
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+from django.contrib.auth.decorators import permission_required
 
 
-def warden_hall_occupancy(request):
-    if request.method == "GET":
-        warden = Warden.objects.filter(client=request.user).first()
-        hall = warden.hall
-        rooms = list(Room.objects.filter(hall=hall))
-        total_occupied = 0
-        total_capacity = 0
-        for room in rooms:
-            total_capacity += room.sharing
-            total_occupied += room.current_occupancy
-        return render(
-            request,
-            "warden/hall_occupancy.html",
-            context={
-                "hall": hall,
-                "rooms": rooms,
-                "total_occupied": total_occupied,
-                "total_capacity": total_capacity,
-                "title": "view_hall",
-            },
-        )
-
-
-def warden_view_students(request):
-    if request.method == "GET":
-        warden = Warden.objects.filter(client=request.user).first()
-        hall = warden.hall
-        students = list(Student.objects.filter(hall=hall))
-        return render(
-            request,
-            "warden/view_students.html",
-            context={"students": students, "title": "view_students"},
-        )
-
-
-def warden_view_employees(request):
-    if request.method == "GET":
-        warden = Warden.objects.filter(client=request.user).first()
-        hall = warden.hall
-        employees = list(HallEmployee.objects.filter(hall=hall))
-        return render(
-            request,
-            "warden/view_employees.html",
-            context={"employees": employees, "title": "view_employees"},
-        )
-
-
+@permission_required("main.is_warden", "/login")
 def warden_view_profile(request):
     if request.method == "GET":
         warden = Warden.objects.filter(client=request.user).first()
@@ -73,6 +28,7 @@ def warden_view_profile(request):
         )
 
 
+@permission_required("main.is_warden", "/login")
 def hall_manager(request):
     warden = Warden.objects.filter(client=request.user).first()
     hall = warden.hall
@@ -84,6 +40,7 @@ def hall_manager(request):
         return redirect("/warden/register-hall-manager")
 
 
+@permission_required("main.is_warden", "/login")
 def update_hall_manager_profile(request):
     warden = Warden.objects.filter(client=request.user).first()
     hall = warden.hall
@@ -131,6 +88,7 @@ def update_hall_manager_profile(request):
         return redirect("/warden/register-hall-manager")
 
 
+@permission_required("main.is_warden", "/login")
 def mess_manager(request):
     warden = Warden.objects.filter(client=request.user).first()
     hall = warden.hall
@@ -142,6 +100,7 @@ def mess_manager(request):
         return redirect("/warden/register-mess-manager")
 
 
+@permission_required("main.is_warden", "/login")
 def update_mess_manager_profile(request):
     warden = Warden.objects.filter(client=request.user).first()
     hall = warden.hall
@@ -185,6 +144,7 @@ def update_mess_manager_profile(request):
         return redirect("/warden/register-mess-manager")
 
 
+@permission_required("main.is_warden", "/login")
 def register_hall_manager(request):
     if request.method == "POST":
         form = ManagerRegistrationForm(request.POST)
@@ -233,6 +193,7 @@ def register_hall_manager(request):
     )
 
 
+@permission_required("main.is_warden", "/login")
 def register_mess_manager(request):
     if request.method == "POST":
         form = ManagerRegistrationForm(request.POST)
@@ -281,6 +242,7 @@ def register_mess_manager(request):
     )
 
 
+@permission_required("main.is_warden", "/login")
 def verify_manager(request, token):
     client = Client.objects.filter(token=token).first()
     if client:
@@ -292,6 +254,7 @@ def verify_manager(request, token):
         return redirect("/error")
 
 
+@permission_required("main.is_warden", "/login")
 def generate_hall_demand(request):
     if request.method == "POST":
         form = VerifyForm(request.POST)
@@ -336,6 +299,7 @@ def generate_hall_demand(request):
     )
 
 
+@permission_required("main.is_warden", "/login")
 def generate_salary(request):
     if request.method == "POST":
         form = ConfirmForm(request.POST)
@@ -378,6 +342,7 @@ def generate_salary(request):
     )
 
 
+@permission_required("main.is_warden", "/login")
 def generate_mess_demand(request):
     if request.method == "POST":
         form = VerifyForm(request.POST)
@@ -422,6 +387,7 @@ def generate_mess_demand(request):
     )
 
 
+@permission_required("main.is_warden", "/login")
 def warden_landing(request):
     if request.method == "GET":
         warden = Warden.objects.filter(client=request.user).first()
@@ -434,6 +400,7 @@ def warden_landing(request):
         )
 
 
+@permission_required("main.is_warden", "/login")
 def warden_change_password(request):
     if request.method == "POST":
         form = ChangePasswordForm(request.POST)
@@ -475,6 +442,7 @@ def warden_change_password(request):
     )
 
 
+@permission_required("main.is_warden", "/login")
 def allot_budget(request):
     if request.method == "POST":
         form = AllotmentForm(request.POST)
@@ -534,6 +502,7 @@ def allot_budget(request):
     )
 
 
+@permission_required("main.is_warden", "/login")
 def generate_warden_passbook_pdf(request):
 
     print(request.user)
@@ -572,6 +541,7 @@ def generate_warden_passbook_pdf(request):
     return response
 
 
+@permission_required("main.is_warden", "/login")
 def delete_manager(request):
     warden = Warden.objects.filter(client=request.user).first()
     hall = warden.hall

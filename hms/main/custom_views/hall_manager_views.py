@@ -16,12 +16,21 @@ from ..forms import *
 from django.http import HttpResponse
 from reportlab.lib.pagesizes import letter
 from datetime import date
+from django.contrib.auth.decorators import permission_required
 
 
+@permission_required("main.is_warden", "/login")
+@permission_required("main.is_hall_manager", "/login")
 def manager_hall_occupancy(request):
     if request.method == "GET":
-        hall_manger = HallManager.objects.filter(client=request.user).first()
-        hall = hall_manger.hall
+        try:
+            hall_manager = HallManager.objects.filter(client=request.user).first()
+            hall = hall_manager.hall
+            template = "hall_manager/base.html"
+        except:
+            warden = Warden.objects.filter(client=request.user).first()
+            hall = warden.hall
+            template = "warden/base.html"
         rooms = list(Room.objects.filter(hall=hall))
         total_occupied = 0
         total_capacity = 0
@@ -34,6 +43,7 @@ def manager_hall_occupancy(request):
             context={
                 "hall": hall,
                 "rooms": rooms,
+                "template": template,
                 "total_occupied": total_occupied,
                 "total_capacity": total_capacity,
                 "title": "view_hall",
@@ -41,30 +51,56 @@ def manager_hall_occupancy(request):
         )
 
 
+@permission_required("main.is_warden", "/login")
+@permission_required("main.is_hall_manager", "/login")
 def manager_view_students(request):
     if request.method == "GET":
-        hall_manger = HallManager.objects.filter(client=request.user).first()
-        hall = hall_manger.hall
+        try:
+            hall_manager = HallManager.objects.filter(client=request.user).first()
+            hall = hall_manager.hall
+            template = "hall_manager/base.html"
+        except:
+            warden = Warden.objects.filter(client=request.user).first()
+            hall = warden.hall
+            template = "warden/base.html"
         students = list(Student.objects.filter(hall=hall))
         return render(
             request,
             "hall_manager/view_students.html",
-            context={"students": students, "title": "view_students"},
+            context={
+                "template": template,
+                "students": students,
+                "title": "view_students",
+            },
         )
 
 
+@permission_required("main.is_warden", "/login")
+@permission_required("main.is_hall_manager", "/login")
 def manager_view_employees(request):
     if request.method == "GET":
-        hall_manger = HallManager.objects.filter(client=request.user).first()
-        hall = hall_manger.hall
+        try:
+            hall_manager = HallManager.objects.filter(client=request.user).first()
+            hall = hall_manager.hall
+            template = "hall_manager/base.html"
+        except:
+            warden = Warden.objects.filter(client=request.user).first()
+            hall = warden.hall
+            template = "warden/base.html"
         employees = list(HallEmployee.objects.filter(hall=hall))
         return render(
             request,
             "hall_manager/view_employees.html",
-            context={"employees": employees, "title": "view_employees"},
+            context={
+                "template": template,
+                "employees": employees,
+                "title": "view_employees",
+            },
         )
 
 
+@permission_required("main.is_warden", "/login")
+@permission_required("main.is_hall_manager", "/login")
 def hall_view_profile(request):
     if request.method == "GET":
         try:
@@ -87,6 +123,7 @@ def hall_view_profile(request):
         )
 
 
+@permission_required("main.is_hall_manager", "/login")
 def update_student_profile(request, stakeholderID):
     client = Client.objects.filter(stakeholderID=stakeholderID).first()
     student = Student.objects.filter(client=client).first()
@@ -126,6 +163,7 @@ def update_student_profile(request, stakeholderID):
     return render(request, "hall_manager/update_student_profile.html", {"form": form})
 
 
+@permission_required("main.is_hall_manager", "/login")
 def update_employee_profile(request, stakeholderID):
     client = Client.objects.filter(stakeholderID=stakeholderID).first()
     employee = HallEmployee.objects.filter(client=client).first()
@@ -175,6 +213,7 @@ def update_employee_profile(request, stakeholderID):
     return render(request, "hall_manager/update_student_profile.html", {"form": form})
 
 
+@permission_required("main.is_hall_manager", "/login")
 def search_user(request):
     if request.method == "POST":
         form = UserSearchForm(request.POST)
@@ -210,6 +249,7 @@ def search_user(request):
     )
 
 
+@permission_required("main.is_hall_manager", "/login")
 def create_atr(request):
     if request.method == "POST":
         form = ATRForm(request.POST)
@@ -236,6 +276,8 @@ def create_atr(request):
     )
 
 
+@permission_required("main.is_warden", "/login")
+@permission_required("main.is_hall_manager", "/login")
 def hall_complaints(request):
     if request.method == "GET":
         try:
@@ -259,6 +301,7 @@ def hall_complaints(request):
         )
 
 
+@permission_required("main.is_hall_manager", "/login")
 def add_employee(request):
     if request.method == "POST":
         form = WorkerRegistrationForm(request.POST)
@@ -305,6 +348,7 @@ def add_employee(request):
     )
 
 
+@permission_required("main.is_hall_manager", "/login")
 def approve_leaves(request):
     if request.method == "POST":
         form = LeaveForm(request.POST, request.FILES)
@@ -334,6 +378,7 @@ def approve_leaves(request):
     )
 
 
+@permission_required("main.is_hall_manager", "/login")
 def make_notice(request):
     if request.method == "POST":
         form = NoticeRegistrationForm(request.POST, request.FILES)
@@ -363,6 +408,7 @@ def make_notice(request):
     )
 
 
+@permission_required("main.is_hall_manager", "/login")
 def hall_landing(request):
     if request.method == "GET":
         hall_manager = HallManager.objects.filter(client=request.user).first()
@@ -375,6 +421,7 @@ def hall_landing(request):
         )
 
 
+@permission_required("main.is_hall_manager", "/login")
 def register_student(request):
 
     if request.method == "POST":
@@ -468,6 +515,7 @@ def register_student(request):
     )
 
 
+@permission_required("main.is_hall_manager", "/login")
 def delete_student(request):
     if request.method == "POST":
         form = DeleteUserForm(request.POST)
@@ -502,6 +550,7 @@ def delete_student(request):
     )
 
 
+@permission_required("main.is_hall_manager", "/login")
 def delete_employee(request):
     if request.method == "POST":
         form = DeleteUserForm(request.POST)
@@ -533,6 +582,7 @@ def delete_employee(request):
     )
 
 
+@permission_required("main.is_hall_manager", "/login")
 def hall_change_password(request):
     if request.method == "POST":
         form = ChangePasswordForm(request.POST)
@@ -591,6 +641,8 @@ def verify_student(request, token):
         return redirect("/error")
 
 
+@permission_required("main.is_warden", "/login")
+@permission_required("main.is_hall_manager", "/login")
 def generate_hall_passbook_pdf(request):
 
     print(request.user)

@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from phonenumber_field.modelfields import PhoneNumberField
 from datetime import datetime
 from .entity_models import Hall, Room
+from django.contrib.auth.models import Permission
 
 
 class ClientManager(BaseUserManager):
@@ -139,6 +140,9 @@ class Student(models.Model):
     def _str_(self):
         return self.client.first_name + " " + self.client.last_name
 
+    class Meta:
+        permissions = [("is_student", "is_student")]
+
 
 class HallManager(models.Model):
     client = models.OneToOneField(
@@ -164,6 +168,9 @@ class HallManager(models.Model):
 
     def _str_(self):
         return self.client.first_name + " " + self.client.last_name
+
+    class Meta:
+        permissions = [("is_hall_manager", "is_hall_manager")]
 
 
 class Warden(models.Model):
@@ -195,6 +202,9 @@ class Warden(models.Model):
     def _str_(self):
         return self.client.first_name + " " + self.client.last_name
 
+    class Meta:
+        permissions = [("is_warden", "is_warden")]
+
 
 class MessManager(models.Model):
     client = models.OneToOneField(
@@ -220,6 +230,9 @@ class MessManager(models.Model):
 
     def _str_(self):
         return self.client.first_name + " " + self.client.last_name
+
+    class Meta:
+        permissions = [("is_mess_manager", "is_mess_manager")]
 
 
 class HallEmployee(models.Model):
@@ -295,3 +308,6 @@ class HMC(models.Model):
         blank=False,
         unique=True,
     )
+
+    class Meta:
+        permissions = [("is_HMC", "is HMC")]
