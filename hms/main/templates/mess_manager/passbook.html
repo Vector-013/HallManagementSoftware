@@ -1,7 +1,7 @@
 {% extends template %}
 {% block content %}
   <center>
-    <h1 id="passbook_headers_h1">Passbook</h1>
+    <h1 id="passbook_headers_h1">Mess Passbook</h1>
     <br />
     <br />
     <table class="table" style="width:50% !important">
@@ -43,5 +43,6 @@
         </tr>
       </tbody>
     </table>
+    <btn class="pay_button" onclick="location.href='{% url 'mess_passbook_pdf' %}'">Print Passbook</btn>
   </center>
 {% endblock %}

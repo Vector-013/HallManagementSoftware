@@ -51,9 +51,18 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
+            <a class="navbar-brand" class="styleheader" href="{% url 'hall_landing' %}">Home</a>
           </div>
           <div class="collapse navbar-collapse" id="mainNavBar">
             <ul class="nav navbar-nav navbar-right">
+              <li>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Hall<i class="fa fa-caret-down"></i></a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'view_student_details' %}'">View Student Details</button><br />
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'view_employee_details' %}'">View Employee Details</button><br />
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'view_hall_occupancy' %}'">View Hall Occupancy</button>
+                </div>
+              </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Complaints <i class="fa fa-caret-down"></i></a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -65,20 +74,30 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Employees <i class="fa fa-caret-down"></i></a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <button class="dropDown_Btn" onclick="location.href='{% url 'add_employee' %}'">Add Employee</button><br />
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'search_employee' %}'">Edit Employee</button>
                   <button class="dropDown_Btn" onclick="location.href='{% url 'approve_leaves' %}'">Approve Leaves</button>
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'delete_employee' %}'">Delete Employee</button>
                 </div>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Students <i class="fa fa-caret-down"></i></a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <button class="dropDown_Btn">View Student List</button><br />
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'register_student' %}'">Add New Student</button><br />
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'register_student' %}'">Add Student</button><br />
                   <button class="dropDown_Btn" onclick="location.href='{% url 'search_student' %}'">Edit Student</button>
                   <button class="dropDown_Btn" onclick="location.href='{% url 'delete_student' %}'">Delete Student</button>
                 </div>
               </li>
               <li>
                 <a href="{% url 'make_notice' %}"><span class="glyphicon glyphicon-logout"></span>Issue Notice</a>
+              </li>
+              <li>
+                <a href="{% url 'hall_passbook' %}"><span class="glyphicon glyphicon-logout"></span>Hall Passbook</a>
+              </li>
+              <li>
+                <a href="{% url 'hall_view_profile' %}"><span class="glyphicon glyphicon-dues"></span> View Profile</a>
+              </li>
+              <li>
+                <a href="{% url 'hall_change_password' %}"><span class="glyphicon glyphicon-dues"></span>Change Password</a>
               </li>
               <li>
                 <a href="{% url 'logout' %}"><span class="glyphicon glyphicon-logout"></span> Logout</a>

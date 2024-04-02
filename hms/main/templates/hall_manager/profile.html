@@ -1,0 +1,43 @@
+{% extends template %}
+{% block content %}
+  <center>
+    <h3>
+      <table class="table" style="width:50%">
+        <thead>
+          <th style="text-align: center">Profile Field</th>
+          <th style="text-align: center">Data</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align: center">Stakeholder ID</td>
+            <td style="text-align: center">{{ hall_manager.client.stakeholderID }}</td>
+          </tr>
+          <tr>
+            <td style="text-align: center">First Name</td>
+            <td style="text-align: center">{{ hall_manager.client.first_name }}</td>
+          </tr>
+          <tr>
+            <td style="text-align: center">Last Name</td>
+            <td style="text-align: center">{{ hall_manager.client.last_name }}</td>
+          </tr>
+          <tr>
+            <td style="text-align: center">Email</td>
+            <td style="text-align: center">{{ hall_manager.client.email }}</td>
+          </tr>
+          <tr>
+            <td style="text-align: center">Mobile</td>
+            <td style="text-align: center">{{ hall_manager.client.mobile }}</td>
+          </tr>
+          <tr>
+            <td style="text-align: center">Address</td>
+            <td style="text-align: center">{{ hall_manager.client.address }}</td>
+          </tr>
+          <tr>
+            <td style="text-align: center">Hall</td>
+            <td style="text-align: center">{{ hall_manager.hall.name }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </h3>
+  </center>
+{% endblock %}

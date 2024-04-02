@@ -10,8 +10,10 @@ from ..models import *
 from ..forms import PaymentForm
 import stripe
 import time
+from django.contrib.auth.decorators import permission_required
 
 
+@permission_required("main.is_student", "/login")
 def student_passbook(request):
 
     student = Student.objects.filter(client=request.user).first()
@@ -23,7 +25,10 @@ def student_passbook(request):
     try:
         total_outstanding = total_due - total_paid
     except:
-        total_outstanding = 0
+        if total_paid is None:
+            total_outstanding = total_due
+        else:
+            total_outstanding = 0
 
     context = {
         "dues": dues,
@@ -36,6 +41,7 @@ def student_passbook(request):
     return render(request, "student/passbook.html", context)
 
 
+@permission_required("main.is_hall", "/login")
 def hall_passbook(request):
     try:
         hall_manager = HallManager.objects.filter(client=request.user).first()
@@ -71,6 +77,7 @@ def hall_passbook(request):
     return render(request, "hall_manager/passbook.html", context)
 
 
+@permission_required("main.is_mess", "/login")
 def mess_passbook(request):
     try:
         mess_manager = MessManager.objects.filter(client=request.user).first()
@@ -107,6 +114,7 @@ def mess_passbook(request):
     return render(request, "mess_manager/passbook.html", context)
 
 
+@permission_required("main.is_warden", "/login")
 def warden_passbook(request):
 
     warden = Warden.objects.filter(client=request.user).first()
@@ -119,7 +127,7 @@ def warden_passbook(request):
     total_expenditure = 0
     total_grants = 0
     for transaction in transactions:
-        if transaction.type == "allotment":
+        if transaction.type == "grant":
             total_grants += transaction.amount
         else:
             total_expenditure += transaction.amount
@@ -155,7 +163,7 @@ def pay(request):
     if total_due is not None and total_due > 0:
         stripe.api_key = settings.STRIPE_SECRET_KEY
         customer = stripe.Customer.create(
-            name="user",
+            name=student.client.first_name + " " + student.client.last_name,
             address={
                 "line1": "room hall",
                 "postal_code": "721302",
@@ -207,7 +215,7 @@ def pay(request):
         )
     else:
         messages.add_message(request, messages.INFO, "You have no dues left")
-        return redirect("student/passbook")
+        return redirect("/student/passbook")
 
 
 def payment_successful(request):
@@ -215,8 +223,8 @@ def payment_successful(request):
     checkout_session_id = request.GET.get("session_id", None)
     session = stripe.checkout.Session.retrieve(checkout_session_id)
     customer = stripe.Customer.retrieve(session.customer)
-    student = Student.objects.filter(client=request.user)[0]
-    passbook = StudentPassbook.objects.filter(student=student)[0]
+    student = Student.objects.filter(client=request.user).first()
+    passbook = StudentPassbook.objects.filter(student=student).first()
     if not Payments.objects.filter(
         student=student, stripe_checkout_id=checkout_session_id, payment_bool=True
     ):
@@ -227,7 +235,7 @@ def payment_successful(request):
         StudentPayment.objects.create(
             student_passbook=passbook, fulfilled=Decimal(session.amount_total) / 100
         )
-    messages.success(request, messages.SUCCESS, "payment successful")
+    messages.success(request, "payment successful")
     return render(
         request, "student/payment_success.html", context={"customer": customer}
     )

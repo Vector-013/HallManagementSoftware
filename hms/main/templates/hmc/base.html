@@ -51,18 +51,18 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
+            <a class="navbar-brand" class="styleheader" href="{% url 'hmc_landing' %}">Home</a>
           </div>
           <div class="collapse navbar-collapse" id="mainNavBar">
             <ul class="nav navbar-nav navbar-right">
-              {% comment %} <li>
-                <a href="{% url 'profile' %}"><span class="glyphicon glyphicon-profile"></span>My Profile</a>
-              </li> {% endcomment %}
-
               <li>
                 <a href="{% url 'grant_allotment' %}"><span class="glyphicon glyphicon-dues"></span> Allot Grants</a>
               </li>
               <li>
                 <a href="{% url 'register_warden' %}"><span class="glyphicon glyphicon-dues"></span> Register Warden</a>
+              </li>
+              <li>
+                <a href="{% url 'search_warden' %}"><span class="glyphicon glyphicon-dues"></span> Update Warden</a>
               </li>
               <li>
                 <a href="{% url 'delete_warden' %}"><span class="glyphicon glyphicon-dues"></span> Delete Warden</a>
@@ -71,7 +71,7 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Infrastructure <i class="fa fa-caret-down"></i></a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <button class="dropDown_Btn" onclick="location.href='{% url 'register_hall' %}'">Add Hall</button><br />
-                  <button class="dropDown_Btn">View Halls</button>
+                  <button class="dropDown_Btn" onclick="location.href='{% url 'view_halls' %}'">View Halls</button>
                 </div>
               </li>
               <li>

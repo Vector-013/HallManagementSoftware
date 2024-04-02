@@ -1,6 +1,23 @@
 {% extends 'student/base.html' %}
 {% block content %}
-  <table class="table">
+  <center>
+    <div class="notice-container">
+      {% for complaint in complaints %}
+        <div class="notice-card">
+          <h4 class="card-title"><b>{{ complaint.title }}</b></h4>
+          <p class="card-text">{{ complaint.content }}</p>
+          <img class="responsive" src="{{ MEDIA_URL }}{{ complaint.image.url }}" alt="Card image cap" />
+          <br />
+          {% if complaint.status == False %}
+            <h4>Pending</h4>
+          {% else %}
+            <button class="pay_button" onclick="location.href='{% url 'atr_pdf' complaint.pk %}'">Action Report</button>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </center>
+  {% comment %} <table class="table">
     <thead class="thead-dark">
       <tr>
         <th scope="col">Content Title</th>
@@ -31,5 +48,5 @@
         </tr>
       {% endfor %}
     </tbody>
-  </table>
+  </table> {% endcomment %}
 {% endblock %}

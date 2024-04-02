@@ -67,8 +67,144 @@ class StudentRegistrationForm(forms.ModelForm):
         )
 
 
-class StudentSearchForm(forms.Form):
-    stakeholderID = forms.CharField(label="Student ID", max_length=50)
+class UpdateStudentForm(forms.ModelForm):
+    stakeholderID = forms.CharField(max_length=50)
+    email = forms.EmailField(empty_value=None)
+    mobile = PhoneNumberField()
+    address = forms.CharField(widget=forms.Textarea)
+    first_name = forms.CharField(max_length=150, empty_value=None)
+    last_name = forms.CharField(max_length=150, empty_value=None)
+
+    class Meta:
+        model = Student
+        fields = (
+            "stakeholderID",
+            "email",
+            "mobile",
+            "address",
+            "first_name",
+            "last_name",
+            "hall",
+        )
+
+
+class UpdateEmployeeForm(forms.ModelForm):
+    stakeholderID = forms.CharField(max_length=50)
+    email = forms.EmailField(empty_value=None)
+    mobile = PhoneNumberField()
+    address = forms.CharField(widget=forms.Textarea)
+    first_name = forms.CharField(max_length=150, empty_value=None)
+    last_name = forms.CharField(max_length=150, empty_value=None)
+
+    class Meta:
+        model = HallEmployee
+        fields = (
+            "stakeholderID",
+            "email",
+            "mobile",
+            "address",
+            "first_name",
+            "last_name",
+            "hall",
+            "role",
+            "salary",
+            "paid_monthly_leaves",
+            "unpaid_monthly_leaves",
+        )
+
+
+class UpdateHallManagerForm(forms.ModelForm):
+    stakeholderID = forms.CharField(max_length=50)
+    email = forms.EmailField(empty_value=None)
+    mobile = PhoneNumberField()
+    address = forms.CharField(widget=forms.Textarea)
+    first_name = forms.CharField(max_length=150, empty_value=None)
+    last_name = forms.CharField(max_length=150, empty_value=None)
+
+    class Meta:
+        model = HallManager
+        fields = (
+            "stakeholderID",
+            "email",
+            "mobile",
+            "address",
+            "first_name",
+            "last_name",
+            "hall",
+        )
+
+
+class UpdateMessManagerForm(forms.ModelForm):
+    stakeholderID = forms.CharField(max_length=50)
+    email = forms.EmailField(empty_value=None)
+    mobile = PhoneNumberField()
+    address = forms.CharField(widget=forms.Textarea)
+    first_name = forms.CharField(max_length=150, empty_value=None)
+    last_name = forms.CharField(max_length=150, empty_value=None)
+
+    class Meta:
+        model = MessManager
+        fields = (
+            "stakeholderID",
+            "email",
+            "mobile",
+            "address",
+            "first_name",
+            "last_name",
+            "hall",
+        )
+
+
+class UpdateWardenForm(forms.ModelForm):
+    stakeholderID = forms.CharField(max_length=50)
+    email = forms.EmailField(empty_value=None)
+    mobile = PhoneNumberField()
+    address = forms.CharField(widget=forms.Textarea)
+    first_name = forms.CharField(max_length=150, empty_value=None)
+    last_name = forms.CharField(max_length=150, empty_value=None)
+
+    class Meta:
+        model = Warden
+        fields = (
+            "stakeholderID",
+            "email",
+            "mobile",
+            "address",
+            "first_name",
+            "last_name",
+            "hall",
+            "designation",
+            "posts_held",
+        )
+
+
+class UserSearchForm(forms.Form):
+    stakeholderID = forms.CharField(label="Stakeholder ID", max_length=50)
+
+
+class ChangePasswordForm(forms.Form):
+    current_password = forms.CharField(
+        label="Current Password", max_length=100, widget=forms.PasswordInput()
+    )
+    new_password = forms.CharField(
+        label="New Password", max_length=100, widget=forms.PasswordInput()
+    )
+    confirm_password = forms.CharField(
+        label="Confirm Password", max_length=100, widget=forms.PasswordInput()
+    )
+
+
+class SendMailForm(forms.Form):
+    stakeholderID = forms.CharField(label="Stakeholder ID", max_length=50)
+
+
+class ForgotPasswordForm(forms.Form):
+    new_password = forms.CharField(
+        label="New Password", max_length=100, widget=forms.PasswordInput()
+    )
+    confirm_password = forms.CharField(
+        label="Confirm Password", max_length=100, widget=forms.PasswordInput()
+    )
 
 
 class ManagerRegistrationForm(forms.ModelForm):
@@ -194,7 +330,7 @@ class LeaveForm(forms.Form):
     )
     start_date = forms.DateField(widget=DateInput)
     end_date = forms.DateField(widget=DateInput)
-    uploads = forms.FileField()
+    uploads = forms.FileField(required=False)
 
 
 class NoticeRegistrationForm(forms.ModelForm):
@@ -218,19 +354,19 @@ class HallRegistrationForm(forms.ModelForm):
         label="Rent for Single Rooms",
         max_digits=8,
         decimal_places=2,
-        validators=[MinValueValidator(1)],
+        validators=[MinValueValidator(0)],
     )
     rent_doubles = forms.DecimalField(
         label="Rent for Double Rooms",
         max_digits=8,
         decimal_places=2,
-        validators=[MinValueValidator(1)],
+        validators=[MinValueValidator(0)],
     )
     rent_triples = forms.DecimalField(
         label="Rent for Triple Rooms",
         max_digits=8,
         decimal_places=2,
-        validators=[MinValueValidator(1)],
+        validators=[MinValueValidator(0)],
     )
 
     class Meta:
@@ -294,7 +430,7 @@ class ConfirmForm(forms.Form):
 
 class DeleteUserForm(forms.Form):
     stakeholderID = forms.CharField(
-        label="StakeholderID",
+        label="Stakeholder ID",
         max_length=50,
     )
     verify_password = forms.CharField(
