@@ -137,7 +137,7 @@ class Student(models.Model):
         on_delete=models.CASCADE,
     )
 
-    def _str_(self):
+    def __str__(self):
         return self.client.first_name + " " + self.client.last_name
 
     class Meta:
@@ -159,14 +159,11 @@ class HallManager(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        if self.pk is None:
-            super(HallManager, self).save(*args, **kwargs)
-            self.client.role = "hall_manager"
-        else:
+        if self.pk is not None:
             self.client.role = "hall_manager"
             super(HallManager, self).save(*args, **kwargs)
 
-    def _str_(self):
+    def __str__(self):
         return self.client.first_name + " " + self.client.last_name
 
     class Meta:
@@ -192,14 +189,11 @@ class Warden(models.Model):
     posts_held = models.CharField("Posts Held", max_length=500, default="")
 
     def save(self, *args, **kwargs):
-        if self.pk is None:
-            super(Warden, self).save(*args, **kwargs)
-            self.client.role = "warden"
-        else:
+        if self.pk is not None:
             self.client.role = "warden"
             super(Warden, self).save(*args, **kwargs)
 
-    def _str_(self):
+    def __str__(self):
         return self.client.first_name + " " + self.client.last_name
 
     class Meta:
@@ -221,14 +215,11 @@ class MessManager(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        if self.pk is None:
-            super(MessManager, self).save(*args, **kwargs)
-            self.client.role = "mess_manager"
-        else:
+        if self.pk is not None:
             self.client.role = "mess_manager"
             super(MessManager, self).save(*args, **kwargs)
 
-    def _str_(self):
+    def __str__(self):
         return self.client.first_name + " " + self.client.last_name
 
     class Meta:
@@ -291,15 +282,12 @@ class HallEmployee(models.Model):
     unpaid_monthly_leaves = models.IntegerField("Unpaid leaves", default=0)
 
     def save(self, *args, **kwargs):
-        if self.pk is None:
-            super(HallEmployee, self).save(*args, **kwargs)
-            self.client.role = "hall_employee"
-        else:
+        if self.pk is not None:
             self.client.role = "hall_employee"
 
             super(HallEmployee, self).save(*args, **kwargs)
 
-    def _str_(self):
+    def __str__(self):
         return self.client.first_name + " " + self.client.last_name
 
 
