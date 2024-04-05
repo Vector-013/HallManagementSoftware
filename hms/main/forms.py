@@ -256,7 +256,7 @@ class WardenRegistrationForm(forms.ModelForm):
 
 
 class WorkerRegistrationForm(forms.ModelForm):
-    stakeholderID = forms.CharField(max_length=50)
+    stakeholderID = forms.CharField(label="Stakeholder ID", max_length=50)
     email = forms.EmailField(empty_value=None)
     mobile = PhoneNumberField()
     address = forms.CharField(widget=forms.Textarea)

@@ -1,10 +1,15 @@
 {% extends 'auth/base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-  <div class="content-section col-md-8 col-md-offset-2">
+  <div style="
+        width: 50%;
+        height: 50%;
+        margin-top: 5%;
+        margin-left: 25%;">
     <center>
+      <h1 style="font-size:xx-large font-weight: 500;">Hall Management Software</h1>
       <h1>Login</h1>
-      <form method="POST" style="border: 1px solid black; margin: 4%; padding:10%; border-radius:1%;">
+      <form method="POST" style="border: 1px solid black; color:white; background-color: rgb(0 0 0 / 60%); margin: 4%; padding:10%; border-radius:1%;">
         {% csrf_token %}
         <fieldset class="form-group">{{ form|crispy }}</fieldset>
         <center>

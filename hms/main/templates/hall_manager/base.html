@@ -13,9 +13,8 @@
     <title>{{ title }}</title>
 
     <!-- bootstrap file -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <!-- bootstrap file -->
 
     <!-- jQuery -->
@@ -25,6 +24,10 @@
 
     <!-- main css -->
     <link rel="stylesheet" type="text/css" href="{% static 'hall_manager.css' %}" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
 
     <!-- message here -->
 
@@ -39,79 +42,97 @@
     <!-- _______________________________________________ -->
   </head>
 
-  <body class="container-fluid">
-    <header class="row">
-      <!-- navbar -->
-      <nav class="navbar navbar-inverse navbar-static-top">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button class="navbar-toggle" data-toggle="collapse" data-target="#mainNavBar">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" class="styleheader" href="{% url 'hall_landing' %}">Home</a>
-          </div>
-          <div class="collapse navbar-collapse" id="mainNavBar">
-            <ul class="nav navbar-nav navbar-right">
-              <li>
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Hall<i class="fa fa-caret-down"></i></a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'view_student_details' %}'">View Student Details</button><br />
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'view_employee_details' %}'">View Employee Details</button><br />
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'view_hall_occupancy' %}'">View Hall Occupancy</button>
-                </div>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Complaints <i class="fa fa-caret-down"></i></a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'hall_complaints' %}'">View Complaints</button><br />
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'create_atr' %}'">Create ATR</button>
-                </div>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Employees <i class="fa fa-caret-down"></i></a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'add_employee' %}'">Add Employee</button><br />
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'search_employee' %}'">Edit Employee</button>
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'approve_leaves' %}'">Approve Leaves</button>
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'delete_employee' %}'">Delete Employee</button>
-                </div>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Students <i class="fa fa-caret-down"></i></a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'register_student' %}'">Add Student</button><br />
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'search_student' %}'">Edit Student</button>
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'delete_student' %}'">Delete Student</button>
-                </div>
-              </li>
-              <li>
-                <a href="{% url 'make_notice' %}"><span class="glyphicon glyphicon-logout"></span>Issue Notice</a>
-              </li>
-              <li>
-                <a href="{% url 'hall_passbook' %}"><span class="glyphicon glyphicon-logout"></span>Hall Passbook</a>
-              </li>
-              <li>
-                <a href="{% url 'hall_view_profile' %}"><span class="glyphicon glyphicon-dues"></span> View Profile</a>
-              </li>
-              <li>
-                <a href="{% url 'hall_change_password' %}"><span class="glyphicon glyphicon-dues"></span>Change Password</a>
-              </li>
-              <li>
-                <a href="{% url 'logout' %}"><span class="glyphicon glyphicon-logout"></span> Logout</a>
-              </li>
-            </ul>
-            {% comment %} <form class="form-inline my-2 my-lg-0">
-              <input id="stakeholderID" class="form-control mr-sm-2" type="search" placeholder="Search Student Profile" aria-label="Search Student Profile" />
-              <button class="btn btn-outline-success my-2 my-sm-0" onclick="location.href={% url 'search_student/<document.getElementById(' stakeholderID ').value>' %}">Search</button>
-            </form> {% endcomment %}
+  <body class="container-fluid" style="overflow: hidden; border:0; padding:0; margin: 0;">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <div class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'hall_landing' %}">Home</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">View Hall</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li>
+                  <a class="dropdown-item" href="{% url 'view_hall_occupancy' %}">Hall Occupancy</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'view_student_details' %}">Student List</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'view_employee_details' %}">Employee List</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Manage Employees</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li>
+                  <a class="dropdown-item" href="{% url 'add_employee' %}">Add Employee</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'search_employee' %}">Edit Employee</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'approve_leaves' %}">Approve Leaves</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'delete_employee' %}">Remove Employee</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Manage Students</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li>
+                  <a class="dropdown-item" href="{% url 'register_student' %}">Add Student</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'search_student' %}">Edit Student</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'delete_student' %}">Remove Student</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Complaints</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li>
+                  <a class="dropdown-item" href="{% url 'hall_complaints' %}">View Complaints</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'create_atr' %}">Issue ATR</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'make_notice' %}">Issue Notice</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'hall_passbook' %}">Hall Passbook</a>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li>
+                  <a class="dropdown-item" href="{% url 'hall_view_profile' %}">View Profile</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'hall_change_password' %}">Change Password</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
           </div>
         </div>
-      </nav>
-    </header>
-    <div>
+      </div>
+    </nav>
+    <div style="width:100%; height:100%; margin-top: 50px; font-family: 'IBM Plex Sans', sans-serif;">
       {% block content %}
 
       {% endblock %}
