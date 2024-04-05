@@ -38,8 +38,8 @@
 
 .pay_button {
   text-decoration: none !important;
-  background-color: #291973;
-  color: white;
+  background-color:rgb(92, 207, 157);
+  color: black;
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
@@ -55,4 +55,64 @@
   color: white;
   box-shadow: 0 15px 30px rgba(0,0,0,0.3);
   font-size: 18px; /* Increase the font size to 18px */
+}
+html, body { height: 100%; width: 100%; margin: 0; padding: 0; border: 0;}
+
+
+.left-half{
+  background-image: url(employee.jpeg);
+  width: 50%;
+  margin-top: 10%;
+  height: 100%;
+  background-size: 100%;
+  left: 0px;
+  position: absolute;
+  background-repeat: no-repeat;
+}
+
+.ibm-plex sans-regular {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+/* above code does not load the image*/
+/* right halg now*/
+
+.right-half{
+  scroll-margin: 2px;
+  scroll-snap-align: center;
+  right: 0px;
+  width: 50%;
+  height: 100%;
+  color: white;
+  overflow-y: scroll;
+  background-color:  rgb(0 0 0 / 60%);
+  position:absolute;
+  margin: 0;
+}
+
+.example::-webkit-scrollbar {
+  display: none;
+}
+
+.form-card{
+  border-radius: 10px;
+  scroll-snap-type: x mandatory;
+  top: 50%; 
+  left: 50%; 
+  overflow: hidden;
+  transform: translate(-50%, -50%); 
+  width:75%; height:75%; 
+  background-color: white;
+  position: absolute;
+  padding: 0;
+}
+
+.form-bg{
+  height: 100%; 
+  width: 100%; 
+  position: relative; 
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url(add_employee.jpg);
 }
