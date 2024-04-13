@@ -1,20 +1,23 @@
 {% extends 'hall_manager/base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-  <div id="add-emp-bg" class="form-bg">
-    <div class="form-card">
-      <div id="add-emp" class="left-half"></div>
+  <div id="search-bg" class="form-bg">
+    <div class="form-card" style="width=50%; height: 60%;">
+      <div id="search" class="left-half"></div>
       <div class="overflow-auto right-half">
         <center>
           <br />
-          <h1>Add Employee</h1>
+          <br />
+          <br />
+          <br />
+          <h1>Search Client</h1>
         </center>
         <form method="POST" style="margin: 10%; margin-top:0; margin-bottom:0; padding:10%; border-radius:1%;">
           {% csrf_token %}
           <fieldset class="form-group">{{ form|crispy }}</fieldset>
           <br />
           <center>
-            <button class="pay_button" type="submit" style=" background-color:rgb(92, 207, 157);"><span class="glyphicon glyphicon-check"></span>Add Employee</button>
+            <button class="pay_button" type="submit" style="background-color: darkorange;"><span class="glyphicon glyphicon-check"></span>Search</button>
           </center>
         </form>
       </div>

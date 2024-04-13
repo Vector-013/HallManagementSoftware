@@ -197,6 +197,12 @@ urlpatterns = [
         name="grant_allotment",
     ),
     path("hmc/landing", user_view.hmc_landing, name="hmc_landing"),
+    path("hmc/profile/", user_view.hmc_view_profile, name="hmc_view_profile"),
+    path(
+        "hmc/change-password/",
+        user_view.hmc_change_password,
+        name="hmc_change_password",
+    ),
     path(
         "mess/generate-passbook-pdf",
         user_view.generate_mess_passbook_pdf,
@@ -228,13 +234,13 @@ urlpatterns = [
     ),
     path(
         "warden/delete-hall-manager",
-        user_view.delete_manager,
+        user_view.delete_hall_manager,
         name="delete_hall_manager",
     ),
     path(
         "warden/delete-mess-manager",
-        user_view.delete_manager,
-        name="delete_manager",
+        user_view.delete_mess_manager,
+        name="delete_mess_manager",
     ),
     path("hall/delete-student/", user_view.delete_student, name="delete_student"),
     path("hall/delete-employee/", user_view.delete_employee, name="delete_employee"),

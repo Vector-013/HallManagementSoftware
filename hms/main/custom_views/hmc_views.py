@@ -257,7 +257,7 @@ def register_hall(request):
             mess_passbook = MessPassbook.objects.create(hall=hall)
             warden_passbook = WardenPassbook.objects.create(hall=hall)
             messages.info(request, f"Hall {name} has been created")
-            return redirect("/hmc/landing")
+            return redirect("/hmc/view-halls")
 
     else:
         form = HallRegistrationForm()
@@ -350,4 +350,57 @@ def delete_warden(request):
         request,
         "hmc/delete_warden.html",
         context={"form": form, "title": "verify"},
+    )
+
+
+@permission_required("main.is_HMC", "/login")
+def hmc_view_profile(request):
+    if request.method == "GET":
+        hmc = HMC.objects.filter(client=request.user).first()
+        return render(
+            request,
+            "hmc/profile.html",
+            context={"hmc": hmc, "title": "view_profile"},
+        )
+
+
+@permission_required("main.is_HMC", "/login")
+def hmc_change_password(request):
+    if request.method == "POST":
+        form = ChangePasswordForm(request.POST)
+        if form.is_valid():
+            client = request.user
+            hmc = HMC.objects.filter(client=client).first()
+            current_password = form.cleaned_data.get("current_password")
+            success = client.check_password(current_password)
+            if success:
+                new_password = form.cleaned_data.get("new_password")
+                confirm_password = form.cleaned_data.get("confirm_password")
+                if new_password == confirm_password:
+                    client.set_password(new_password)
+                    client.save()
+                    hmc.client = client
+                    hmc.save()
+                    logout(request)
+                    hmc = authenticate(
+                        request, username=client.stakeholderID, password=new_password
+                    )
+                    login(request, hmc)
+                    messages.success(request, "Password has been updated")
+                    return redirect("/hmc/landing")
+                else:
+                    messages.error(
+                        request, f"New password did not match confirm password"
+                    )
+                    return redirect("/hmc/change-password")
+            else:
+                messages.error(request, f"Current password entered is incorrect")
+                return redirect("/hmc/change-password")
+
+    else:
+        form = ChangePasswordForm()
+    return render(
+        request,
+        "hmc/change_password.html",
+        context={"form": form, "title": "Password"},
     )

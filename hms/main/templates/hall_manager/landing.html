@@ -1,14 +1,36 @@
 {% extends 'hall_manager/base.html' %}
 {% block content %}
-  <center>
-    <div class="notice-container">
+  <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" style="width:100%; height:94%; display: flex;">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"></button>
+    </div>
+    <div class="carousel-inner" style="height:100%;">
+      <div class="carousel-item active" style="height:100%; ">
+        <img src="{{ MEDIA_URL }}{{ notices.first.image.url }}" class="d-block w-100" style="height:100%; " />
+        <div class="carousel-caption d-none d-md-block">
+          <h5>{{ notices.first.title }}</h5>
+          <p>{{ notices.first.content }}</p>
+        </div>
+      </div>
       {% for notice in notices %}
-        <div class="notice-card">
-          <h4 class="card-title"><b>{{ notice.title }}</b></h4>
-          <p class="card-text">{{ notice.content }}</p>
-          <img class="responsive" src="{{ MEDIA_URL }}{{ notice.image.url }}" alt="Card image cap" />
+        <div class="carousel-item" style="height:100%;">
+          <img src="{{ MEDIA_URL }}{{ notice.image.url }}" class="d-block w-100" style="height:100%; " />
+          <div class="carousel-caption d-none d-md-block">
+            <h5>{{ notice.title }}</h5>
+            <p>{{ notice.content }}</p>
+          </div>
         </div>
       {% endfor %}
     </div>
-  </center>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
 {% endblock %}

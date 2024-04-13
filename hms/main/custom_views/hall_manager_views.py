@@ -240,7 +240,7 @@ def search_user(request):
         form = UserSearchForm()
     return render(
         request,
-        "hall_manager/search_student.html",
+        "hall_manager/search_user.html",
         context={"form": form, "title": "register"},
     )
 
@@ -543,7 +543,7 @@ def delete_student(request):
         form = DeleteUserForm()
     return render(
         request,
-        "hall_manager/delete_student.html",
+        "hall_manager/delete_user.html",
         context={"form": form, "title": "verify"},
     )
 
@@ -575,7 +575,7 @@ def delete_employee(request):
         form = DeleteUserForm()
     return render(
         request,
-        "hall_manager/delete_employee.html",
+        "hall_manager/delete_user.html",
         context={"form": form, "title": "verify"},
     )
 
@@ -639,8 +639,7 @@ def verify_student(request, token):
         return redirect("/error")
 
 
-@permission_required("main.is_warden", "/login")
-@permission_required("main.is_hall_manager", "/login")
+@permission_required("main.is_hall", "/login")
 def generate_hall_passbook_pdf(request):
 
     print(request.user)

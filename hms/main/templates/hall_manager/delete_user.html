@@ -1,24 +1,23 @@
-{% extends 'student/base.html' %}
+{% extends 'hall_manager/base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-  <div id="password-bg" class="form-bg">
-    <div class="form-card">
-      <div id="password" class="left-half"></div>
+  <div id="del-bg" class="form-bg">
+    <div class="form-card" style="width=50%; height: 60%;">
+      <div id="del" class="left-half"></div>
       <div class="overflow-auto right-half">
         <center>
           <br />
           <br />
           <br />
           <br />
-          <h1>Change Password</h1>
+          <h1>Delete Client</h1>
         </center>
         <form method="POST" style="margin: 10%; margin-top:0; margin-bottom:0; padding:10%; border-radius:1%;">
           {% csrf_token %}
           <fieldset class="form-group">{{ form|crispy }}</fieldset>
           <br />
-          <br />
           <center>
-            <button class="pay_button" type="submit" style=" background-color:orange;"><span class="glyphicon glyphicon-check"></span>Change</button>
+            <button class="pay_button" type="submit" style="color:white; background-color: darkred;"><span class="glyphicon glyphicon-check"></span>Delete</button>
           </center>
         </form>
       </div>

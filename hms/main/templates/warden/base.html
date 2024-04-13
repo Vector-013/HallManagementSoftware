@@ -13,9 +13,8 @@
     <title>{{ title }}</title>
 
     <!-- bootstrap file -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <!-- bootstrap file -->
 
     <!-- jQuery -->
@@ -39,85 +38,110 @@
     <!-- _______________________________________________ -->
   </head>
 
-  <body class="container-fluid">
-    <header class="row">
-      <!-- navbar -->
-      <nav class="navbar navbar-inverse navbar-static-top">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button class="navbar-toggle" data-toggle="collapse" data-target="#mainNavBar">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" class="styleheader" href="{% url 'warden_landing' %}">Home</a>
-          </div>
-          <div class="collapse navbar-collapse" id="mainNavBar">
-            <ul class="nav navbar-nav navbar-right">
-              <li>
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Hall<i class="fa fa-caret-down"></i></a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'view_student_details' %}'">View Student Details</button><br />
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'view_employee_details' %}'">View Employee Details</button><br />
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'view_hall_occupancy' %}'">View Hall Occupancy</button>
-                </div>
-              </li>
-              <li>
-                <a href="{% url 'hall_complaints' %}"><span class="glyphicon glyphicon-logout"></span>View Complaints</a>
-              </li>
-              <li>
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hall Finance<i class="fa fa-caret-down"></i></a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'generate_hall_demand' %}'">Generate Hall Fees</button><br />
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'generate_mess_demand' %}'">Generate Mess Fees</button><br />
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'genrate_hall_salary' %}'">Pay Salaries</button>
-                </div>
-              </li>
-              <li>
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mess Manager<i class="fa fa-caret-down"></i></a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'mess_manager' %}'">View Profile</button><br />
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'update_messmanager_profile' %}'">Update Profile</button><br />
-                </div>
-              </li>
-              <li>
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hall Manager<i class="fa fa-caret-down"></i></a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'hall_manager' %}'">View Profile</button><br />
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'update_hallmanager_profile' %}'">Update Profile</button><br />
-                </div>
-              </li>
-              <li>
-                <a href="{% url 'allot_budget' %}"><span class="glyphicon glyphicon-dues"></span>Allot Budget</a>
-              </li>
-              <li>
-                <a href="{% url 'delete_manager' %}"><span class="glyphicon glyphicon-dues"></span> Delete Manager</a>
-              </li>
-              <li>
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Passbooks <i class="fa fa-caret-down"></i></a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'warden_passbook' %}'">Your Passbook</button><br />
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'hall_passbook' %}'">Hall Passbook</button><br />
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'mess_passbook' %}'">Mess Passbook</button>
-                </div>
-              </li>
-              <li>
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profile <i class="fa fa-caret-down"></i></a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'warden_view_profile' %}'">View Profile</button><br />
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'warden_change_password' %}'">Change Password</button><br />
-                </div>
-              </li>
-              <li>
-                <a href="{% url 'logout' %}"><span class="glyphicon glyphicon-logout"></span> Logout</a>
-              </li>
-            </ul>
+  <body class="container-fluid" style="overflow: hidden; border:0; padding:0; margin: 0;">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <div class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'warden_landing' %}">Home</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">View Hall</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li>
+                  <a class="dropdown-item" href="{% url 'view_hall_occupancy' %}">Hall Occupancy</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'view_student_details' %}">Student List</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'view_employee_details' %}">Employee List</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'hall_complaints' %}">View Complaints</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hall Finances</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li>
+                  <a class="dropdown-item" href="{% url 'allot_budget' %}">Allot Budget</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'generate_hall_demand' %}">Generate Hall Fees</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'generate_mess_demand' %}">Generate Mess Fees</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'genrate_hall_salary' %}">Generate Salaries</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">View Passbooks</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li>
+                  <a class="dropdown-item" href="{% url 'warden_passbook' %}">Warden Passbook</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'hall_passbook' %}">Hall Passbook</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'mess_passbook' %}">Mess Passbook</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hall Manager</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li>
+                  <a class="dropdown-item" href="{% url 'hall_manager' %}">View Profile</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'update_hallmanager_profile' %}">Update Profile</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'delete_hall_manager' %}">Delete Profile</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mess Manager</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li>
+                  <a class="dropdown-item" href="{% url 'mess_manager' %}">View Profile</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'update_messmanager_profile' %}">Update Profile</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'delete_mess_manager' %}">Delete Profile</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li>
+                  <a class="dropdown-item" href="{% url 'warden_view_profile' %}">View Profile</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'warden_change_password' %}">Change Password</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
           </div>
         </div>
-      </nav>
-    </header>
-    <div>
+      </div>
+    </nav>
+    <div style="width:100%; height:100%; font-family: 'IBM Plex Sans', sans-serif;">
       {% block content %}
 
       {% endblock %}

@@ -1,27 +1,33 @@
 {% extends template %}
 {% block content %}
-  <table class="table">
-    <thead>
-      <tr>
-        <th style="text-align: center">Id</th>
-        <th style="text-align: center">First Name</th>
-        <th style="text-align: center">Last Name</th>
-        <th style="text-align: center">Email</th>
-        <th style="text-align: center">Phone Number</th>
-        <th style="text-align: center">Room Number</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for student in students %}
-        <tr>
-          <td style="text-align: center">{{ student.client.stakeholderID }}</td>
-          <td style="text-align: center">{{ student.client.first_name }}</td>
-          <td style="text-align: center">{{ student.client.last_name }}</td>
-          <td style="text-align: center">{{ student.client.email }}</td>
-          <td style="text-align: center">{{ student.client.mobile }}</td>
-          <td style="text-align: center">{{ student.room.code }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div id="profile-bg" style="color:white;">
+    <div id="profile" style="overflow:auto; max-height:50%; width:75%;">
+      <center>
+        <table id="passbook" class="table table-bordered table-hover text-center" style="font-size: x-large;">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Mobile</th>
+              <th>Room</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for student in students %}
+              <tr>
+                <td>{{ student.client.stakeholderID }}</td>
+                <td>{{ student.client.first_name }}</td>
+                <td>{{ student.client.last_name }}</td>
+                <td>{{ student.client.email }}</td>
+                <td>{{ student.client.mobile }}</td>
+                <td>{{ student.room.code }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </center>
+    </div>
+  </div>
 {% endblock %}

@@ -13,9 +13,8 @@
     <title>{{ title }}</title>
 
     <!-- bootstrap file -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <!-- bootstrap file -->
 
     <!-- jQuery -->
@@ -24,7 +23,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
     <!-- main css -->
-    <link rel="stylesheet" type="text/css" href="{% static 'student.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'hmc.css' %}" />
 
     <!-- message here -->
 
@@ -38,51 +37,62 @@
 
     <!-- _______________________________________________ -->
   </head>
-
-  <body class="container-fluid">
-    <header class="row">
-      <!-- navbar -->
-      <nav class="navbar navbar-inverse navbar-static-top">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button class="navbar-toggle" data-toggle="collapse" data-target="#mainNavBar">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" class="styleheader" href="{% url 'hmc_landing' %}">Home</a>
-          </div>
-          <div class="collapse navbar-collapse" id="mainNavBar">
-            <ul class="nav navbar-nav navbar-right">
-              <li>
-                <a href="{% url 'grant_allotment' %}"><span class="glyphicon glyphicon-dues"></span> Allot Grants</a>
-              </li>
-              <li>
-                <a href="{% url 'register_warden' %}"><span class="glyphicon glyphicon-dues"></span> Register Warden</a>
-              </li>
-              <li>
-                <a href="{% url 'search_warden' %}"><span class="glyphicon glyphicon-dues"></span> Update Warden</a>
-              </li>
-              <li>
-                <a href="{% url 'delete_warden' %}"><span class="glyphicon glyphicon-dues"></span> Delete Warden</a>
-              </li>
-              <li>
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Infrastructure <i class="fa fa-caret-down"></i></a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'register_hall' %}'">Add Hall</button><br />
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'view_halls' %}'">View Halls</button>
-                </div>
-              </li>
-              <li>
-                <a href="{% url 'logout' %}"><span class="glyphicon glyphicon-logout"></span> Logout</a>
-              </li>
-            </ul>
+  <body class="container-fluid" style="overflow: hidden; border:0; padding:0; margin: 0;">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <div class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'hmc_landing' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'grant_allotment' %}">Allot Grants</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Manage Halls</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li>
+                  <a class="dropdown-item" href="{% url 'view_halls' %}">View Halls</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'register_hall' %}">Register Hall</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Warden</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li>
+                  <a class="dropdown-item" href="{% url 'register_warden' %}">Appoint Warden</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'search_warden' %}">Update Warden</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'delete_warden' %}">Remove Warden</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li>
+                  <a class="dropdown-item" href="{% url 'hmc_view_profile' %}">View Profile</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'hmc_change_password' %}">Change Password</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
           </div>
         </div>
-      </nav>
-    </header>
-    <div>
+      </div>
+    </nav>
+    <div style="width:100%; height:100%; font-family: 'IBM Plex Sans', sans-serif;">
       {% block content %}
 
       {% endblock %}

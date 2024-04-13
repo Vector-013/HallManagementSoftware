@@ -1,55 +1,57 @@
 {% extends 'warden/base.html' %}
 {% block content %}
-  <center>
-    <h3>
-      <table class="table" style="width:50%">
+  <div id="profile-bg">
+    <center>
+      <table id="profile" class="table table-bordered table-hover text-center table-responsive" style="font-size: x-large;">
         <thead>
-          <th style="text-align: center">Profile Field</th>
-          <th style="text-align: center">Data</th>
+          <tr>
+            <th scope="col">Profile Field</th>
+            <th scope="col">Data</th>
+          </tr>
         </thead>
         <tbody>
           <tr>
-            <td style="text-align: center">Stakeholder ID</td>
-            <td style="text-align: center">{{ warden.client.stakeholderID }}</td>
+            <td>stakeholder ID</td>
+            <td>{{ warden.client.stakeholderID }}</td>
           </tr>
           <tr>
-            <td style="text-align: center">First Name</td>
-            <td style="text-align: center">{{ warden.client.first_name }}</td>
+            <td>First Name</td>
+            <td>{{ warden.client.first_name }}</td>
           </tr>
           <tr>
-            <td style="text-align: center">Last Name</td>
-            <td style="text-align: center">{{ warden.client.last_name }}</td>
+            <td>Last Name</td>
+            <td>{{ warden.client.last_name }}</td>
           </tr>
           <tr>
-            <td style="text-align: center">Email</td>
-            <td style="text-align: center">{{ warden.client.email }}</td>
+            <td>Email</td>
+            <td>{{ warden.client.email }}</td>
           </tr>
           <tr>
-            <td style="text-align: center">Mobile</td>
-            <td style="text-align: center">{{ warden.client.mobile }}</td>
+            <td>Mobile</td>
+            <td>{{ warden.client.mobile }}</td>
           </tr>
           <tr>
-            <td style="text-align: center">Address</td>
-            <td style="text-align: center">{{ warden.client.address }}</td>
+            <td>Address</td>
+            <td>{{ warden.client.address }}</td>
           </tr>
           <tr>
-            <td style="text-align: center">Hall</td>
-            <td style="text-align: center">{{ warden.hall.name }}</td>
+            <td>Hall</td>
+            <td>{{ warden.hall.name }}</td>
           </tr>
           <tr>
-            <td style="text-align: center">Department</td>
-            <td style="text-align: center">{{ warden.department }}</td>
+            <td>Department</td>
+            <td>{{ warden.department }}</td>
           </tr>
           <tr>
-            <td style="text-align: center">Designation</td>
-            <td style="text-align: center">{{ warden.designation }}</td>
+            <td>Designation</td>
+            <td>{{ warden.designation }}</td>
           </tr>
           <tr>
-            <td style="text-align: center">Posts Held</td>
-            <td style="text-align: center">{{ warden.posts_held }}</td>
+            <td>Posts Held</td>
+            <td>{{ warden.posts_held }}</td>
           </tr>
         </tbody>
       </table>
-    </h3>
-  </center>
+    </center>
+  </div>
 {% endblock %}

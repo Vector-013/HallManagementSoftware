@@ -80,9 +80,7 @@ def update_hall_manager_profile(request):
             # print(form.instance)
             # form.instance = student
 
-        return render(
-            request, "warden/update_hall_manager_profile.html", {"form": form}
-        )
+        return render(request, "warden/update_manager_profile.html", {"form": form})
     except:
         messages.error(request, "No hall manager found.")
         return redirect("/warden/register-hall-manager")
@@ -136,9 +134,7 @@ def update_mess_manager_profile(request):
                 }
             )
 
-        return render(
-            request, "warden/update_mess_manager_profile.html", {"form": form}
-        )
+        return render(request, "warden/update_manager_profile.html", {"form": form})
     except:
         messages.error(request, "No mess manager found.")
         return redirect("/warden/register-mess-manager")
@@ -305,7 +301,7 @@ def generate_hall_demand(request):
     return render(
         request,
         "warden/verify_password.html",
-        context={"form": form, "title": "verify"},
+        context={"form": form, "heading": "Generate Hall Fees", "title": "verify"},
     )
 
 
@@ -348,7 +344,7 @@ def generate_salary(request):
     return render(
         request,
         "warden/verify_password.html",
-        context={"form": form, "title": "verify"},
+        context={"form": form, "heading": "Generate Salaries", "title": "verify"},
     )
 
 
@@ -393,7 +389,7 @@ def generate_mess_demand(request):
     return render(
         request,
         "warden/verify_password.html",
-        context={"form": form, "title": "verify"},
+        context={"form": form, "heading": "Generate Mess Fees", "title": "verify"},
     )
 
 
@@ -508,7 +504,7 @@ def allot_budget(request):
     return render(
         request,
         "warden/verify_password.html",
-        context={"form": form, "title": "verify"},
+        context={"form": form, "heading": "Allot Budget", "title": "verify"},
     )
 
 
@@ -552,68 +548,68 @@ def generate_warden_passbook_pdf(request):
 
 
 @permission_required("main.is_warden", "/login")
-def delete_manager(request):
-    warden = Warden.objects.filter(client=request.user).first()
-    hall = warden.hall
-    hall_manager = HallManager.objects.filter(hall=hall).first()
-    mess_manager = MessManager.objects.filter(hall=hall).first()
-    try:
-        hall_manager_id = hall_manager.client.stakeholderID
-    except:
-        hall_manager_id = "Does not exist"
-    try:
-        mess_manager_id = mess_manager.client.stakeholderID
-    except:
-        mess_manager_id = "Does not exist"
+def delete_hall_manager(request):
     if request.method == "POST":
         form = DeleteUserForm(request.POST)
         if form.is_valid():
             stakeholderID = form.cleaned_data.get("stakeholderID")
             password_to_confirm = form.cleaned_data.get("verify_password")
             client = Client.objects.filter(stakeholderID=stakeholderID).first()
-            print(client.role)
-            if client.role == "hall_manager":
-                hall_manager = HallManager.objects.filter(client=client).first()
-                hall_manager_id = "Does not exist"
-                if hall_manager and client.is_active:
-                    success = request.user.check_password(password_to_confirm)
-                    if success:
-                        hall_manager.client.delete()
-                        messages.success(
-                            request,
-                            f"Hall Manager with stakeholder ID {stakeholderID} has been deleted",
-                        )
-                    else:
-                        messages.error(request, "Invalid password")
+            hall_manager = HallManager.objects.filter(client=client).first()
+            if hall_manager:
+                client = request.user
+                success = client.check_password(password_to_confirm)
+                if success:
+                    hall_manager.client.delete()
+                    messages.success(
+                        request,
+                        f"Hall Manager with stakeholder ID {stakeholderID} has been deleted",
+                    )
                 else:
-                    messages.error(request, "Nont enbfb")
-            elif client.role == "mess_manager":
-                mess_manager = MessManager.objects.filter(client=client).first()
-                mess_manager_id = "Does not exist"
-                if mess_manager and client.is_active:
-                    success = request.user.check_password(password_to_confirm)
-                    if success:
-                        mess_manager.client.delete()
-                        messages.success(
-                            request,
-                            f"Mess Manager with stakeholder ID {stakeholderID} has been deleted",
-                        )
-                    else:
-                        messages.error(request, "Invalid password")
+                    messages.error(request, "Invalid password")
             else:
                 messages.error(
                     request,
-                    f"No active mess manager found with stakeholder ID {stakeholderID}",
+                    f"No active Hall Manager found with stakeholder ID {stakeholderID}",
                 )
     else:
         form = DeleteUserForm()
     return render(
         request,
         "warden/delete_manager.html",
-        context={
-            "form": form,
-            "title": "verify",
-            "hall_manager_id": hall_manager_id,
-            "mess_manager_id": mess_manager_id,
-        },
+        context={"form": form, "title": "verify"},
+    )
+
+
+@permission_required("main.is_warden", "/login")
+def delete_mess_manager(request):
+    if request.method == "POST":
+        form = DeleteUserForm(request.POST)
+        if form.is_valid():
+            stakeholderID = form.cleaned_data.get("stakeholderID")
+            password_to_confirm = form.cleaned_data.get("verify_password")
+            client = Client.objects.filter(stakeholderID=stakeholderID).first()
+            mess_manager = MessManager.objects.filter(client=client).first()
+            if mess_manager:
+                client = request.user
+                success = client.check_password(password_to_confirm)
+                if success:
+                    mess_manager.client.delete()
+                    messages.success(
+                        request,
+                        f"Mess Manager with stakeholder ID {stakeholderID} has been deleted",
+                    )
+                else:
+                    messages.error(request, "Invalid password")
+            else:
+                messages.error(
+                    request,
+                    f"No active Mess Manager found with stakeholder ID {stakeholderID}",
+                )
+    else:
+        form = DeleteUserForm()
+    return render(
+        request,
+        "warden/delete_manager.html",
+        context={"form": form, "title": "verify"},
     )
