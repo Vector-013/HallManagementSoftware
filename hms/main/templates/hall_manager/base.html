@@ -1,0 +1,282 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block styles %}
+  .form-bg {
+    height: 100%; 
+    position: relative; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .form-card {
+    display: flex;
+    width: 80%;
+    height: 80%;
+    border-radius: 20px;
+    overflow: auto;
+    box-shadow: 20px 20px 0.5rem rgba(0, 0, 0, 0.1);
+    background-color: white;
+  }
+
+  .left-half {
+    width: 50%;
+    height: 100%;
+    background: url("{% static 'employee.jpeg' %}");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .right-half {
+    color: white;
+    overflow: auto;
+    font-weight: bold;
+    background-color:  rgb(0 0 0 / 60%);
+    width: 50%;
+    height: 100%;
+    padding: 10%;
+    justify-content: center;
+  }
+
+  #add-emp-bg {
+    background: url("{% static 'add_employee.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  #profile-bg {
+    height: 100%;
+    background: url("{% static 'profile.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  
+  #app-leave-bg {
+    background: url("{% static 'cyan.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  #app-leave {
+    background: url("{% static 'leave.png' %}");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  #del-bg {
+    background: url("{% static 'red.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  #del {
+    background: url("{% static 'delete.png' %}");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  #password-bg {
+    background: url("{% static 'purple.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  #password {
+    background: url("{% static 'password.jpg' %}");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  #search-bg {
+    background: url("{% static 'lilac.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  #search {
+    background: url("{% static 'search.jpg' %}");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  #atr-bg {
+    background: url("{% static 'coral.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  #atr {
+    background: url("{% static 'atr.jpg' %}");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  #notice-bg {
+    background: url("{% static 'coral.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  #notice {
+    background: url("{% static 'notice.jpg' %}");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  #profile {
+    color: white;
+    background-color: rgb(0 0 0 / 60%);
+    padding: 5%;
+    border-radius: 20px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width:75%; 
+    height:50%;
+  }
+  
+  .notice-container {
+    width: 75%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* justify-content: space-between; */
+    position: relative;
+  }
+  
+  .notice-card {
+    width: 25%;
+    padding: 10px;
+  }
+  
+  .responsive {
+    width: 100%;
+    height: auto;
+  }
+  #edit-bg {
+    background: url("{% static 'coral.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  #edit {
+    background: url("{% static 'edit.jpg' %}");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container" style="height: 100%;">
+  
+  <div class="row">
+    {% if messages %}
+      {% for message in messages %}
+        <script>
+          alert('{{ message }}')
+        </script>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  <div class="row" style="border-radius: 20px; overflow: auto; box-shadow: 20px 20px 0.5rem rgba(0,0,0,0.1); background-color: white; height: 100%;">
+    {% block hall-manager-content %}
+    {% endblock %}
+  </div>
+</div>
+{% endblock %}
+
+{% block navbar-content %}
+<ul class="navbar-nav" style="font-weight: bold">
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{% url 'hall_landing' %}">Home</a>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">View Hall</a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+      <li>
+        <a class="dropdown-item" href="{% url 'view_hall_occupancy' %}">Hall Occupancy</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'view_student_details' %}">Student List</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'view_employee_details' %}">Employee List</a>
+      </li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Manage Employees</a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+      <li>
+        <a class="dropdown-item" href="{% url 'add_employee' %}">Add Employee</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'search_employee' %}">Edit Employee</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'approve_leaves' %}">Approve Leaves</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'delete_employee' %}">Remove Employee</a>
+      </li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Manage Students</a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+      <li>
+        <a class="dropdown-item" href="{% url 'register_student' %}">Add Student</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'search_student' %}">Edit Student</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'delete_student' %}">Remove Student</a>
+      </li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Complaints</a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+      <li>
+        <a class="dropdown-item" href="{% url 'hall_complaints' %}">View Complaints</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'create_atr' %}">Issue ATR</a>
+      </li>
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'make_notice' %}">Issue Notice</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'hall_passbook' %}">Hall Passbook</a>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+      <li>
+        <a class="dropdown-item" href="{% url 'hall_view_profile' %}">View Profile</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'hall_change_password' %}">Change Password</a>
+      </li>
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+  </li>
+</ul>
+{% endblock %}

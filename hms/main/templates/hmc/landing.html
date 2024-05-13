@@ -1,0 +1,45 @@
+{% extends 'hmc/base.html' %}
+{% block hmc-content %}
+  
+<center>
+  <div style="padding: 20px;">
+    <h4>Welcome to the HMC Landing Page. You can perform the following actions:</h4>
+  </div>
+</center>
+
+  <div class="row">
+    <div class="col-md-6" style="margin-top: 10px; margin-bottom: 10px;">
+      <a class="dropdown-item" href="{% url 'grant_allotment' %}">Allot Grants</a>
+    </div>
+    <div class="col-md-6" style="margin-top: 10px; margin-bottom: 10px;">
+      <a class="dropdown-item" href="{% url 'view_halls' %}">View Halls</a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6" style="margin-top: 10px; margin-bottom: 10px;">
+      <a class="dropdown-item" href="{% url 'register_hall' %}">Register Hall</a>
+    </div>
+    <div class="col-md-6" style="margin-top: 10px; margin-bottom: 10px;">
+      <a class="dropdown-item" href="{% url 'register_warden' %}">Appoint Warden</a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6" style="margin-top: 10px; margin-bottom: 10px;">
+      <a class="dropdown-item" href="{% url 'search_warden' %}">Update Warden</a>
+    </div>
+    <div class="col-md-6" style="margin-top: 10px; margin-bottom: 10px;">
+      <a class="dropdown-item" href="{% url 'delete_warden' %}">Remove Warden</a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6" style="margin-top: 10px; margin-bottom: 10px;">
+      <a class="dropdown-item" href="{% url 'hmc_view_profile' %}">View Profile</a>
+    </div>
+    <div class="col-md-6" style="margin-top: 10px; margin-bottom: 10px;">
+      <a class="dropdown-item" href="{% url 'hmc_change_password' %}">Change Password</a>
+    </div>
+  </div>
+{% endblock %}
