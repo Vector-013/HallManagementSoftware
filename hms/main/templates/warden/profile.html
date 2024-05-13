@@ -1,0 +1,57 @@
+{% extends 'warden/base.html' %}
+{% block warden-content %}
+  <div id="profile-bg">
+    <div id="profile" style="height: 75%; overflow: auto;">
+      <table class="table table-bordered table-hover text-center table-responsive" style="color: white">
+        <thead>
+          <tr>
+            <th scope="col">Profile Field</th>
+            <th scope="col">Data</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>stakeholder ID</td>
+            <td>{{ warden.client.stakeholderID }}</td>
+          </tr>
+          <tr>
+            <td>First Name</td>
+            <td>{{ warden.client.first_name }}</td>
+          </tr>
+          <tr>
+            <td>Last Name</td>
+            <td>{{ warden.client.last_name }}</td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td>{{ warden.client.email }}</td>
+          </tr>
+          <tr>
+            <td>Mobile</td>
+            <td>{{ warden.client.mobile }}</td>
+          </tr>
+          <tr>
+            <td>Address</td>
+            <td>{{ warden.client.address }}</td>
+          </tr>
+          <tr>
+            <td>Hall</td>
+            <td>{{ warden.hall.name }}</td>
+          </tr>
+          <tr>
+            <td>Department</td>
+            <td>{{ warden.department }}</td>
+          </tr>
+          <tr>
+            <td>Designation</td>
+            <td>{{ warden.designation }}</td>
+          </tr>
+          <tr>
+            <td>Posts Held</td>
+            <td>{{ warden.posts_held }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

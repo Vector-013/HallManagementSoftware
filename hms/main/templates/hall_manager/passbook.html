@@ -1,0 +1,98 @@
+{% extends template %}
+{% block hall-manager-content %}
+  <div id="profile-bg">
+    <div id="profile" style="overflow:auto; height: 75%">
+      <center>
+        <h2>Hall Passbook</h2>
+        <br />
+        <table id="passbook" class="table table-bordered table-hover text-center" style="color:white">
+          <thead>
+            <tr>
+              <th scope="col">Type</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Timestamp</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for transaction in transactions %}
+              <tr>
+                <td>{{ transaction.type }}</td>
+                <td>{{ transaction.amount }}</td>
+                <td>{{ transaction.timestamp }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <br />
+        <h3>Account Summary</h3>
+        <br />
+        <table id="passbook" class="table table-bordered table-hover text-center" style="color:white">
+          <thead>
+            <tr>
+              <th scope="col">Total Allotment</th>
+              <th scope="col">Total Expenditure</th>
+              <th scope="col">Passbook Balance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+            <td>{{ total_allotment }}</td>
+              <td>{{ total_expenditures}}</td>
+              <td>{{ balance }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="pay_button" style="background-color: steelblue;" onclick="location.href='{% url 'hall_passbook_pdf' %}'">Print Passbook</button>
+      </center>
+    </div>
+  </div>
+{% endblock %}
+
+{% block warden-content %}
+  <div id="profile-bg">
+    <div id="profile" style="overflow:auto; height: 75%">
+      <center>
+        <h2>Hall Passbook</h2>
+        <br />
+        <table id="passbook" class="table table-bordered table-hover text-center" style="color:white">
+          <thead>
+            <tr>
+              <th scope="col">Type</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Timestamp</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for transaction in transactions %}
+              <tr>
+                <td>{{ transaction.type }}</td>
+                <td>{{ transaction.amount }}</td>
+                <td>{{ transaction.timestamp }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <br />
+        <h3>Account Summary</h3>
+        <br />
+        <table id="passbook" class="table table-bordered table-hover text-center" style="color:white">
+          <thead>
+            <tr>
+              <th scope="col">Total Allotment</th>
+              <th scope="col">Total Expenditure</th>
+              <th scope="col">Passbook Balance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ total_allotment }}</td>
+              <td>{{ total_expenditures}}</td>
+              <td>{{ balance }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="pay_button" style="background-color: steelblue;"onclick="location.href='{% url 'hall_passbook_pdf' %}'">Print Passbook</button>
+      </center>
+    </div>
+  </div>
+{% endblock %}

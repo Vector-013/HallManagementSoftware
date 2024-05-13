@@ -1,0 +1,23 @@
+{% extends 'hmc/base.html' %}
+{% load crispy_forms_tags %}
+{% block hmc-content %}
+  <div id="edit-bg" class="form-bg">
+    <div class="form-card">
+      <div id="edit" class="left-half"></div>
+      <div class="overflow-auto right-half">
+        <center>
+          <br />
+          <h1>Update Warden</h1>
+        </center>
+        <form method="POST" style="margin-top:0; margin-bottom:0; border-radius:1%;">
+          {% csrf_token %}
+          <fieldset class="form-group">{{ form|crispy }}</fieldset>
+          <br />
+          <center>
+            <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-check"></span>Update</button>
+          </center>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
