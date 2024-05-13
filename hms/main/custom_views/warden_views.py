@@ -33,7 +33,7 @@ def hall_manager(request):
     warden = Warden.objects.filter(client=request.user).first()
     hall = warden.hall
     hall_manager = HallManager.objects.filter(hall=hall).first()
-    if hall_manager:
+    if hall_manager and hall_manager.client.is_active:
         return redirect("/hall/profile")
     else:
         messages.error(request, "No hall manager found.")
@@ -44,19 +44,17 @@ def hall_manager(request):
 def update_hall_manager_profile(request):
     warden = Warden.objects.filter(client=request.user).first()
     hall = warden.hall
-    try:
-        hall_manager = HallManager.objects.filter(hall=hall).first()
+    hall_manager = HallManager.objects.filter(hall=hall).first()
+    if hall_manager and hall_manager.client.is_active:
         client = hall_manager.client
         if request.method == "POST":
             form = UpdateHallManagerForm(request.POST, instance=hall_manager)
             if form.is_valid():
-                client.stakeholderID = form.cleaned_data.get("stakeholderID")
                 client.email = form.cleaned_data.get("email")
                 client.address = form.cleaned_data.get("address")
                 client.mobile = form.cleaned_data.get("mobile")
                 client.first_name = form.cleaned_data.get("first_name")
                 client.last_name = form.cleaned_data.get("last_name")
-                hall_manager.hall = form.cleaned_data.get("hall")
                 client.save()
                 hall_manager.client = client
                 hall_manager.save()
@@ -77,13 +75,11 @@ def update_hall_manager_profile(request):
                     "hall": hall_manager.hall,
                 }
             )
-            # print(form.instance)
-            # form.instance = student
 
         return render(
-            request, "warden/update_hall_manager_profile.html", {"form": form}
+            request, "warden/update_manager_profile.html", {"form": form}
         )
-    except:
+    else:
         messages.error(request, "No hall manager found.")
         return redirect("/warden/register-hall-manager")
 
@@ -93,7 +89,7 @@ def mess_manager(request):
     warden = Warden.objects.filter(client=request.user).first()
     hall = warden.hall
     mess_manager = MessManager.objects.filter(hall=hall).first()
-    if mess_manager:
+    if mess_manager and mess_manager.client.is_active:
         return redirect("/mess/profile")
     else:
         messages.error(request, "No mess manager found.")
@@ -104,19 +100,17 @@ def mess_manager(request):
 def update_mess_manager_profile(request):
     warden = Warden.objects.filter(client=request.user).first()
     hall = warden.hall
-    try:
-        mess_manager = MessManager.objects.filter(hall=hall).first()
+    mess_manager = MessManager.objects.filter(hall=hall).first()
+    if mess_manager and mess_manager.client.is_active:
         client = mess_manager.client
         if request.method == "POST":
             form = UpdateMessManagerForm(request.POST, instance=mess_manager)
             if form.is_valid():
-                client.stakeholderID = form.cleaned_data.get("stakeholderID")
                 client.email = form.cleaned_data.get("email")
                 client.address = form.cleaned_data.get("address")
                 client.mobile = form.cleaned_data.get("mobile")
                 client.first_name = form.cleaned_data.get("first_name")
                 client.last_name = form.cleaned_data.get("last_name")
-                mess_manager.hall = form.cleaned_data.get("hall")
                 client.save()
                 mess_manager.client = client
                 mess_manager.save()
@@ -137,9 +131,9 @@ def update_mess_manager_profile(request):
             )
 
         return render(
-            request, "warden/update_mess_manager_profile.html", {"form": form}
+            request, "warden/update_manager_profile.html", {"form": form}
         )
-    except:
+    else:
         messages.error(request, "No mess manager found.")
         return redirect("/warden/register-mess-manager")
 
@@ -150,7 +144,6 @@ def register_hall_manager(request):
         form = ManagerRegistrationForm(request.POST)
         warden = Warden.objects.filter(client=request.user).first()
         if form.is_valid():
-            print(request.POST)
             stakeholderID = form.cleaned_data.get("stakeholderID")
             email = form.cleaned_data.get("email")
             address = form.cleaned_data.get("address")
@@ -203,7 +196,6 @@ def register_mess_manager(request):
         form = ManagerRegistrationForm(request.POST)
         warden = Warden.objects.filter(client=request.user).first()
         if form.is_valid():
-            print(request.POST)
             stakeholderID = form.cleaned_data.get("stakeholderID")
             email = form.cleaned_data.get("email")
             address = form.cleaned_data.get("address")
@@ -254,8 +246,9 @@ def register_mess_manager(request):
 
 @permission_required("main.is_warden", "/login")
 def verify_manager(request, token):
-    client = Client.objects.filter(token=token).first()
-    if client:
+    clientq = Client.objects.filter(token=token)
+    if clientq:
+        client = clientq.first()
         client.is_active = True
         client.save()
         messages.info(request, "Your account has been verified")
@@ -269,43 +262,44 @@ def generate_hall_demand(request):
     if request.method == "POST":
         form = VerifyForm(request.POST)
         if form.is_valid():
+
             password_to_confirm = form.cleaned_data.get("verify_password")
             amount_per_student = form.cleaned_data.get("amount")
             client = request.user
             success = client.check_password(password_to_confirm)
             if success:
-                try:
-                    warden = Warden.objects.filter(client=client).first()
-                    hall = warden.hall
-                    students = list(hall.student_hall.all())
 
-                    for student in students:
-                        student_passbook = StudentPassbook.objects.filter(
-                            student=student
-                        ).first()
-                        due = Due(
-                            type="hostel",
-                            timestamp=datetime.now(),
-                            demand=amount_per_student,
-                            student_passbook=student_passbook,
-                        )
-                        due.save()
+                # try:
+                warden = Warden.objects.filter(client=client).first()
+                hall = warden.hall
+                students = list(hall.student_hall.all())
+                for student in students:
+                    student_passbook = StudentPassbook.objects.filter(
+                        student=student
+                    ).first()
+                    due = Due(
+                        type="hostel",
+                        timestamp=datetime.now(),
+                        demand=amount_per_student,
+                        student_passbook=student_passbook,
+                    )
+                    due.save()
 
-                    messages.success(request, "Hall Fees have been generated")
-                    redirect("/warden/landing")
+                messages.success(request, "Hall Fees have been generated")
+                return redirect("/warden/landing")
 
-                except:
-                    messages.error(request, "Connection issues")
+            # except:
+            #     messages.error(request, "Connection issues")
             else:
                 messages.error(request, "Password Incorrect")
-                redirect("/login")
+                return redirect("/login")
     else:
         form = VerifyForm()
 
     return render(
         request,
         "warden/verify_password.html",
-        context={"form": form, "title": "verify"},
+        context={"form": form, "title": "verify", "heading": "Generate Hall Fees"},
     )
 
 
@@ -335,20 +329,20 @@ def generate_salary(request):
                 )
                 transaction.save()
                 messages.success(request, "Hall salaries have been paid")
-                redirect("/warden/landing")
+                return redirect("/warden/landing")
 
             # except:
             #     messages.error(request, "Connection issues")
             else:
                 messages.error(request, "Password Incorrect")
-                redirect("/login")
+                return redirect("/login")
     else:
         form = ConfirmForm()
 
     return render(
         request,
         "warden/verify_password.html",
-        context={"form": form, "title": "verify"},
+        context={"form": form, "title": "verify", "heading": "Generate Salary"},
     )
 
 
@@ -362,7 +356,7 @@ def generate_mess_demand(request):
             client = request.user
             success = client.check_password(password_to_confirm)
             if success:
-                # try:
+
                 warden = Warden.objects.filter(client=client).first()
                 hall = warden.hall
                 students = list(hall.student_hall.all())
@@ -378,22 +372,19 @@ def generate_mess_demand(request):
                         student_passbook=student_passbook,
                     )
                     due.save()
-                # except:
                 messages.success(request, "Mess Fess have been generated")
-                redirect("/warden/landing")
+                return redirect("/warden/landing")
 
-            # except:
-            #     messages.error(request, "Connection issues")
             else:
                 messages.error(request, "Password Incorrect")
-                redirect("/login")
+                return redirect("/login")
     else:
         form = VerifyForm()
 
     return render(
         request,
         "warden/verify_password.html",
-        context={"form": form, "title": "verify"},
+        context={"form": form, "title": "verify", "heading": "Generate Mess Fees"},
     )
 
 
@@ -402,11 +393,10 @@ def warden_landing(request):
     if request.method == "GET":
         warden = Warden.objects.filter(client=request.user).first()
         notices = Notice.objects.filter(hall=warden.hall)
-        print(notices)
         return render(
             request,
             "warden/landing.html",
-            context={"notices": notices, "title": "Notices"},
+            context={"notices": notices, "range": range(notices.count()), "length":notices.count(), "title": "Notices"},
         )
 
 
@@ -500,7 +490,7 @@ def allot_budget(request):
             # except:
             #     messages.error(request, "Connection issues")
             else:
-                messages.error(request, "you are unreal")
+                messages.error(request, "Password Incorrect")
                 return redirect("/login")
     else:
         form = AllotmentForm()
@@ -508,14 +498,13 @@ def allot_budget(request):
     return render(
         request,
         "warden/verify_password.html",
-        context={"form": form, "title": "verify"},
+        context={"form": form, "title": "verify", "heading": "Allot Budget"},
     )
 
 
 @permission_required("main.is_warden", "/login")
 def generate_warden_passbook_pdf(request):
 
-    print(request.user)
     warden = Warden.objects.filter(client=request.user).first()
 
     hall = warden.hall
@@ -552,68 +541,68 @@ def generate_warden_passbook_pdf(request):
 
 
 @permission_required("main.is_warden", "/login")
-def delete_manager(request):
-    warden = Warden.objects.filter(client=request.user).first()
-    hall = warden.hall
-    hall_manager = HallManager.objects.filter(hall=hall).first()
-    mess_manager = MessManager.objects.filter(hall=hall).first()
-    try:
-        hall_manager_id = hall_manager.client.stakeholderID
-    except:
-        hall_manager_id = "Does not exist"
-    try:
-        mess_manager_id = mess_manager.client.stakeholderID
-    except:
-        mess_manager_id = "Does not exist"
+def delete_hall_manager(request):
     if request.method == "POST":
         form = DeleteUserForm(request.POST)
         if form.is_valid():
             stakeholderID = form.cleaned_data.get("stakeholderID")
             password_to_confirm = form.cleaned_data.get("verify_password")
             client = Client.objects.filter(stakeholderID=stakeholderID).first()
-            print(client.role)
-            if client.role == "hall_manager":
-                hall_manager = HallManager.objects.filter(client=client).first()
-                hall_manager_id = "Does not exist"
-                if hall_manager and client.is_active:
-                    success = request.user.check_password(password_to_confirm)
-                    if success:
-                        hall_manager.client.delete()
-                        messages.success(
-                            request,
-                            f"Hall Manager with stakeholder ID {stakeholderID} has been deleted",
-                        )
-                    else:
-                        messages.error(request, "Invalid password")
+            hall_manager = HallManager.objects.filter(client=client).first()
+            if hall_manager:
+                client = request.user
+                success = client.check_password(password_to_confirm)
+                if success:
+                    hall_manager.client.delete()
+                    messages.success(
+                        request,
+                        f"Hall Manager with stakeholder ID {stakeholderID} has been deleted",
+                    )
                 else:
-                    messages.error(request, "Nont enbfb")
-            elif client.role == "mess_manager":
-                mess_manager = MessManager.objects.filter(client=client).first()
-                mess_manager_id = "Does not exist"
-                if mess_manager and client.is_active:
-                    success = request.user.check_password(password_to_confirm)
-                    if success:
-                        mess_manager.client.delete()
-                        messages.success(
-                            request,
-                            f"Mess Manager with stakeholder ID {stakeholderID} has been deleted",
-                        )
-                    else:
-                        messages.error(request, "Invalid password")
+                    messages.error(request, "Invalid password")
             else:
                 messages.error(
                     request,
-                    f"No active mess manager found with stakeholder ID {stakeholderID}",
+                    f"No active Hall Manager found with stakeholder ID {stakeholderID}",
                 )
     else:
         form = DeleteUserForm()
     return render(
         request,
         "warden/delete_manager.html",
-        context={
-            "form": form,
-            "title": "verify",
-            "hall_manager_id": hall_manager_id,
-            "mess_manager_id": mess_manager_id,
-        },
+        context={"form": form, "title": "verify"},
+    )
+
+
+@permission_required("main.is_warden", "/login")
+def delete_mess_manager(request):
+    if request.method == "POST":
+        form = DeleteUserForm(request.POST)
+        if form.is_valid():
+            stakeholderID = form.cleaned_data.get("stakeholderID")
+            password_to_confirm = form.cleaned_data.get("verify_password")
+            client = Client.objects.filter(stakeholderID=stakeholderID).first()
+            mess_manager = MessManager.objects.filter(client=client).first()
+            if mess_manager:
+                client = request.user
+                success = client.check_password(password_to_confirm)
+                if success:
+                    mess_manager.client.delete()
+                    messages.success(
+                        request,
+                        f"Mess Manager with stakeholder ID {stakeholderID} has been deleted",
+                    )
+                else:
+                    messages.error(request, "Invalid password")
+            else:
+                messages.error(
+                    request,
+                    f"No active Mess Manager found with stakeholder ID {stakeholderID}",
+                )
+    else:
+        form = DeleteUserForm()
+    return render(
+        request,
+        "warden/delete_manager.html",
+        context={"form": form, "title": "verify"},
     )

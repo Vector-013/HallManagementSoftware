@@ -88,14 +88,13 @@ def make_complaints(request):
                 category=category,
                 image=image,
             )
-            print(obj)
+
             obj.save()
             messages.success(request, f"Your complaint has been registered.")
             return redirect("/student/view-complaints")
     else:
         form = ComplaintRegistrationForm()
 
-    print(request)
     return render(
         request,
         "student/make_complaints.html",
@@ -108,7 +107,7 @@ def view_complaints(request):
     if request.method == "GET":
         student = Student.objects.filter(client=request.user)[0]
         complaints = list(Complaint.objects.filter(student=student).all())
-        print(complaints)
+
         return render(
             request,
             "student/view_complaints.html",
@@ -121,7 +120,7 @@ def notice_student(request):
     if request.method == "GET":
         student = Student.objects.filter(client=request.user).first()
         notices = Notice.objects.filter(hall=student.hall)
-        print(notices)
+
         return render(
             request,
             "student/view_notice.html",

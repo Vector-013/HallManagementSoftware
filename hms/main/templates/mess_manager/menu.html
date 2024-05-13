@@ -1,24 +1,60 @@
 {% extends template %}
-{% block content %}
-  <center>
-    <h2>{{ month }}</h2>
-    <table class="menu_table" style="width: 75%; border: 1px solid; text-align: center">
-      <thead style="background-color: rgb(41, 25, 115); color: white">
-        <th style="text-align: center; border: 1px solid">Day</th>
-        <th style="text-align: center; border: 1px solid">Breakfast</th>
-        <th style="text-align: center; border: 1px solid">Lunch</th>
-        <th style="text-align: center; border: 1px solid">Snacks</th>
-        <th style="text-align: center; border: 1px solid">Dinner</th>
-      </thead>
-      <tbody>
-        {% for item in items %}
+{% block mess-manager-content %}
+   <div id="profile-bg">
+    <div id="profile" style="overflow:auto; height:75%">
+      <center>
+        <h2>Hall Menu</h2>
+        <br />
+        <table id="passbook" class="table table-bordered table-hover text-center" style="font-weight:500; color: white">
+          <thead>
+            <tr>
+              <th scope="col">Day</th>
+              <th scope="col">Breakfast</th>
+              <th scope="col">Lunch</th>
+              <th scope="col">Snacks</th>
+              <th scope="col">Dinner</th>
+            </tr>
+          </thead>
+          <tbody>
+             {% for item in items %}
           <tr style="border: 1px solid; height: 20px">
             {% for i in item %}
               <td style="border: 1px solid">{{ i }}</td>
             {% endfor %}
           </tr>
         {% endfor %}
-      </tbody>
-    </table>
-  </center>
+          </tbody>
+        </table>
+    </div>
+  </div>
+{% endblock %}
+
+{% block student-content %}
+   <div id="profile-bg">
+    <div id="profile" style="overflow:auto; height:75%">
+      <center>
+        <h2>Hall Menu</h2>
+        <br />
+        <table id="passbook" class="table table-bordered table-hover text-center" style="font-weight:500; color: white">
+          <thead>
+            <tr>
+              <th scope="col">Day</th>
+              <th scope="col">Breakfast</th>
+              <th scope="col">Lunch</th>
+              <th scope="col">Snacks</th>
+              <th scope="col">Dinner</th>
+            </tr>
+          </thead>
+          <tbody>
+             {% for item in items %}
+          <tr style="border: 1px solid; height: 20px">
+            {% for i in item %}
+              <td style="border: 1px solid">{{ i }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+          </tbody>
+        </table>
+    </div>
+  </div>
 {% endblock %}

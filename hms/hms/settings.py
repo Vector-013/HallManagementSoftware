@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 
+SITE_URL = "http://127.0.0.1:8000"
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -31,8 +33,9 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 EMAIL_HOST_USER = "se.mhc.2024@gmail.com"
-EMAIL_HOST_PASSWORD = "jwaz gglx seqk hckm"
+EMAIL_HOST_PASSWORD = "djgb jfnx mtyt khrm"
 
 
 # Quick-start development settings - unsuitable for production

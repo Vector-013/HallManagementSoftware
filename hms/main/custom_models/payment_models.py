@@ -14,7 +14,7 @@ class StudentPassbook(models.Model):
         unique=True,
     )
 
-    def _str_(self):
+    def __str__(self):
         return (
             "Student Passbook: "
             + self.student.client.first_name
@@ -54,7 +54,7 @@ class Due(models.Model):
         "Demand", blank=False, default=0, max_digits=8, decimal_places=2
     )
     type = models.CharField(
-        "Type", max_length=100, choices=TYPE, blank=False, default="mess"
+        "Type", max_length=100, choices=TYPE, blank=False, default="Mess Dues"
     )
     student_passbook = models.ForeignKey(
         StudentPassbook, on_delete=models.CASCADE, related_name="dues", blank=False
@@ -82,7 +82,7 @@ class WardenPassbook(models.Model):
         unique=True,
     )
 
-    def _str_(self):
+    def __str__(self):
         return "Warden Passbook " + self.hall.name
 
 
@@ -115,7 +115,7 @@ class HallPassbook(models.Model):
         default=None,
     )
 
-    def _str_(self):
+    def __str__(self):
         return "Hall Passbook " + self.hall.name
 
 
@@ -147,7 +147,7 @@ class MessPassbook(models.Model):
         default=None,
     )
 
-    def _str_(self):
+    def __str__(self):
         return "Mess Passbook " + self.hall.name
 
 

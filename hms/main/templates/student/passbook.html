@@ -1,5 +1,7 @@
 {% extends 'student/base.html' %}
-{% block content %}
+{% block student-content %}
+<div id="profile-bg">
+  <div id="profile" style="overflow:auto;">
   <center>
     <h1 id="passbook_headers_h1">Passbook</h1>
     <h3 id="passbook_headers_h2">Dues</h3>
@@ -8,7 +10,7 @@
       <br />
       <br />
     {% else %}
-      <table class="table" style="width:50% !important">
+      <table class="table" style="color:white">
         <thead>
           <tr>
             <th style="text-align: center">Type</th>
@@ -34,7 +36,7 @@
       <br />
       <br />
     {% else %}
-      <table class="table" style="width:50% !important">
+      <table class="table" style="color:white">
         <thead>
           <tr>
             <th style="text-align: center">Fulfilled</th>
@@ -52,7 +54,7 @@
       </table>
     {% endif %}
     <h3 id="passbook_headers_h2">Account Summary</h3>
-    <table class="table" style="width:50% !important">
+    <table class="table" style="color: white">
       <thead style="text-align:center">
         <td style="text-align:center">
           <h4>Total Dues</h4>
@@ -70,7 +72,9 @@
         <td style="text-align:center">{{ total_outstanding }}</td>
       </tr>
     </table>
-    <btn class="pay_button" onclick="location.href='{% url 'pay' %}'">Pay Fees</btn>
-    <btn class="pay_button" onclick="location.href='{% url 'student_passbook_pdf' %}'">Print Passbook</btn>
+    <button class="pay_button" style="background-color: steelblue;" onclick="location.href='{% url 'pay' %}'">Pay Fees</button>
+    <button class="pay_button" style="background-color: steelblue;" onclick="location.href='{% url 'student_passbook_pdf' %}'">Print Passbook</button>
   </center>
+</div>
+</div>
 {% endblock %}

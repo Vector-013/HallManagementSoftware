@@ -52,12 +52,12 @@ def hall_passbook(request):
         hall = warden.hall
         template = "warden/base.html"
     passbook = HallPassbook.objects.filter(hall=hall).first()
+    total_expenditure = 0
+    total_allotment = 0
     try:
         transactions = passbook.hall_transaction.order_by("-timestamp")
     except:
         transactions = []
-    total_expenditure = 0
-    total_allotment = 0
     for transaction in transactions:
         if transaction.type == "allotment":
             total_allotment += transaction.amount

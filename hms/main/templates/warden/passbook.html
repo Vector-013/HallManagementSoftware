@@ -1,49 +1,49 @@
 {% extends 'warden/base.html' %}
-{% block content %}
-  <center>
-    <h1 id="passbook_headers_h1">Warden Passbook</h1>
-    <br />
-    <br />
-    <table class="table" style="width:50% !important">
-      <thead>
-        <tr>
-          <th style="text-align: center">Type</th>
-          <th style="text-align: center">Amount</th>
-          <th style="text-align: center">Timestamp</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for transaction in transactions %}
-          <tr>
-            <td style="text-align : center">{{ transaction.type }}</td>
-            <td style="text-align : center">{{ transaction.amount }}</td>
-            <td style="text-align : center">{{ transaction.timestamp }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-
-    <h3 id="passbook_headers_h2">Account Summary</h3>
-    <table class="table" style="width:50% !important">
-      <thead style="text-align:center">
-        <th style="text-align:center">
-          <h4>Total Expenditure</h4>
-        </th>
-        <th style="text-align:center">
-          <h4>Total Grants</h4>
-        </th>
-        <th style="text-align:center">
-          <h4>Balance</h4>
-        </th>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="text-align:center">{{ total_expenditures }}</td>
-          <td style="text-align:center">{{ total_grants }}</td>
-          <td style="text-align:center">{{ balance }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <btn class="pay_button" onclick="location.href='{% url 'warden_passbook_pdf' %}'">Print Passbook</btn>
-  </center>
+{% block warden-content %}
+  <div id="profile-bg">
+    <div id="profile" style="overflow:auto; height:75%">
+      <center>
+        <h2>Warden Passbook</h2>
+        <br />
+        <table id="passbook" class="table table-bordered table-hover text-center" style="color: white">
+          <thead>
+            <tr>
+              <th scope="col">Type</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Timestamp</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for transaction in transactions %}
+              <tr>
+                <td>{{ transaction.type }}</td>
+                <td>{{ transaction.amount }}</td>
+                <td>{{ transaction.timestamp }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <br />
+        <h2>Account Summary</h2>
+        <br />
+        <table id="passbook" class="table table-bordered table-hover text-center" style="color: white">
+          <thead>
+            <tr>
+              <th scope="col">Total Grants</th>
+              <th scope="col">Total Expenditure</th>
+              <th scope="col">Passbook Balance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+               <td>{{ total_grants }}</td>
+              <td>{{ total_expenditures }}</td>             
+              <td>{{ balance }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <btn class="pay_button" style="background-color: steelblue;"onclick="location.href='{% url 'warden_passbook_pdf' %}'">Print Passbook</btn>
+      </center>
+    </div>
+  </div>
 {% endblock %}

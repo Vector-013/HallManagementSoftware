@@ -1,91 +1,132 @@
+{% extends 'base.html' %}
 {% load static %}
+{% block styles %}
+  .form-bg { height: 100%; position: relative; display: flex; justify-content: center; align-items: center; }
+
+  .form-card { display: flex; width: 80%; height: 80%; border-radius: 20px; overflow: auto; box-shadow: 20px 20px 0.5rem rgba(0, 0, 0, 0.1); background-color: white; }
+
+  .left-half { width: 50%; height: 100%; background: url("{% static 'employee.jpeg' %}"); background-size: contain; background-repeat: no-repeat; background-position: center; }
+
+  .right-half { color: white; overflow: auto; font-weight: bold; background-color: rgb(0 0 0 / 60%); width: 50%; height: 100%; padding: 10%; justify-content: center; }
+
+  #add-emp-bg { background: url("{% static 'add_employee.jpg' %}"); background-size: cover; background-repeat: no-repeat; }
+
+  #profile-bg { height: 100%; background: url("{% static 'profile.jpg' %}"); background-size: cover; background-repeat: no-repeat; }
+
+  #app-leave-bg { background: url("{% static 'cyan.jpg' %}"); background-size: cover; background-repeat: no-repeat; }
+
+  #app-leave { background: url("{% static 'leave.png' %}"); background-position: center; background-size: contain; background-repeat: no-repeat; }
+
+  #del-bg { background: url("{% static 'red.jpg' %}"); background-size: cover; background-repeat: no-repeat; }
+
+  #del { background: url("{% static 'delete.png' %}"); background-position: center; background-size: contain; background-repeat: no-repeat; }
+
+  #finance-bg { background: url("{% static 'green.jpg' %}"); background-size: cover; background-repeat: no-repeat; }
+
+  #finance { background: url("{% static 'finance.jpg' %}"); background-position: center; background-size: contain; background-repeat: no-repeat; }
+
+  #password-bg { background: url("{% static 'purple.jpg' %}"); background-size: cover; background-repeat: no-repeat; }
+
+  #password { background: url("{% static 'password.jpg' %}"); background-position: center; background-size: contain; background-repeat: no-repeat; }
+
+  #search-bg { background: url("{% static 'lilac.jpg' %}"); background-size: cover; background-repeat: no-repeat; }
+
+  #search { background: url("{% static 'search.jpg' %}"); background-position: center; background-size: contain; background-repeat: no-repeat; }
+
+  #profile { overflow: auto; color: white; background-color: rgb(0 0 0 / 60%); padding: 5%; border-radius: 20px; position: relative; top: 50%; left: 50%; transform: translate(-50%, -50%); width:75%; height:75%; }
+
+  #edit-bg {
+    background: url("{% static 'coral.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  #edit {
+    background: url("{% static 'edit.jpg' %}");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  #hall-bg {
+    background: url("{% static 'green.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  #hall {
+    background: url("{% static 'hall.jpg' %}");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+{% endblock %}
 {% load crispy_forms_tags %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="title" content="project" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="language" content="English" />
-    <meta name="author" content="vinayak sharma" />
+{% block content %}
+  <div class="container" style="height: 100%">
+    <div class="row">
+      {% if messages %}
+        {% for message in messages %}
+          <script>
+            alert('{{ message }}')
+          </script>
+        {% endfor %}
+      {% endif %}
+    </div>
 
-    <title>{{ title }}</title>
-
-    <!-- bootstrap file -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- bootstrap file -->
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-
-    <!-- main css -->
-    <link rel="stylesheet" type="text/css" href="{% static 'student.css' %}" />
-
-    <!-- message here -->
-
-    {% if messages %}
-      {% for message in messages %}
-        <script>
-          alert('{{ message }}')
-        </script>
-      {% endfor %}
-    {% endif %}
-
-    <!-- _______________________________________________ -->
-  </head>
-
-  <body class="container-fluid">
-    <header class="row">
-      <!-- navbar -->
-      <nav class="navbar navbar-inverse navbar-static-top">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button class="navbar-toggle" data-toggle="collapse" data-target="#mainNavBar">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" class="styleheader" href="{% url 'hmc_landing' %}">Home</a>
-          </div>
-          <div class="collapse navbar-collapse" id="mainNavBar">
-            <ul class="nav navbar-nav navbar-right">
-              <li>
-                <a href="{% url 'grant_allotment' %}"><span class="glyphicon glyphicon-dues"></span> Allot Grants</a>
-              </li>
-              <li>
-                <a href="{% url 'register_warden' %}"><span class="glyphicon glyphicon-dues"></span> Register Warden</a>
-              </li>
-              <li>
-                <a href="{% url 'search_warden' %}"><span class="glyphicon glyphicon-dues"></span> Update Warden</a>
-              </li>
-              <li>
-                <a href="{% url 'delete_warden' %}"><span class="glyphicon glyphicon-dues"></span> Delete Warden</a>
-              </li>
-              <li>
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Infrastructure <i class="fa fa-caret-down"></i></a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'register_hall' %}'">Add Hall</button><br />
-                  <button class="dropDown_Btn" onclick="location.href='{% url 'view_halls' %}'">View Halls</button>
-                </div>
-              </li>
-              <li>
-                <a href="{% url 'logout' %}"><span class="glyphicon glyphicon-logout"></span> Logout</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </header>
-    <div>
-      {% block content %}
-
+    <div class="row" style="border-radius: 20px; overflow: hidden; box-shadow: 20px 20px 0.5rem rgba(0,0,0,0.1); background-color: white; height:100%">
+      {% block hmc-content %}
       {% endblock %}
     </div>
-  </body>
-</html>
+  </div>
+{% endblock %}
+
+{% block navbar-content %}
+<ul class="navbar-nav" style="font-weight: bold">
+  <li class="nav-item">
+    <a class="nav-link" aria-current="page" href="{% url 'hmc_landing' %}">Home</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'grant_allotment' %}">Allot Grants</a>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Manage Halls</a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+      <li>
+        <a class="dropdown-item" href="{% url 'view_halls' %}">View Halls</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'register_hall' %}">Register Hall</a>
+      </li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Warden</a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+      <li>
+        <a class="dropdown-item" href="{% url 'register_warden' %}">Appoint Warden</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'search_warden' %}">Update Warden</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'delete_warden' %}">Remove Warden</a>
+      </li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+      <li>
+        <a class="dropdown-item" href="{% url 'hmc_view_profile' %}">View Profile</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'hmc_change_password' %}">Change Password</a>
+      </li>
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+  </li>
+</ul>
+{% endblock %}

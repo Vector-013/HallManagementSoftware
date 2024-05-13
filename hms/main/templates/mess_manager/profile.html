@@ -1,43 +1,90 @@
 {% extends template %}
-{% block content %}
-  <center>
-    <h3>
-      <table class="table" style="width:50%">
+{% block mess-manager-content %}
+  <div id="profile-bg">
+      <div id="profile" style="height: 75%; overflow: auto;">  
+      <table class="table table-bordered table-hover text-center" style="color: white">
         <thead>
-          <th style="text-align: center">Profile Field</th>
-          <th style="text-align: center">Data</th>
+          <tr>
+            <th scope="col">Profile Field</th>
+            <th scope="col">Data</th>
+          </tr>
         </thead>
         <tbody>
           <tr>
-            <td style="text-align: center">Stakeholder ID</td>
-            <td style="text-align: center">{{ mess_manager.client.stakeholderID }}</td>
+            <td>stakeholder ID</td>
+            <td>{{ mess_manager.client.stakeholderID }}</td>
           </tr>
           <tr>
-            <td style="text-align: center">First Name</td>
-            <td style="text-align: center">{{ mess_manager.client.first_name }}</td>
+            <td>First Name</td>
+            <td>{{ mess_manager.client.first_name }}</td>
           </tr>
           <tr>
-            <td style="text-align: center">Last Name</td>
-            <td style="text-align: center">{{ mess_manager.client.last_name }}</td>
+            <td>Last Name</td>
+            <td>{{ mess_manager.client.last_name }}</td>
           </tr>
           <tr>
-            <td style="text-align: center">Email</td>
-            <td style="text-align: center">{{ mess_manager.client.email }}</td>
+            <td>Email</td>
+            <td>{{ mess_manager.client.email }}</td>
           </tr>
           <tr>
-            <td style="text-align: center">Mobile</td>
-            <td style="text-align: center">{{ mess_manager.client.mobile }}</td>
+            <td>Mobile</td>
+            <td>{{ mess_manager.client.mobile }}</td>
           </tr>
           <tr>
-            <td style="text-align: center">Address</td>
-            <td style="text-align: center">{{ mess_manager.client.address }}</td>
+            <td>Address</td>
+            <td>{{ mess_manager.client.address }}</td>
           </tr>
           <tr>
-            <td style="text-align: center">Hall</td>
-            <td style="text-align: center">{{ mess_manager.hall.name }}</td>
+            <td>Hall</td>
+            <td>{{ mess_manager.hall.name }}</td>
           </tr>
         </tbody>
       </table>
-    </h3>
-  </center>
+    </div>  
+  </div>
+{% endblock %}
+
+{% block warden-content %}
+  <div id="profile-bg">
+      <div id="profile" style="height: 75%; overflow: auto;">  
+      <table class="table table-bordered table-hover text-center" style="color: white">
+        <thead>
+          <tr>
+            <th scope="col">Profile Field</th>
+            <th scope="col">Data</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>stakeholder ID</td>
+            <td>{{ mess_manager.client.stakeholderID }}</td>
+          </tr>
+          <tr>
+            <td>First Name</td>
+            <td>{{ mess_manager.client.first_name }}</td>
+          </tr>
+          <tr>
+            <td>Last Name</td>
+            <td>{{ mess_manager.client.last_name }}</td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td>{{ mess_manager.client.email }}</td>
+          </tr>
+          <tr>
+            <td>Mobile</td>
+            <td>{{ mess_manager.client.mobile }}</td>
+          </tr>
+          <tr>
+            <td>Address</td>
+            <td>{{ mess_manager.client.address }}</td>
+          </tr>
+          <tr>
+            <td>Hall</td>
+            <td>{{ mess_manager.hall.name }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>  
+  </div>
 {% endblock %}

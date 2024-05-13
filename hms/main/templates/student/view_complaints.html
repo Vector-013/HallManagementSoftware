@@ -1,52 +1,22 @@
 {% extends 'student/base.html' %}
-{% block content %}
-  <center>
-    <div class="notice-container">
-      {% for complaint in complaints %}
-        <div class="notice-card">
-          <h4 class="card-title"><b>{{ complaint.title }}</b></h4>
-          <p class="card-text">{{ complaint.content }}</p>
-          <img class="responsive" src="{{ MEDIA_URL }}{{ complaint.image.url }}" alt="Card image cap" />
-          <br />
-          {% if complaint.status == False %}
-            <h4>Pending</h4>
-          {% else %}
-            <button class="pay_button" onclick="location.href='{% url 'atr_pdf' complaint.pk %}'">Action Report</button>
-          {% endif %}
+{% block student-content %}
+ <center>
+        <div class="notice-container" style="width: 100%; display: flex; flex-direction: row; flex-wrap: wrap; position: relative;">
+        {% for complaint in complaints %}
+            <div class="notice-card" style="width: 33%; padding: 10px; height: 50%;">
+            <h4 class="card-title"><b>{{ complaint.title }}</b></h4>
+            <p class="card-text" style="height: 120px; overflow: auto">{{ complaint.content }}</p>
+            <img class="responsive" src="{{ MEDIA_URL }}{{ complaint.image.url }}" alt="Card image cap" style="width: 100%;
+    height: auto;z" />
+            <br />
+            <br />
+            {% if complaint.status == False %}
+                <h4>Pending</h4>
+            {% else %}
+                <button class="btn btn-primary" onclick="location.href='{% url 'atr_pdf' complaint.pk %}'">Action Report</button>
+            {% endif %}
+            </div>
+        {% endfor %}
         </div>
-      {% endfor %}
-    </div>
   </center>
-  {% comment %} <table class="table">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">Content Title</th>
-        <th scope="col">Complaint Content</th>
-        <th scope="col">Image</th>
-        <th scope="col">Download ATR</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for complaint in complaints %}
-        <tr>
-          <th>
-            <h5 class="card-title">{{ complaint.title }}</h5>
-          </th>
-          <td>
-            <p class="card-text">{{ complaint.content }}</p>
-          </td>
-          <td>
-            <img class="card-img-top img-responsive" src="{{ MEDIA_URL }}{{ complaint.image.url }}" alt="Card image cap" />
-          </td>
-          {% if complaint.status == False %}
-            <td>Pending</td>
-          {% else %}
-            <td>
-              <a href="{% url 'atr_pdf' complaint.pk %}">ATR</a>
-            </td>
-          {% endif %}
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table> {% endcomment %}
 {% endblock %}

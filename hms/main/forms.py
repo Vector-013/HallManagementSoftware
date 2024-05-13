@@ -3,7 +3,6 @@ from .models import *
 from phonenumber_field.formfields import PhoneNumberField
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.validators import RegexValidator
-import re
 
 
 class DateInput(forms.DateInput):
@@ -68,7 +67,6 @@ class StudentRegistrationForm(forms.ModelForm):
 
 
 class UpdateStudentForm(forms.ModelForm):
-    stakeholderID = forms.CharField(max_length=50)
     email = forms.EmailField(empty_value=None)
     mobile = PhoneNumberField()
     address = forms.CharField(widget=forms.Textarea)
@@ -78,18 +76,15 @@ class UpdateStudentForm(forms.ModelForm):
     class Meta:
         model = Student
         fields = (
-            "stakeholderID",
             "email",
             "mobile",
             "address",
             "first_name",
             "last_name",
-            "hall",
         )
 
 
 class UpdateEmployeeForm(forms.ModelForm):
-    stakeholderID = forms.CharField(max_length=50)
     email = forms.EmailField(empty_value=None)
     mobile = PhoneNumberField()
     address = forms.CharField(widget=forms.Textarea)
@@ -99,7 +94,6 @@ class UpdateEmployeeForm(forms.ModelForm):
     class Meta:
         model = HallEmployee
         fields = (
-            "stakeholderID",
             "email",
             "mobile",
             "address",
@@ -114,7 +108,6 @@ class UpdateEmployeeForm(forms.ModelForm):
 
 
 class UpdateHallManagerForm(forms.ModelForm):
-    stakeholderID = forms.CharField(max_length=50)
     email = forms.EmailField(empty_value=None)
     mobile = PhoneNumberField()
     address = forms.CharField(widget=forms.Textarea)
@@ -124,18 +117,15 @@ class UpdateHallManagerForm(forms.ModelForm):
     class Meta:
         model = HallManager
         fields = (
-            "stakeholderID",
             "email",
             "mobile",
             "address",
             "first_name",
             "last_name",
-            "hall",
         )
 
 
 class UpdateMessManagerForm(forms.ModelForm):
-    stakeholderID = forms.CharField(max_length=50)
     email = forms.EmailField(empty_value=None)
     mobile = PhoneNumberField()
     address = forms.CharField(widget=forms.Textarea)
@@ -145,18 +135,15 @@ class UpdateMessManagerForm(forms.ModelForm):
     class Meta:
         model = MessManager
         fields = (
-            "stakeholderID",
             "email",
             "mobile",
             "address",
             "first_name",
             "last_name",
-            "hall",
         )
 
 
 class UpdateWardenForm(forms.ModelForm):
-    stakeholderID = forms.CharField(max_length=50)
     email = forms.EmailField(empty_value=None)
     mobile = PhoneNumberField()
     address = forms.CharField(widget=forms.Textarea)
@@ -166,14 +153,13 @@ class UpdateWardenForm(forms.ModelForm):
     class Meta:
         model = Warden
         fields = (
-            "stakeholderID",
             "email",
             "mobile",
             "address",
             "first_name",
             "last_name",
-            "hall",
             "designation",
+            "department",
             "posts_held",
         )
 
@@ -256,7 +242,7 @@ class WardenRegistrationForm(forms.ModelForm):
 
 
 class WorkerRegistrationForm(forms.ModelForm):
-    stakeholderID = forms.CharField(label="Stakeholder ID", max_length=50)
+    stakeholderID = forms.CharField(max_length=50)
     email = forms.EmailField(empty_value=None)
     mobile = PhoneNumberField()
     address = forms.CharField(widget=forms.Textarea)

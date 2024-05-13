@@ -1,27 +1,66 @@
 {% extends template %}
-{% block content %}
-  <table class="table">
-    <thead>
-      <tr>
-        <th style="text-align: center">Id</th>
-        <th style="text-align: center">First Name</th>
-        <th style="text-align: center">Last Name</th>
-        <th style="text-align: center">Phone Number</th>
-        <th style="text-align: center">Role</th>
-        <th style="text-align: center">Salary</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for employee in employees %}
-        <tr>
-          <td style="text-align: center">{{ employee.client.stakeholderID }}</td>
-          <td style="text-align: center">{{ employee.client.first_name }}</td>
-          <td style="text-align: center">{{ employee.client.last_name }}</td>
-          <td style="text-align: center">{{ employee.client.mobile }}</td>
-          <td style="text-align: center">{{ employee.role }}</td>
-          <td style="text-align: center">{{ employee.salary }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+{% block hall-manager-content %}
+  <div id="profile-bg" style="color:white;">
+    <div id="profile" style="overflow:auto; width: 75%;">
+      <center>
+        <table class="table table-bordered table-hover text-center" style="color: white">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Phone Number</th>
+              <th>Role</th>
+              <th>Salary</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for employee in employees %}
+              <tr>
+                <td>{{ employee.client.stakeholderID }}</td>
+                <td>{{ employee.client.first_name }}</td>
+                <td>{{ employee.client.last_name }}</td>
+                <td>{{ employee.client.mobile }}</td>
+                <td>{{ employee.role }}</td>
+                <td>{{ employee.salary }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </center>
+    </div>
+  </div>
+{% endblock %}
+
+{% block warden-content %}
+  <div id="profile-bg" style="color:white;">
+    <div id="profile" style="overflow:auto; width: 75%;">
+      <center>
+        <table class="table table-bordered table-hover text-center" style="color: white">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Phone Number</th>
+              <th>Role</th>
+              <th>Salary</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for employee in employees %}
+              <tr>
+                <td>{{ employee.client.stakeholderID }}</td>
+                <td>{{ employee.client.first_name }}</td>
+                <td>{{ employee.client.last_name }}</td>
+                <td>{{ employee.client.mobile }}</td>
+                <td>{{ employee.role }}</td>
+                <td>{{ employee.salary }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </center>
+    </div>
+  </div>
 {% endblock %}
