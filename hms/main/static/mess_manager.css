@@ -16,7 +16,7 @@ text-decoration: none !important;
 background-color: #04AA6D; /* Green */
 color: white;
 }
-
+html, body { height: 100%; width: 100%; margin: 0; padding: 0; border: 0;}
 .notice-container {
   width: 75%;
   display: flex;

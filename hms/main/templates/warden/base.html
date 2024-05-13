@@ -1,32 +1,177 @@
+{% extends 'base.html' %}
 {% load static %}
+{% block styles %}
+  .form-bg {
+    height: 100%; 
+    position: relative; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .form-card {
+    display: flex;
+    width: 80%;
+    height: 80%;
+    border-radius: 20px;
+    overflow: auto;
+    box-shadow: 20px 20px 0.5rem rgba(0, 0, 0, 0.1);
+    background-color: white;
+  }
+
+  .left-half {
+    width: 50%;
+    height: 100%;
+    background: url("{% static 'employee.jpeg' %}");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .right-half {
+    color: white;
+    overflow: auto;
+    font-weight: bold;
+    background-color:  rgb(0 0 0 / 60%);
+    width: 50%;
+    height: 100%;
+    padding: 10%;
+    justify-content: center;
+  }
+
+  #add-emp-bg {
+    background: url("{% static 'add_employee.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  #profile-bg {
+    height: 100%;
+    background: url("{% static 'profile.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  
+  #app-leave-bg {
+    background: url("{% static 'cyan.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  #app-leave {
+    background: url("{% static 'leave.png' %}");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  #del-bg {
+    background: url("{% static 'red.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  #del {
+    background: url("{% static 'delete.png' %}");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  #edit-bg {
+    background: url("{% static 'coral.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  #edit {
+    background: url("{% static 'edit.jpg' %}");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+
+  #password-bg {
+    background: url("{% static 'purple.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  #password {
+    background: url("{% static 'password.jpg' %}");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  #search-bg {
+    background: url("{% static 'lilac.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  #search {
+    background: url("{% static 'search.jpg' %}");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  #finance-bg {
+    background: url("{% static 'green.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  #finance {
+    background: url("{% static 'finance.jpg' %}");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  #profile {
+    color: white;
+    background-color: rgb(0 0 0 / 60%);
+    padding: 5%;
+    border-radius: 20px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width:75%; 
+    height:50%;
+  }
+  .embed-responsive .card-img-top {
+    object-fit: cover;
+  }
+  
+  .notice-container {
+    width: 75%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* justify-content: space-between; */
+    position: relative;
+  }
+  
+  .notice-card {
+    width: 25%;
+    padding: 10px;
+  }
+  
+  .responsive {
+    width: 100%;
+    height: auto;
+  }
+{% endblock %}
 {% load crispy_forms_tags %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="title" content="project" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="language" content="English" />
-    <meta name="author" content="vinayak sharma" />
+{% block content %}
 
-    <title>{{ title }}</title>
-
-    <!-- bootstrap file -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <!-- bootstrap file -->
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-
-    <!-- main css -->
-    <link rel="stylesheet" type="text/css" href="{% static 'warden.css' %}" />
-
-    <!-- message here -->
-
+<div class="container" style="height: 100%">
+  
+  <div class="row">
     {% if messages %}
       {% for message in messages %}
         <script>
@@ -34,117 +179,109 @@
         </script>
       {% endfor %}
     {% endif %}
+  </div>
 
-    <!-- _______________________________________________ -->
-  </head>
+  <div class="row" style="border-radius: 20px; overflow: auto; box-shadow: 20px 20px 0.5rem rgba(0,0,0,0.1); background-color: white; height: 100%">
+    {% block warden-content %}
+    {% endblock %}
+  </div>
+</div>
+{% endblock %}
 
-  <body class="container-fluid" style="overflow: hidden; border:0; padding:0; margin: 0;">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <div class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'warden_landing' %}">Home</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">View Hall</a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <li>
-                  <a class="dropdown-item" href="{% url 'view_hall_occupancy' %}">Hall Occupancy</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'view_student_details' %}">Student List</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'view_employee_details' %}">Employee List</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'hall_complaints' %}">View Complaints</a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hall Finances</a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <li>
-                  <a class="dropdown-item" href="{% url 'allot_budget' %}">Allot Budget</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'generate_hall_demand' %}">Generate Hall Fees</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'generate_mess_demand' %}">Generate Mess Fees</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'genrate_hall_salary' %}">Generate Salaries</a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">View Passbooks</a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <li>
-                  <a class="dropdown-item" href="{% url 'warden_passbook' %}">Warden Passbook</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'hall_passbook' %}">Hall Passbook</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'mess_passbook' %}">Mess Passbook</a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hall Manager</a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <li>
-                  <a class="dropdown-item" href="{% url 'hall_manager' %}">View Profile</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'update_hallmanager_profile' %}">Update Profile</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'delete_hall_manager' %}">Delete Profile</a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mess Manager</a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <li>
-                  <a class="dropdown-item" href="{% url 'mess_manager' %}">View Profile</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'update_messmanager_profile' %}">Update Profile</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'delete_mess_manager' %}">Delete Profile</a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <li>
-                  <a class="dropdown-item" href="{% url 'warden_view_profile' %}">View Profile</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'warden_change_password' %}">Change Password</a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-            </li>
-          </div>
-        </div>
-      </div>
-    </nav>
-    <div style="width:100%; height:100%; font-family: 'IBM Plex Sans', sans-serif;">
-      {% block content %}
-
-      {% endblock %}
-    </div>
-  </body>
-</html>
+{% block navbar-content %}
+<ul class="navbar-nav" style="font-weight: bold">
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{% url 'warden_landing' %}">Home</a>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">View Hall</a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+      <li>
+        <a class="dropdown-item" href="{% url 'view_hall_occupancy' %}">Hall Occupancy</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'view_student_details' %}">Student List</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'view_employee_details' %}">Employee List</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'hall_complaints' %}">View Complaints</a>
+      </li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hall Finances</a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+      <li>
+        <a class="dropdown-item" href="{% url 'allot_budget' %}">Allot Budget</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'generate_hall_demand' %}">Generate Hall Fees</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'generate_mess_demand' %}">Generate Mess Fees</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'generate_hall_salary' %}">Generate Salaries</a>
+      </li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">View Passbooks</a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+      <li>
+        <a class="dropdown-item" href="{% url 'warden_passbook' %}">Warden Passbook</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'hall_passbook' %}">Hall Passbook</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'mess_passbook' %}">Mess Passbook</a>
+      </li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hall Manager</a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+      <li>
+        <a class="dropdown-item" href="{% url 'hall_manager' %}">View Profile</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'update_hallmanager_profile' %}">Update Profile</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'delete_hall_manager' %}">Delete Profile</a>
+      </li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mess Manager</a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+      <li>
+        <a class="dropdown-item" href="{% url 'mess_manager' %}">View Profile</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'update_messmanager_profile' %}">Update Profile</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'delete_mess_manager' %}">Delete Profile</a>
+      </li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+      <li>
+        <a class="dropdown-item" href="{% url 'warden_view_profile' %}">View Profile</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{% url 'warden_change_password' %}">Change Password</a>
+      </li>
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+  </li>
+</ul>
+{% endblock %}

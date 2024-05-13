@@ -1,8 +1,8 @@
 {% extends 'student/base.html' %}
-{% block content %}
+{% block student-content %}
   <div id="profile-bg">
-    <center>
-      <table id="profile" class="table table-bordered table-hover text-center">
+    <div id="profile" style="height: 75%; overflow: auto;">
+      <table class="table table-bordered table-hover text-center" style="color: white">
         <thead>
           <tr>
             <th scope="col">Profile Field</th>
@@ -44,6 +44,6 @@
           </tr>
         </tbody>
       </table>
-    </center>
+    </div>
   </div>
 {% endblock %}

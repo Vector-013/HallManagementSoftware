@@ -3,30 +3,54 @@ from ..models import *
 
 
 def build_rooms(hall):
-    for i in range(hall.blocks):
-        for j in range(hall.floors):
-            for k in range(hall.singles):
-                room = Room.objects.create(
+    for x in range(int(hall.blocks)):
+        for y in range(int(hall.floors)):
+            for z in range(int(hall.singles)):
+                room = Room(
                     hall=hall,
-                    code=f"{chr(65+i)}{j+1}{k+1}",
+                    rent=9,
                     sharing=1,
-                    current_occupancy=0,
+                    floor=y,
+                    block=chr(65 + x),
+                    number=z,
+                    code=hall.name + "-" + str(chr(65 + x)) + str(y) + str(z),
                 )
                 room.save()
-            for k in range(hall.doubles):
-                room = Room.objects.create(
+
+    x = 0
+    y = 0
+
+    for x in range(int(hall.blocks)):
+        for y in range(int(hall.floors)):
+            for z in range(int(hall.singles), int(hall.singles) + int(hall.doubles)):
+                room = Room(
                     hall=hall,
-                    code=f"{chr(65+i)}{j+1}{k+1}",
+                    rent=1,
                     sharing=2,
-                    current_occupancy=0,
+                    floor=y,
+                    block=chr(65 + x),
+                    number=z,
+                    code=hall.name + "-" + str(chr(65 + x)) + str(y) + str(z),
                 )
                 room.save()
-            for k in range(hall.triples):
-                room = Room.objects.create(
+
+    x = 0
+    y = 0
+
+    for x in range(int(hall.blocks)):
+        for y in range(int(hall.floors)):
+            for z in range(
+                int(hall.singles) + int(hall.doubles),
+                int(hall.singles) + int(hall.doubles) + int(hall.triples),
+            ):
+                room = Room(
                     hall=hall,
-                    code=f"{chr(65+i)}{j+1}{k+1}",
+                    rent=0,
                     sharing=3,
-                    current_occupancy=0,
+                    floor=y,
+                    block=chr(65 + x),
+                    number=z,
+                    code=hall.name + "-" + str(chr(65 + x)) + str(y) + str(z),
                 )
                 room.save()
 
@@ -65,14 +89,19 @@ class EntityModelTesting(TestCase):
             doubles=50,
             triples=11,
         )  # 3060
-        hall1.max_occupancy = hall1.calculate_max_occupancy()
-        hall2.max_occupancy = hall2.calculate_max_occupancy()
-        hall3.max_occupancy = hall3.calculate_max_occupancy()
-        hall4.max_occupancy = hall4.calculate_max_occupancy()
         hall1.save()
         hall2.save()
         hall3.save()
         hall4.save()
+        build_rooms(hall1)
+        build_rooms(hall2)
+        build_rooms(hall3)
+        build_rooms(hall4)
+        hall1.max_occupancy = hall1.calculate_max_occupancy()
+        hall2.max_occupancy = hall2.calculate_max_occupancy()
+        hall3.max_occupancy = hall3.calculate_max_occupancy()
+        hall4.max_occupancy = hall4.calculate_max_occupancy()
+
         self.assertEqual(hall1.max_occupancy, 2595)
         self.assertEqual(hall2.max_occupancy, 5376)
         self.assertEqual(hall3.max_occupancy, 512)
@@ -116,35 +145,32 @@ class EntityModelTesting(TestCase):
             token="",
             role="student",
         )
-        room1 = Room.objects.create(
-            hall=hall1,
-            code="A101",
-            sharing=1,
-            current_occupancy=0,
-        )
+        room1 = Room.objects.filter(hall=hall1).filter(is_free=True).first()
         room1.current_occupancy += 1
         if room1.current_occupancy == room1.sharing:
             room1.is_free = False
+        room1.save()
         student1 = Student.objects.create(
             client=client1,
             hall=hall1,
             room=room1,
         )
 
-        room2 = Room.objects.create(
-            hall=hall1,
-            code="A102",
-            sharing=2,
-            current_occupancy=0,
-        )
+        room2 = Room.objects.filter(hall=hall1).filter(is_free=True).first()
         room2.current_occupancy += 1
         if room2.current_occupancy == room2.sharing:
             room2.is_free = False
+        room2.save()
         student2 = Student.objects.create(client=client2, hall=hall1, room=room2)
 
-        room2.current_occupancy += 1
-        if room2.current_occupancy == room2.sharing:
-            room2.is_free = False
-        student3 = Student.objects.create(client=client3, hall=hall1, room=room2)
+        room3 = Room.objects.filter(hall=hall1).filter(is_free=True).first()
+        room3.current_occupancy += 1
+        if room3.current_occupancy == room2.sharing:
+            room3.is_free = False
+        room3.save()
+        student3 = Student.objects.create(client=client3, hall=hall1, room=room3)
 
         self.assertEqual(hall1.calculate_curr_occupancy(), 3)
+        self.assertEqual(room1.__str__(), "Hall1-A00")
+        self.assertEqual(room2.__str__(), "Hall1-A01")
+        self.assertEqual(room3.__str__(), "Hall1-A010")

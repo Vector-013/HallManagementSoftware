@@ -1,6 +1,6 @@
 {% extends 'hmc/base.html' %}
 {% load crispy_forms_tags %}
-{% block content %}
+{% block hmc-content %}
   <div id="add-emp-bg" class="form-bg">
     <div class="form-card">
       <div id="add-emp" class="left-half"></div>
@@ -9,12 +9,12 @@
           <br />
           <h1>Appoint Warden</h1>
         </center>
-        <form method="POST" style="margin: 10%; margin-top:0; margin-bottom:0; padding:10%; border-radius:1%;">
+        <form method="POST" style="margin-top:0; margin-bottom:0; border-radius:1%;">
           {% csrf_token %}
           <fieldset class="form-group">{{ form|crispy }}</fieldset>
           <br />
           <center>
-            <button class="pay_button" type="submit" style=" background-color:rgb(92, 207, 157);"><span class="glyphicon glyphicon-check"></span>Appoint</button>
+            <button class="pay_button" style="background-color: green;" type="submit"><span class="glyphicon glyphicon-check"></span>Appoint</button>
           </center>
         </form>
       </div>

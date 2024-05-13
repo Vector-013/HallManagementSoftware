@@ -1,20 +1,45 @@
 {% extends template %}
-{% block content %}
-  <center>
-    <div class="notice-container">
-      {% for complaint in complaints %}
-        <div class="notice-card">
-          <h4 class="card-title"><b>{{ complaint.title }}</b></h4>
-          <p class="card-text">{{ complaint.content }}</p>
-          <img class="responsive" src="{{ MEDIA_URL }}{{ complaint.image.url }}" alt="Card image cap" />
-          <br />
-          {% if complaint.status == False %}
-            <h4>Pending</h4>
-          {% else %}
-            <button class="pay_button" onclick="location.href='{% url 'atr_pdf' complaint.pk %}'">Action Report</button>
-          {% endif %}
+
+{% block hall-manager-content %}
+    <center>
+        <div class="notice-container" style="width: 100%; display: flex; flex-direction: row; flex-wrap: wrap; position: relative;">
+        {% for complaint in complaints %}
+            <div class="notice-card" style="width: 33%; padding: 10px; height: 50%;">
+            <h4 class="card-title"><b>{{ complaint.title }}</b></h4>
+            <p class="card-text" style="height: 120px; overflow: auto">{{ complaint.content }}</p>
+            <img class="responsive" src="{{ MEDIA_URL }}{{ complaint.image.url }}" alt="Card image cap" style="width: 100%;
+    height: auto;z" />
+            <br />
+            <br />
+            {% if complaint.status == False %}
+                <h4>Pending</h4>
+            {% else %}
+                <button class="btn btn-primary" onclick="location.href='{% url 'atr_pdf' complaint.pk %}'">Action Report</button>
+            {% endif %}
+            </div>
+        {% endfor %}
         </div>
-      {% endfor %}
-    </div>
   </center>
 {% endblock %}
+
+
+{% block warden-content %}
+    <center>
+        <div class="notice-container" style="width: 100%; display: flex; flex-direction: row; flex-wrap: wrap; position: relative;">
+        {% for complaint in complaints %}
+            <div class="notice-card" style="width: 33%; padding: 10px; height: 50%;">
+            <h4 class="card-title"><b>{{ complaint.title }}</b></h4>
+            <p class="card-text" style="height: 70px; overflow-y: auto">{{ complaint.content }}</p>
+            <img class="responsive" src="{{ MEDIA_URL }}{{ complaint.image.url }}" alt="Card image cap" style="width: 100%;
+    height: auto;z" />
+            <br />
+            <br />
+            {% if complaint.status == False %}
+                <h4>Pending</h4>
+            {% else %}
+                <button class="btn btn-primary" onclick="location.href='{% url 'atr_pdf' complaint.pk %}'">Action Report</button>
+            {% endif %}
+            </div>
+        {% endfor %}
+        </div>
+  </center>{% endblock warden-content %}

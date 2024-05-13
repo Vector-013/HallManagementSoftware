@@ -126,13 +126,11 @@ def update_student_profile(request, stakeholderID):
     if request.method == "POST":
         form = UpdateStudentForm(request.POST, instance=student)
         if form.is_valid():
-            client.stakeholderID = form.cleaned_data.get("stakeholderID")
             client.email = form.cleaned_data.get("email")
             client.address = form.cleaned_data.get("address")
             client.mobile = form.cleaned_data.get("mobile")
             client.first_name = form.cleaned_data.get("first_name")
             client.last_name = form.cleaned_data.get("last_name")
-            student.hall = form.cleaned_data.get("hall")
             client.save()
             student.client = client
             student.save()
@@ -144,17 +142,13 @@ def update_student_profile(request, stakeholderID):
     else:
         form = UpdateStudentForm(
             initial={
-                "stakeholderID": stakeholderID,
                 "email": client.email,
                 "mobile": client.mobile,
                 "address": client.address,
                 "first_name": client.first_name,
                 "last_name": client.last_name,
-                "hall": student.hall,
             }
         )
-        # print(form.instance)
-        # form.instance = student
 
     return render(request, "hall_manager/update_student_profile.html", {"form": form})
 
@@ -166,7 +160,6 @@ def update_employee_profile(request, stakeholderID):
     if request.method == "POST":
         form = UpdateEmployeeForm(request.POST, instance=employee)
         if form.is_valid():
-            client.stakeholderID = form.cleaned_data.get("stakeholderID")
             client.email = form.cleaned_data.get("email")
             client.address = form.cleaned_data.get("address")
             client.mobile = form.cleaned_data.get("mobile")
@@ -190,7 +183,6 @@ def update_employee_profile(request, stakeholderID):
     else:
         form = UpdateEmployeeForm(
             initial={
-                "stakeholderID": stakeholderID,
                 "email": client.email,
                 "mobile": client.mobile,
                 "address": client.address,
@@ -203,8 +195,6 @@ def update_employee_profile(request, stakeholderID):
                 "paid_monthly_leaves": employee.paid_monthly_leaves,
             }
         )
-        # print(form.instance)
-        # form.instance = student
 
     return render(request, "hall_manager/update_student_profile.html", {"form": form})
 
@@ -217,25 +207,25 @@ def search_user(request):
             stakeholderID = form.cleaned_data.get("stakeholderID")
             try:
                 client = Client.objects.filter(stakeholderID=stakeholderID).first()
-                print(client.role)
+
                 if client.role == "student":
                     return redirect(f"/hall/update-student-profile/{stakeholderID}")
                 elif client.role == "hall_employee":
                     return redirect(f"/hall/update-employee-profile/{stakeholderID}")
                 else:
-                    print("popo")
+
                     messages.MessageFailure(
                         request,
                         f"User not found",
                     )
-                    return redirect("/hall/search-user")
+                    return redirect("/hall/search-student")
 
             except:
                 messages.MessageFailure(
                     request,
                     f"User not found",
                 )
-                return redirect("/hall/search-user")
+                return redirect("/hall/search-student")
     else:
         form = UserSearchForm()
     return render(
@@ -250,7 +240,7 @@ def create_atr(request):
     if request.method == "POST":
         form = ATRForm(request.POST)
         if form.is_valid():
-            print(request.POST)
+
             complaint = form.cleaned_data.get("complaint")
             complaint.status = True
             complaint.save()
@@ -301,7 +291,7 @@ def add_employee(request):
     if request.method == "POST":
         form = WorkerRegistrationForm(request.POST)
         if form.is_valid():
-            print(request.POST)
+
             hall_manager = HallManager.objects.filter(client=request.user).first()
             stakeholderID = form.cleaned_data.get("stakeholderID")
             email = form.cleaned_data.get("email")
@@ -387,15 +377,15 @@ def make_notice(request):
                 content=content,
                 hall=hall_manager.hall,
                 image=image,
+                date_created=datetime.now(pytz.timezone("Asia/Kolkata")),
             )
-            print(obj)
+
             obj.save()
             messages.success(request, f"Your notice has been issued.")
             return redirect("/hall/landing")
     else:
         form = NoticeRegistrationForm()
 
-    print(request)
     return render(
         request,
         "hall_manager/make_notice.html",
@@ -408,7 +398,6 @@ def hall_landing(request):
     if request.method == "GET":
         hall_manager = HallManager.objects.filter(client=request.user).first()
         notices = Notice.objects.filter(hall=hall_manager.hall)
-        print(notices)
         return render(
             request,
             "hall_manager/landing.html",
@@ -556,8 +545,7 @@ def delete_employee(request):
             stakeholderID = form.cleaned_data.get("stakeholderID")
             password_to_confirm = form.cleaned_data.get("verify_password")
             client = Client.objects.filter(stakeholderID=stakeholderID).first()
-            print(client.role)
-            if client.role == "hall_employee":
+            if client is not None and client.role == "hall_employee":
                 employee = HallEmployee.objects.filter(client=client).first()
                 if employee:
                     success = request.user.check_password(password_to_confirm)
@@ -624,8 +612,8 @@ def hall_change_password(request):
 
 def verify_student(request, token):
     client = Client.objects.filter(token=token).first()
-    student = Student.objects.filter(client=client)[0]
     if client:
+        student = Student.objects.filter(client=client)[0]
         client.is_active = True
         client.save()
         passbook = StudentPassbook(student=student)
@@ -641,8 +629,6 @@ def verify_student(request, token):
 
 @permission_required("main.is_hall", "/login")
 def generate_hall_passbook_pdf(request):
-
-    print(request.user)
 
     try:
         hall_manager = HallManager.objects.filter(client=request.user).first()

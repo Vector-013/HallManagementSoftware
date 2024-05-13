@@ -19,7 +19,6 @@ def register_warden(request):
     if request.method == "POST":
         form = WardenRegistrationForm(request.POST)
         if form.is_valid():
-            print(request.POST)
             stakeholderID = form.cleaned_data.get("stakeholderID")
             email = form.cleaned_data.get("email")
             address = form.cleaned_data.get("address")
@@ -85,7 +84,6 @@ def search_warden(request):
             stakeholderID = form.cleaned_data.get("stakeholderID")
             try:
                 client = Client.objects.filter(stakeholderID=stakeholderID).first()
-                print(client.role)
                 if client.role == "warden":
                     return redirect(f"/hmc/update-warden-profile/{stakeholderID}")
                 else:
@@ -117,13 +115,12 @@ def update_warden_profile(request, stakeholderID):
     if request.method == "POST":
         form = UpdateWardenForm(request.POST, instance=warden)
         if form.is_valid():
-            client.stakeholderID = form.cleaned_data.get("stakeholderID")
             client.email = form.cleaned_data.get("email")
             client.address = form.cleaned_data.get("address")
             client.mobile = form.cleaned_data.get("mobile")
             client.first_name = form.cleaned_data.get("first_name")
             client.last_name = form.cleaned_data.get("last_name")
-            warden.hall = form.cleaned_data.get("hall")
+            warden.department = form.cleaned_data.get("department")
             warden.designation = form.cleaned_data.get("designation")
             warden.posts_held = form.cleaned_data.get("posts_held")
             client.save()
@@ -137,19 +134,15 @@ def update_warden_profile(request, stakeholderID):
     else:
         form = UpdateWardenForm(
             initial={
-                "stakeholderID": stakeholderID,
                 "email": client.email,
                 "mobile": client.mobile,
                 "address": client.address,
                 "first_name": client.first_name,
                 "last_name": client.last_name,
-                "hall": warden.hall,
                 "designation": warden.designation,
                 "posts_held": warden.posts_held,
             }
         )
-        # print(form.instance)
-        # form.instance = student
 
     return render(request, "hmc/update_warden_profile.html", {"form": form})
 
@@ -167,17 +160,11 @@ def verify_warden(request, token):
 
 
 @permission_required("main.is_HMC", "/login")
-def hmc_landing(request):
-    return render(request, "hmc/landing.html")
-
-
-@permission_required("main.is_HMC", "/login")
 def register_hall(request):
     if request.method == "POST":
         form = HallRegistrationForm(request.POST)
 
         if form.is_valid():
-
             name = form.cleaned_data.get("name")
             no_of_blocks = form.cleaned_data.get("blocks")
             no_of_floors = form.cleaned_data.get("floors")
@@ -186,9 +173,7 @@ def register_hall(request):
             doubles = form.cleaned_data.get("doubles")
             rent_doubles = form.cleaned_data.get("rent_doubles")
             triples = form.cleaned_data.get("triples")
-            rent_triples = form.cleaned_data.get("triples")
-
-            print(int(rent_singles))
+            rent_triples = form.cleaned_data.get("rent_triples")
 
             hall = Hall.objects.create(
                 name=name,
@@ -291,9 +276,7 @@ def grant_allotment(request):
             client = request.user
             success = client.check_password(password_to_confirm)
             if success:
-                # try:
                 warden_passbook = WardenPassbook.objects.filter(hall=hall).first()
-
                 warden_transaction = WardenTransaction.objects.create(
                     type="grant",
                     timestamp=datetime.now(),
@@ -302,19 +285,19 @@ def grant_allotment(request):
                 )
                 # except:
                 messages.success(request, "Your grant has been alloted old codger")
-                redirect("/hmc/landing")
+                return redirect("/hmc/landing")
 
             # except:
             #     messages.error(request, "Connection issues")
             else:
                 messages.error(request, "you are unreal")
-                redirect("/login")
+                return redirect("/login")
     else:
         form = GrantForm()
 
     return render(
         request,
-        "hmc/verify_password.html",
+        "hmc/grant_allotment.html",
         context={"form": form, "title": "verify"},
     )
 

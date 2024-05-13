@@ -260,7 +260,7 @@ class HallEmployee(models.Model):
             ("security", "Security"),
             ("mess_worker", "Mess Worker"),
         ],
-        default="Mess Worker",
+        default="mess_worker",
         blank=False,
     )
 
@@ -302,4 +302,4 @@ class HMC(models.Model):
     )
 
     class Meta:
-        permissions = [("is_HMC", "is HMC")]
+        permissions = [("is_HMC", "is_HMC")]

@@ -1,9 +1,42 @@
 {% extends template %}
-{% block content %}
+{% block hall-manager-content %}
   <div id="profile-bg" style="color:white;">
-    <div id="profile" style="overflow:auto; max-height:50%; width: 75%;">
+    <div id="profile" style="overflow:auto; width: 75%;">
       <center>
-        <table id="passbook" class="table table-bordered table-hover text-center">
+        <table class="table table-bordered table-hover text-center" style="color: white">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Phone Number</th>
+              <th>Role</th>
+              <th>Salary</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for employee in employees %}
+              <tr>
+                <td>{{ employee.client.stakeholderID }}</td>
+                <td>{{ employee.client.first_name }}</td>
+                <td>{{ employee.client.last_name }}</td>
+                <td>{{ employee.client.mobile }}</td>
+                <td>{{ employee.role }}</td>
+                <td>{{ employee.salary }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </center>
+    </div>
+  </div>
+{% endblock %}
+
+{% block warden-content %}
+  <div id="profile-bg" style="color:white;">
+    <div id="profile" style="overflow:auto; width: 75%;">
+      <center>
+        <table class="table table-bordered table-hover text-center" style="color: white">
           <thead>
             <tr>
               <th>ID</th>

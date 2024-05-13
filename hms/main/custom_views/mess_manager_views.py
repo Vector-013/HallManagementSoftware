@@ -45,7 +45,6 @@ def mess_landing(request):
     if request.method == "GET":
         mess_manager = MessManager.objects.filter(client=request.user).first()
         notices = Notice.objects.filter(hall=mess_manager.hall)
-        print(notices)
         return render(
             request,
             "mess_manager/landing.html",
@@ -236,8 +235,7 @@ def add_ration(request):
     )
 
 
-@permission_required("main.is_warden", "/login")
-@permission_required("main.is_mess_manager", "/login")
+@permission_required("main.is_mess", "/login")
 def generate_mess_passbook_pdf(request):
 
     try:

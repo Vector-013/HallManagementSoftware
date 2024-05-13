@@ -27,7 +27,7 @@ urlpatterns = [
     ),
     path("student/view-complaints/", user_view.view_complaints, name="view_complaints"),
     path(
-        "student/profile/", user_view.student_view_profile, name="student_view_profile"
+        "student/profile", user_view.student_view_profile, name="student_view_profile"
     ),
     path(
         "student/change-password/",
@@ -154,7 +154,7 @@ urlpatterns = [
     path(
         "warden/generate-hall-salary",
         user_view.generate_salary,
-        name="genrate_hall_salary",
+        name="generate_hall_salary",
     ),
     path(
         "hall/generate-passbook-pdf",
@@ -165,6 +165,12 @@ urlpatterns = [
         "hmc/register-hall",
         user_view.register_hall,
         name="register_hall",
+    ),
+    path("hmc/profile/", user_view.hmc_view_profile, name="hmc_view_profile"),
+    path(
+        "hmc/change-password/",
+        user_view.hmc_change_password,
+        name="hmc_change_password",
     ),
     path(
         "hmc/view-halls",
@@ -197,12 +203,6 @@ urlpatterns = [
         name="grant_allotment",
     ),
     path("hmc/landing", user_view.hmc_landing, name="hmc_landing"),
-    path("hmc/profile/", user_view.hmc_view_profile, name="hmc_view_profile"),
-    path(
-        "hmc/change-password/",
-        user_view.hmc_change_password,
-        name="hmc_change_password",
-    ),
     path(
         "mess/generate-passbook-pdf",
         user_view.generate_mess_passbook_pdf,
@@ -219,14 +219,14 @@ urlpatterns = [
         name="warden_passbook_pdf",
     ),
     path(
-        "warden/allot_budget",
+        "warden/allot-budget",
         user_view.allot_budget,
         name="allot_budget",
     ),
     path(
         "student/generate-atr-pdf/<int:pk>", user_view.generate_atr_pdf, name="atr_pdf"
     ),
-    path("hall/approve_leaves", user_view.approve_leaves, name="approve_leaves"),
+    path("hall/approve-leaves", user_view.approve_leaves, name="approve_leaves"),
     path(
         "hmc/delete-warden",
         user_view.delete_warden,

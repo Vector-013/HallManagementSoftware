@@ -1,20 +1,20 @@
 {% extends 'mess_manager/base.html' %}
 {% load crispy_forms_tags %}
-{% block content %}
-  <div id="add-emp-bg" class="form-bg">
+{% block mess-manager-content %}
+  <div id="menu-bg" class="form-bg">
     <div class="form-card">
-      <div id="add-emp" class="left-half"></div>
-      <div class="overflow-auto right-half">
+      <div id="menu" class="left-half"></div>
+      <div class="right-half">
         <center>
           <br />
           <h1>Make Menu</h1>
         </center>
-        <form method="POST" style="margin: 10%; margin-top:0; margin-bottom:0; padding:10%; border-radius:1%;">
+        <form method="POST" style="margin-top:0; margin-bottom:0; border-radius:1%;">
           {% csrf_token %}
           <fieldset class="form-group">{{ form|crispy }}</fieldset>
           <br />
           <center>
-            <button class="pay_button" type="submit" style=" background-color:rgb(92, 207, 157);"><span class="glyphicon glyphicon-check"></span>Enter</button>
+            <button class="pay_button" type="submit" style=" background-color:chocolate;"><span class="glyphicon glyphicon-check"></span>Enter</button>
           </center>
         </form>
       </div>

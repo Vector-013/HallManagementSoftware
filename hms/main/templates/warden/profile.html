@@ -1,8 +1,8 @@
 {% extends 'warden/base.html' %}
-{% block content %}
+{% block warden-content %}
   <div id="profile-bg">
-    <center>
-      <table id="profile" class="table table-bordered table-hover text-center table-responsive" style="font-size: x-large;">
+    <div id="profile" style="height: 75%; overflow: auto;">
+      <table class="table table-bordered table-hover text-center table-responsive" style="color: white">
         <thead>
           <tr>
             <th scope="col">Profile Field</th>
@@ -52,6 +52,6 @@
           </tr>
         </tbody>
       </table>
-    </center>
+    </div>
   </div>
 {% endblock %}

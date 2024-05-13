@@ -2,6 +2,7 @@ from django.db import models
 from .entity_models import Hall
 from .user_models import Student, HallEmployee
 from datetime import datetime
+import pytz
 
 
 class Notice(models.Model):

@@ -159,11 +159,5 @@ class Room(models.Model):
         "Code", blank=False, default=None, primary_key=True, max_length=100
     )
 
-    def check_room(self):
-        if self.hall.floor <= self.room.floor and self.hall.block <= self.room.block:
-            return True
-        else:
-            return False
-
     def __str__(self) -> str:
         return self.code

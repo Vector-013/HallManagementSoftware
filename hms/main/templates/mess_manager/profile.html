@@ -1,8 +1,8 @@
 {% extends template %}
-{% block content %}
+{% block mess-manager-content %}
   <div id="profile-bg">
-    <center>
-      <table id="profile" class="table table-bordered table-hover text-center">
+      <div id="profile" style="height: 75%; overflow: auto;">  
+      <table class="table table-bordered table-hover text-center" style="color: white">
         <thead>
           <tr>
             <th scope="col">Profile Field</th>
@@ -40,6 +40,51 @@
           </tr>
         </tbody>
       </table>
-    </center>
+    </div>  
+  </div>
+{% endblock %}
+
+{% block warden-content %}
+  <div id="profile-bg">
+      <div id="profile" style="height: 75%; overflow: auto;">  
+      <table class="table table-bordered table-hover text-center" style="color: white">
+        <thead>
+          <tr>
+            <th scope="col">Profile Field</th>
+            <th scope="col">Data</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>stakeholder ID</td>
+            <td>{{ mess_manager.client.stakeholderID }}</td>
+          </tr>
+          <tr>
+            <td>First Name</td>
+            <td>{{ mess_manager.client.first_name }}</td>
+          </tr>
+          <tr>
+            <td>Last Name</td>
+            <td>{{ mess_manager.client.last_name }}</td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td>{{ mess_manager.client.email }}</td>
+          </tr>
+          <tr>
+            <td>Mobile</td>
+            <td>{{ mess_manager.client.mobile }}</td>
+          </tr>
+          <tr>
+            <td>Address</td>
+            <td>{{ mess_manager.client.address }}</td>
+          </tr>
+          <tr>
+            <td>Hall</td>
+            <td>{{ mess_manager.hall.name }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>  
   </div>
 {% endblock %}

@@ -1,8 +1,8 @@
 {% extends 'hmc/base.html' %}
-{% block content %}
+{% block hmc-content %}
   <div id="profile-bg">
-    <center>
-      <table id="profile" class="table table-bordered table-hover text-center">
+    <div id="profile" style="overflow: auto">
+      <table class="table table-bordered table-hover text-center" style="color:white">
         <thead>
           <tr>
             <th scope="col">Name of Hall</th>
@@ -20,6 +20,6 @@
           {% endfor %}
         </tbody>
       </table>
-    </center>
+    </div>
   </div>
 {% endblock %}

@@ -1,11 +1,11 @@
 {% extends 'warden/base.html' %}
-{% block content %}
+{% block warden-content %}
   <div id="profile-bg">
-    <div id="profile" style="overflow:auto; max-height:50%">
+    <div id="profile" style="overflow:auto; height:75%">
       <center>
-        <h1>Warden Passbook</h1>
+        <h2>Warden Passbook</h2>
         <br />
-        <table id="passbook" class="table table-bordered table-hover text-center" style="font-size: x-large;">
+        <table id="passbook" class="table table-bordered table-hover text-center" style="color: white">
           <thead>
             <tr>
               <th scope="col">Type</th>
@@ -26,7 +26,7 @@
         <br />
         <h2>Account Summary</h2>
         <br />
-        <table id="passbook" class="table table-bordered table-hover text-center" style="font-size: x-large;">
+        <table id="passbook" class="table table-bordered table-hover text-center" style="color: white">
           <thead>
             <tr>
               <th scope="col">Total Grants</th>
@@ -36,13 +36,13 @@
           </thead>
           <tbody>
             <tr>
-              <td>{{ total_expenditures }}</td>
-              <td>{{ total_grants }}</td>
+               <td>{{ total_grants }}</td>
+              <td>{{ total_expenditures }}</td>             
               <td>{{ balance }}</td>
             </tr>
           </tbody>
         </table>
-        <btn class="pay_button" style="color:white; background-color: rgb(0 0 0 / 60%);" onclick="location.href='{% url 'warden_passbook_pdf' %}'">Print Passbook</btn>
+        <btn class="pay_button" style="background-color: steelblue;"onclick="location.href='{% url 'warden_passbook_pdf' %}'">Print Passbook</btn>
       </center>
     </div>
   </div>

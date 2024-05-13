@@ -1,14 +1,46 @@
 {% extends template %}
-{% block content %}
+{% block hall-manager-content %}
   <div id="profile-bg" style="color:white;">
-    <div id="profile" style="overflow:auto; max-height:50%; width:75%;">
+    <div id="profile" style="overflow:auto; height: 75%">
       <center>
-        <div style="padding-top: 10%;">
-          <h1>Hall: {{ hall.name }}</h1><br />
-          <h2>Total Occupancy: {{ total_occupied }}</h2>
-          <h2>Total Capacity: {{ total_capacity }}</h2><br />
+        <div>
+          <h2>Hall: {{ hall.name }}</h2><br />
+          <h3>Total Occupancy: {{ total_occupied }}</h3>
+          <h3>Total Capacity: {{ total_capacity }}</h3><br />
         </div>
-        <table id="passbook" class="table table-bordered table-hover text-center">
+        <table class="table table-bordered table-hover text-center" style="width: 75%; color: white">
+          <thead>
+            <tr>
+              <th scope="col">Room Code</th>
+              <th scope="col">Maximum Occupancy</th>
+              <th scope="col">Current Occupancy</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for room in rooms %}
+              <tr>
+                <td>{{ room.block }}{{ room.floor }}{{ room.number }}</td>
+                <td>{{ room.sharing }}</td>
+                <td>{{ room.current_occupancy }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </center>
+    </div>
+  </div>
+{% endblock %}
+
+{% block warden-content %}
+  <div id="profile-bg" style="color:white;">
+    <div id="profile" style="overflow:auto; height: 75%">
+      <center>
+        <div>
+          <h2>Hall: {{ hall.name }}</h2><br />
+          <h3>Total Occupancy: {{ total_occupied }}</h3>
+          <h3>Total Capacity: {{ total_capacity }}</h3><br />
+        </div>
+        <table class="table table-bordered table-hover text-center" style="width: 75%; color: white">
           <thead>
             <tr>
               <th scope="col">Room Code</th>
